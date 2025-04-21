@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="icon" href="ico.ico">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+     <link rel="stylesheet" type="text/css" href="style.css">
+    <title>Meus treinos</title>
+    
+</head>
+<body id="bodyT">
+  
+    
+    <div id="menuMT">
+        <nav class="navbar">
+            <div class="container-fluid">
+                 <div id="icone"> <img src="ico.png" height="200" width="200"> </div>
+                <button class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" id="btnMenu">
+                    <i class="bi bi-list" style="font-size: 30px;"></i> 
+                </button>
+            </div>
+        </nav>
+        
+  
+  <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title fs-1 " id="offcanvasRightLabel" style="color: #f4bf3a;">TrainerBuddy</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <hr>
+      <div class="offcanvas-body">
+        <ul class="list-unstyled fs-5">
+                  
+          <li><a href="home.html" class="nav-link">Home</a></li>
+          <li><a href="home.html" class="nav-link">Planos</a></li>
+          <li><a href="exercicios.html" class="nav-link">Exercícios</a></li>
+          <li><a href="treinos.html" class="nav-link">Treinos</a></li>
+          <li><a href="montagemTreinos.html" class="nav-link">Montagem de Treinos</a></li>
+         
+        
+          <li style="margin-top: 5%;"><a href="cadastro.html" class="nav-link">Cadastro</a></li>
+          <li><a href="login.html" class="nav-link">Login</a></li>
+      </ul>
+      </div>
+  </div>
+  </div>
+
+
+                    <div id="titleT" class="text-center">
+                    
+                        <h1 class="fw-bold text-uppercase">Meus treinos</h1>
+                        <h6 class="lead">Selecione um item para começar a treinar!</h6>
+                    </div>
+
+        <div class="container-fluid ">
+            <div class="row " style="padding-bottom: 2%;">
+            <div class="row text-uppercase" style="padding-bottom: 2%;">
+
+
+
+                        <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                            <div class="p-5 myContainerT rounded-5 text-center">
+                              <a href="pgTreino.html">
+                                <img src="ico.png" class="img-fluid mb-3">
+                                <p class="fw-bold">Core</p>
+                                </a>
+                                <button type="submit" class="btn rounded-pill btnSalvarT"><i class="bi bi-trash-fill"></i></button>
+                            </div>
+                        </div>
+    
+                     
+                        <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                          <div class="p-5 myContainerT rounded-5 text-center">
+                            <img src="ico.png" class="img-fluid mb-3">
+                            <p class="fw-bold">Superiores</p>
+                            <button type="submit" class="btn rounded-pill btnSalvarT"><i class="bi bi-trash-fill"></i></button>
+                        </div>
+                        </div>
+    
+                       
+                        <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                          <div class="p-5 myContainerT rounded-5 text-center">
+                            <img src="ico.png" class="img-fluid mb-3">
+                            <p class="fw-bold">Inferiores</p>
+                            <button type="submit" class="btn rounded-pill btnSalvarT"><i class="bi bi-trash-fill"></i></button>
+                        </div>
+                        </div>
+    
+                        <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                          <div class="p-5 myContainerT rounded-5 text-center">
+                            <img src="ico.png" class="img-fluid mb-3">
+                            <p class="fw-bold">Alongamento</p>
+                            <button type="submit" class="btn rounded-pill btnSalvarT"><i class="bi bi-trash-fill"></i></button>
+                        </div>
+                        </div>
+    
+                      
+                    </div>
+                </div>
+            </div>
+       
+   
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>       
+</body>
+</html>
