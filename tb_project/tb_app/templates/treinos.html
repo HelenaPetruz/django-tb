@@ -19,16 +19,16 @@
 	
 		
   <div id="menuT" >
-    <div id="icone"><a href="home.html"><img src="ico.png" height="200" width="200"></a> </div>
-    <div class="myItens"  id="itensA"><a href="home.html#secao3" >Planos</a> </div>
-    <div  class="myItens" id="itensA"> <a href="exercicios.html" target="_blank" >Exercícios</a></div>
+    <div id="icone"><a href="{% url 'home' %}"><img src="{%static 'images/ico.png' %}" height="200" width="200"></a> </div>
+    <div class="myItens"  id="itensA"><a href="{% url 'home' %}#secao3" >Planos</a> </div>
+    <div  class="myItens" id="itensA"> <a href="{% url 'exercicios' %}" target="_blank" >Exercícios</a></div>
    
     <div class="row justify-content-end" id="itensEnd">
         <div class="col-4">
-    <div class="myItens" id="itensB"><a href="cadastro.html"  >Cadastro</a></div>
+    <div class="myItens" id="itensB"><a href="{% url 'cadastro' %}"  >Cadastro</a></div>
 </div>
 <div class="col-4">
-       <div class="myItens" id="itensA"><a href="login.html">Login</a></div>
+       <div class="myItens" id="itensA"><a href="{% url 'login' %}">Login</a></div>
    </div>
   </div>
 </div>
@@ -36,7 +36,7 @@
 <div id="menuTsm">
   <nav class="navbar">
       <div class="container-fluid">
-        <div id="icone"><a href="home.html"><img src="ico.png" height="150" width="150"></a> </div>
+        <div id="icone"><a href="{% url 'home' %}"><img src="{%static 'images/ico.png' %}" height="150" width="150"></a> </div>
           <button class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" id="btnMenu">
               <i class="bi bi-list" style="font-size: 30px;"></i> 
           </button>
@@ -52,15 +52,15 @@
       <div class="offcanvas-body">
         <ul class="list-unstyled fs-5">
                   
-          <li><a href="home.html" class="nav-link">Home</a></li>
-          <li><a href="home.html#secao3" class="nav-link">Planos</a></li>
-          <li><a href="exercicios.html" class="nav-link">Exercícios</a></li>
-          <li><a href="montagemTreinos.html" class="nav-link">Montagem de Treinos</a></li>
-          <li><a href="meusTreinos.html" class="nav-link">Meus Treinos</a></li>
+          <li><a href="{% url 'home' %}" class="nav-link">Home</a></li>
+          <li><a href="{% url 'home' %}#secao3" class="nav-link">Planos</a></li>
+          <li><a href="{% url 'exercicios' %}" class="nav-link">Exercícios</a></li>
+          <li><a href="{% url 'montagem_treinos' %}" class="nav-link">Montagem de Treinos</a></li>
+          <li><a href="{% url 'meus_treinos' %}" class="nav-link">Meus Treinos</a></li>
         
 
-          <li style="margin-top: 5%;"><a href="cadastro.html" class="nav-link">Cadastro</a></li>
-          <li><a href="login.html" class="nav-link">Login</a></li>
+          <li style="margin-top: 5%;"><a href="{% url 'cadastro' %}" class="nav-link">Cadastro</a></li>
+          <li><a href="{% url 'login' %}" class="nav-link">Login</a></li>
       </ul>
       </div>
   </div>
@@ -167,7 +167,7 @@
                         <div class="col-lg-4 col-md-4 col-12">
                             <div class="p-5 myContainerT rounded-5 text-center">
                               <a href="pgTreino.html">
-                                <img src="ico.png" class="img-fluid mb-3">
+                                <img src="{%static 'images/ico.png' %}" class="img-fluid mb-3">
                                 <p class="fw-bold">Core</p>
                                 </a>
                                 <button type="submit" class="btn rounded-pill btnSalvarT">Salvar</button>
@@ -177,7 +177,7 @@
                      
                         <div class="col-lg-4 col-md-4 col-12">
                           <div class="p-5 myContainerT rounded-5 text-center">
-                            <img src="ico.png" class="img-fluid mb-3">
+                            <img src="{%static 'images/ico.png' %}" class="img-fluid mb-3">
                             <p class="fw-bold">Superiores</p>
                             <button type="submit" class="btn rounded-pill btnSalvarT">Salvar</button>
                         </div>
@@ -186,7 +186,7 @@
                        
                         <div class="col-lg-4 col-md-4 col-12">
                           <div class="p-5 myContainerT rounded-5 text-center">
-                            <img src="ico.png" class="img-fluid mb-3">
+                            <img src="{%static 'images/ico.png' %}" class="img-fluid mb-3">
                             <p class="fw-bold">Inferiores</p>
                             <button type="submit" class="btn rounded-pill btnSalvarT">Salvar</button>
                         </div>

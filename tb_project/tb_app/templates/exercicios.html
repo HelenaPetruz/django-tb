@@ -18,16 +18,16 @@
 	
 		
         <div id="menuE">
-            <div id="icone"><a href="home.html"><img src="ico.png" height="200" width="200"></a> </div>
-            <div class="myItens"  id="itensA"><a href="home.html#secao3" >Planos</a> </div>
-            <div  class="myItens" id="itensA"> <a href="treinos.html" target="_blank" >Treinos </a></div>
+            <div id="icone"><a href="{% url 'home' %}"><img src="{%static 'images/ico.png' %}" height="200" width="200"></a> </div>
+            <div class="myItens"  id="itensA"><a href="{% url 'home' %}" >Planos</a> </div>
+            <div  class="myItens" id="itensA"> <a href="{% url 'treinos' %}" target="_blank" >Treinos </a></div>
            
             <div class="row justify-content-end" id="itensEnd">
                 <div class="col-4">
-            <div class="myItens" id="itensB"><a href="cadastro.html"  >Cadastro</a></div>
+            <div class="myItens" id="itensB"><a href="{% url 'cadastro' %}"  >Cadastro</a></div>
         </div>
         <div class="col-4">
-               <div class="myItens" id="itensA"><a href="login.html">Login</a></div>
+               <div class="myItens" id="itensA"><a href="{% url 'login' %}">Login</a></div>
            </div>
           </div>
         </div>
@@ -35,7 +35,7 @@
         <div id="menuEsm">
           <nav class="navbar">
               <div class="container-fluid">
-                <div id="icone"><a href="home.html" ><img src="ico.png" height="150" width="150"></a> </div>
+                <div id="icone"><a href="{% url 'home' %}" ><img src="{%static 'images/ico.png' %}" height="150" width="150"></a> </div>
                   <button class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" id="btnMenu">
                       <i class="bi bi-list" style="font-size: 30px;"></i> 
                   </button>
@@ -51,15 +51,15 @@
               <div class="offcanvas-body">
                 <ul class="list-unstyled fs-5">
                   
-                  <li><a href="home.html" class="nav-link">Home</a></li>
-                  <li><a href="home.html#secao3" class="nav-link">Planos</a></li>
-                  <li><a href="treinos.html" class="nav-link">Treinos</a></li>
-                  <li><a href="montagemTreinos.html" class="nav-link">Montagem de Treinos</a></li>
-                  <li><a href="meusTreinos.html" class="nav-link">Meus Treinos</a></li>
+                  <li><a href="{% url 'home' %}" class="nav-link">Home</a></li>
+                  <li><a href="{% url 'home' %}#secao3" class="nav-link">Planos</a></li>
+                  <li><a href="{% url 'treinos' %}" class="nav-link">Treinos</a></li>
+                  <li><a href="{% url 'montagem_treinos' %}" class="nav-link">Montagem de Treinos</a></li>
+                  <li><a href="{% url 'meus_treinos' %}" class="nav-link">Meus Treinos</a></li>
                 
   
-                  <li style="margin-top: 5%;"><a href="cadastro.html" class="nav-link">Cadastro</a></li>
-                  <li><a href="login.html" class="nav-link">Login</a></li>
+                  <li style="margin-top: 5%;"><a href="{% url 'cadastro' %}" class="nav-link">Cadastro</a></li>
+                  <li><a href="{% url 'login' %}" class="nav-link">Login</a></li>
               </ul>
               </div>
           </div>
