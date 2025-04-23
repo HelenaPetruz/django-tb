@@ -25,6 +25,10 @@ urlpatterns = [
     path('home/', views.home, name='home'),
     path('exercicios/', views.exercicios, name='exercicios'),
     path('treinos/', views.treinos, name='treinos'),
+    path('cadastro/', views.cadastro, name='cadastro'),
+    path('login/', views.login, name='login'),
+    path('montagem_treinos/', views.montagem_treinos, name='montagem_treinos'),
+    path('meus_treinos/', views.meus_treinos, name='meus_treinos'),
 ]
 
 if settings.DEBUG:

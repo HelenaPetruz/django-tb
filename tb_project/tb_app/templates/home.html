@@ -20,16 +20,16 @@
     <!-- Seção 1: Cabeçalho -->
     <section class="section" id="secao1">
       <div id="menuH">
-    <div id="icone"> <img src="ico.png" height="200" width="200"> </div>
+    <div id="icone"> <img src="{% static 'images/ico.png' %}" height="200" width="200"> </div>
     <div class="myItens" id="itensB" ><a href="#secao3"> Planos</a> </div>
-    <div  class="myItens" id="itensA"> <a href="treinos.html" target="_blank" >Treinos </a></div>
-    <div class="myItens" id="itensA"> <a href="exercicios.html" > Exercícios</a> </div>
+    <div  class="myItens" id="itensA"> <a href="{% url 'treinos' %}" target="_blank" >Treinos </a></div>
+    <div class="myItens" id="itensA"> <a href="{% url 'exercicios' %}" > Exercícios</a> </div>
     <div class="row justify-content-end" id="itensEnd">
         <div class="col-4">
-    <div class="myItens" id="itensB"><a href="cadastro.html"  >Cadastro</a></div>
+    <div class="myItens" id="itensB"><a href="{% url 'cadastro' %}"  >Cadastro</a></div>
 </div>
 <div class="col-4">
-       <div class="myItens" id="itensA"><a href="login.html">Login</a></div>
+       <div class="myItens" id="itensA"><a href="{% url 'login' %}">Login</a></div>
    </div>
   </div>
 </div>
@@ -37,7 +37,7 @@
 <div id="menuHsm">
     <nav class="navbar">
         <div class="container-fluid">
-             <div id="icone"> <img src="ico.png" height="100" width="100"> </div>
+             <div id="icone"> <img src="{% static 'images/ico.png' %}" height="100" width="100"> </div>
             <button class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" id="btnMenu">
                 <i class="bi bi-list" style="font-size: 30px;"></i> 
             </button>
@@ -53,15 +53,15 @@
         <div class="offcanvas-body">
             <ul class="list-unstyled fs-5">
              
-                <li><a href="home.html" class="nav-link">Planos</a></li>
+                <li><a href="{% url 'home' %}" class="nav-link">Planos</a></li>
                 <li><a href="{% url 'exercicios' %}" class="nav-link">Exercícios</a></li>
                 <li><a href="{% url 'treinos' %}" class="nav-link">Treinos</a></li>
-                <li><a href="montagemTreinos.html" class="nav-link">Montagem de Treinos</a></li>
-                <li><a href="meusTreinos.html" class="nav-link">Meus Treinos</a></li>
+                <li><a href="{% url 'montagem_treinos' %}" class="nav-link">Montagem de Treinos</a></li>
+                <li><a href="{% url 'meus_treinos' %}" class="nav-link">Meus Treinos</a></li>
               
 
-                <li style="margin-top: 5%;"><a href="cadastro.html" class="nav-link">Cadastro</a></li>
-                <li><a href="login.html" class="nav-link">Login</a></li>
+                <li style="margin-top: 5%;"><a href="{% url 'cadastro' %}" class="nav-link">Cadastro</a></li>
+                <li><a href="{% url 'login' %}" class="nav-link">Login</a></li>
             </ul>
         </div>
     </div>
@@ -72,14 +72,14 @@
             
             <div class="col-md-6 col-12 p-5 ">
                
-                  <img src="TrainerBuddy.png" style="width: 100%;" >
+                  <img src="{% static 'images/TrainerBuddy.png' %}" style="width: 100%;" >
                   <h6 class="fw-lighter" style="color: white; font-size: 35px">Seu parceiro de treinos inteligente!</h6>
-                  <div class="fw-bold boraTreinar rounded-pill" ><a href="cadastro.html">Bora treinar :)</a> </div>
+                  <div class="fw-bold boraTreinar rounded-pill" ><a href="{% url 'cadastro' %}">Bora treinar :)</a> </div>
                 
         
             </div>
             <div class="col-md-6 d-flex  justify-content-center align-items-center" id="divBuddyL">
-                <img src="buddy.png" class="img-fluid" width="70%" >
+                <img src="{% static 'images/buddy.png'%}" class="img-fluid" width="70%" >
             </div>
         </div>
     </div>
@@ -92,13 +92,14 @@
             
             <div class="col-lg-6 col-12 p-5 d-flex  justify-content-center align-items-center " id="exDia">
                
-                   <img src="exercicioDia.png" style="width: 100%;">
+                   <img src="{% static 'images/exercicioDia.png' %}" style="width: 100%;">
                 
         
             </div>
             <div class="col-lg-6 col-12 d-flex  justify-content-center align-items-center" >
               <div class="p-5 myContainerE rounded-5 text-center">
                               <a href="pgExercicio.html">
+                                Vou colocar a imagem ainda!
                                 <img src="abdominal.png" class="img-fluid mb-3" style="width: 500px;">
                                 <p class="fw-bold" style="font-size: 30px;">Abdominal</p>
                                 </a>
@@ -114,7 +115,7 @@
     <section class="section" id="secao3">
        <div class="row" style="padding-top: 4%;"> 
             <div class="col-12">
-            <img src="nossosPlanos.png" style="width: 80%;">
+            <img src="{% static 'images/nossosPlanos.png' %}" style="width: 80%;">
         </div>
         </div>
 
@@ -123,7 +124,7 @@
            <div class="col-lg-4 col-12 d-flex  justify-content-center align-items-center" >
               <div class="p-5 myContainerE rounded-5 text-center">
                             
-                                <img src="ico.png" class="img-fluid mb-3" style="width: 400px;" >
+                                <img src="{% static 'images/ico.png' %}" class="img-fluid mb-3" style="width: 400px;" >
                                 <p class="fw-bold" style="font-size: 30px;">Ia</p>
                                 
                                 <button type="button" class="btn rounded-pill btnSalvarT" style="font-size: 25px;"><a href="">Assine aqui</a></button>
@@ -133,7 +134,7 @@
             <div class="col-lg-4 col-12 d-flex  justify-content-center align-items-center" >
               <div class="p-5 myContainerE rounded-5 text-center">
                               
-                                <img src="ico.png" class="img-fluid mb-3" style="width: 400px;">
+                                <img src="{% static 'images/ico.png' %}" class="img-fluid mb-3" style="width: 400px;">
                                 <p class="fw-bold" style="font-size: 30px;">Ia & montagem de treino</p>
                                
                                 <button type="button" class="btn rounded-pill btnSalvarT" style="font-size: 25px;"><a href="">Assine aqui</a></button>
@@ -143,7 +144,7 @@
              <div class="col-lg-4 col-12 d-flex  justify-content-center align-items-center" >
               <div class="p-5 myContainerE rounded-5 text-center">
                              
-                                <img src="ico.png" class="img-fluid mb-3" style="width: 400px;">
+                                <img src="{% static 'images/ico.png' %}" class="img-fluid mb-3" style="width: 400px;">
                                 <p class="fw-bold" style="font-size: 30px;">Montagem de treino</p>
                               
                                 <button type="button" class="btn rounded-pill btnSalvarT" style="font-size: 25px;"><a href="">Assine aqui</a></button>
@@ -160,7 +161,7 @@
       
      <div class="row" style="padding-top: 4%;"> 
             <div class="col-12">
-            <img src="faleConosco.png" style="width: 80%;">
+            <img src="{% static 'images/faleConosco.png' %}" style="width: 80%;">
         </div>
         </div>
 
@@ -169,7 +170,7 @@
            <div class="col-lg-3 col-6 d-flex  justify-content-center align-items-center" >
               <div class="p-5 myContainerE rounded-5 text-center contFaleConosco">
                             
-                                <img src="helena.png" class="img-fluid mb-3">
+                                <img src="{% static 'images/helena.png' %}" class="img-fluid mb-3">
                                 <p class="fw-bold" style="font-size: 18px;">Helena Petruz</p>
                                    <p class="fw-medium" style="font-size: 17px; color: white;">cl203253@g.unicamp.br</p>
 
@@ -181,7 +182,7 @@
             <div class="col-lg-3 col-6 d-flex  justify-content-center align-items-center" >
               <div class="p-5 myContainerE rounded-5 text-center contFaleConosco">
                               
-                                <img src="lavinia.png" class="img-fluid mb-3" >
+                                <img src="{% static 'images/lavinia.png' %}" class="img-fluid mb-3" >
                                 <p class="fw-bold" style="font-size: 18px;">Lavínia Lins Lima</p>
                                 <p class="fw-medium" style="font-size: 17px; color: white;">cl203230@g.unicamp.br</p>
                                 <p class="fw-medium" style="font-size: 16px;">
@@ -192,7 +193,7 @@
              <div class="col-lg-3 col-6 d-flex  justify-content-center align-items-center" >
               <div class="p-5 myContainerE rounded-5 text-center contFaleConosco">
                              
-                                <img src="luana.png" class="img-fluid mb-3" >
+                                <img src="{% static 'images/luana.png' %}" class="img-fluid mb-3" >
                                 <p class="fw-bold" style="font-size: 18px;">Luana Fernanada de Napoli</p>
                                <p class="fw-medium" style="font-size: 17px; color: white;">cl203013@g.unicamp.br</p>
                                <p class="fw-medium" style="font-size: 16px;">
@@ -203,7 +204,7 @@
             <div class="col-lg-3 col-6 d-flex  justify-content-center align-items-center" >
               <div class="p-5 myContainerE rounded-5 text-center contFaleConosco">
                              
-                                <img src="maria.png" class="img-fluid mb-3">
+                                <img src="{% static 'images/maria.png' %}" class="img-fluid mb-3">
                                 <p class="fw-bold" style="font-size: 18px;">Maria Peracini Barbosa</p>
                                <p class="fw-medium" style="font-size: 17px; color: white;">cl203218@g.unicamp.br</p>
                                <p class="fw-medium" style="font-size: 16px;">
