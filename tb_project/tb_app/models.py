@@ -84,7 +84,7 @@ class Exercicios(models.Model):
     imagem = models.ImageField(null=True, default="tb.png", upload_to='exercicios/')
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'exercicios'
         unique_together = (('id_exercicios', 'id_nivel_dificuldade'),)
 
