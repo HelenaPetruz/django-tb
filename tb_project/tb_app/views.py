@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Exercicios, Treino
+from .models import Exercicios, Treino, NivelDificuldade
 
 def home(request):
     return render(request, 'home.html')
@@ -29,7 +29,7 @@ def meus_treinos(request):
     return render(request, 'meusTreinos.html')
 
 def exercicio(request, pk):
-    exercicio = Exercicios.objects.get(id=pk)
+    exercicio = Exercicios.objects.get(id_exercicios=pk)
     context={
         'exercicio': exercicio,
     }

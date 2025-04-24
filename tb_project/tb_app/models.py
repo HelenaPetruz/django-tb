@@ -75,12 +75,20 @@ class Treino(models.Model):
     def __str__(self):
         return self.nome_treino
 
+class NivelDificuldade(models.Model):
+    idnivel_dificuldade = models.IntegerField(primary_key=True)
+    nome_nivel_dificuldade = models.CharField(max_length=45)
+
+    class Meta:
+        managed = False
+        db_table = 'nivel_dificuldade'
+
 class Exercicios(models.Model):
     id_exercicios = models.IntegerField(primary_key=True)  # The composite primary key (id_exercicios, id_nivel_dificuldade) found, that is not supported. The first column is selected.
     nome_exercicio = models.CharField(max_length=45)
     descricao = models.CharField(max_length=1000)
     musculos_envolvidos = models.CharField(max_length=50)
-    id_nivel_dificuldade = models.CharField(max_length=45)
+    id_nivel_dificuldade = models.ForeignKey(NivelDificuldade, on_delete=models.CASCADE)
     imagem = models.ImageField(null=True, default="tb.png", upload_to='exercicios/')
 
     class Meta:
@@ -99,15 +107,6 @@ class ErrosPossiveis(models.Model):
     class Meta:
         managed = False
         db_table = 'erros_possiveis'
-
-
-class NivelDificuldade(models.Model):
-    idnivel_dificuldade = models.IntegerField(primary_key=True)
-    nome_nivel_dificuldade = models.CharField(max_length=45)
-
-    class Meta:
-        managed = False
-        db_table = 'nivel_dificuldade'
 
     def __str__(self):
         return self.nome_nivel_dificuldade
