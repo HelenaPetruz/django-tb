@@ -20,7 +20,7 @@
                     
                     <div class="col-md-6 col-12 p-5 rounded-5" id="containerFormC" >
                         <div class="text-center">
-                          <img src="ico.png" width="30%">
+                          <img src="{%static 'images/ico.png' %}" width="30%">
                         </div>
                         <form >
                             <div class="mb-3">
@@ -45,11 +45,11 @@
                         </div>
                         </form>
                         <div class="text-center mt-3">
-                         <p>Já tem uma conta? Entre <a href="login.html">aqui</a></p>
+                         <p>Já tem uma conta? Entre <a href="{% url 'login' %}">aqui</a></p>
                         </div>
                     </div>
                     <div class="col-md-6 d-flex  justify-content-center align-items-center" id="divBuddyC"  >
-                        <img src="buddy.png" class="img-fluid" width="67%" >
+                        <img src="{% static 'images/buddy.png' %}" class="img-fluid" width="67%" >
                     </div>
                 </div>
             </div>
