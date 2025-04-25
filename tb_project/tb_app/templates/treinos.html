@@ -163,16 +163,18 @@
                     </div>
     
                     <div class="row text-uppercase">
-                       
+                       {% for treino in treinos %}
                         <div class="col-lg-4 col-md-4 col-12">
                             <div class="p-5 myContainerT rounded-5 text-center">
-                              <a href="pgTreino.html">
-                                <img src="{%static 'images/ico.png' %}" class="img-fluid mb-3">
-                                <p class="fw-bold">Core</p>
+                              <a href="{% url treino {{treino.id_treino}} %}">
+                                <!-- precisa fazer coluna imagem na tabela de treinos!!! -->
+                                <img src="{{treino.imagem.url}}" class="img-fluid mb-3">
+                                <p class="fw-bold">{{treino.nome_treino}}</p>
                                 </a>
                                 <button type="submit" class="btn rounded-pill btnSalvarT">Salvar</button>
                             </div>
                         </div>
+                        {% endfor %}
     
                      
                         <div class="col-lg-4 col-md-4 col-12">
