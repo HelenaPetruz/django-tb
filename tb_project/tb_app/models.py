@@ -63,18 +63,6 @@ class CondPagamento(models.Model):
     def __str__(self):
         return self.nome
 
-
-class Treino(models.Model):
-    id_treino = models.AutoField(primary_key=True)
-    nome_treino = models.CharField(max_length=45)
-
-    class Meta:
-        managed = False
-        db_table = 'treino'
-
-    def __str__(self):
-        return self.nome_treino
-
 class NivelDificuldade(models.Model):
     idnivel_dificuldade = models.IntegerField(primary_key=True)
     nome_nivel_dificuldade = models.CharField(max_length=45)
@@ -99,6 +87,59 @@ class Exercicios(models.Model):
     def __str__(self):
         return self.nome_exercicio
 
+class Treino(models.Model):
+    id_treino = models.AutoField(primary_key=True)
+    nome_treino = models.CharField(max_length=45)
+   
+
+    class Meta:
+        managed = False
+        db_table = 'treino'
+
+    def __str__(self):
+        return self.nome_treino
+
+
+class RelExerciciosMusculos(models.Model):
+    id_musculo = models.IntegerField(primary_key=True)  # The composite primary key (id_musculo, id_exercicio) found, that is not supported. The first column is selected.
+    id_exercicio = models.IntegerField()
+
+    class Meta:
+        managed = False
+        db_table = 'rel_exercicios_musculos'
+        unique_together = (('id_musculo', 'id_exercicio'),)
+
+
+class RelPlanoTreino(models.Model):
+    id_treino = models.IntegerField(primary_key=True)  # The composite primary key (id_treino, id_plano) found, that is not supported. The first column is selected.
+    id_plano = models.CharField(max_length=45)
+
+    class Meta:
+        managed = False
+        db_table = 'rel_plano_treino'
+        unique_together = (('id_treino', 'id_plano'),)
+
+
+class RelTreinoExercicio(models.Model):
+    id_treino = models.IntegerField(primary_key=True)  # The composite primary key (id_treino, id_exercicio) found, that is not supported. The first column is selected.
+    id_exercicio = models.CharField(max_length=45)
+    numero_repeticoes = models.IntegerField()
+    numero_series = models.IntegerField()
+
+    class Meta:
+        managed = False
+        db_table = 'rel_treino_exercicio'
+        unique_together = (('id_treino', 'id_exercicio'),)
+
+
+class MusculosEnvolvidos(models.Model):
+    id_musculos_envolvidos = models.AutoField(primary_key=True)
+    nome_musculo = models.CharField(max_length=45, blank=True, null=True)
+    imagem = models.CharField(max_length=100, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'musculos_envolvidos'
 
 class ErrosPossiveis(models.Model):
     id_erro = models.IntegerField(primary_key=True)
