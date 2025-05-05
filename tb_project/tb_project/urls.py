@@ -30,7 +30,8 @@ urlpatterns = [
     path('montagem_treinos/', views.montagem_treinos, name='montagem_treinos'),
     path('meus_treinos/', views.meus_treinos, name='meus_treinos'),
     path('exercicio/<int:pk>', views.exercicio, name='exercicio'),
-    path('treino/<int:pk>', views.treino, name='treino')
+    path('treino/<int:pk>', views.treino, name='treino'),
+    path('treinoia/<int:pk>', views.treinoia, name='treinoia')
 ]
 
 if settings.DEBUG:

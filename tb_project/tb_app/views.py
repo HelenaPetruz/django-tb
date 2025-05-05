@@ -29,7 +29,7 @@ def treinos(request):
     context = {
         'treinos': treinos,
     }
-    return render(request, 'treinos.html')
+    return render(request, 'treinos.html', context)
 
 def cadastro(request):
     return render(request, 'cadastro.html')
@@ -61,12 +61,26 @@ def exercicio(request, pk):
     return render(request, 'pgExercicio.html', context)
 
 def treino(request, pk):
-    treino = Treino.objects.get(id=pk)
+    treino = Treino.objects.get(id_treino=pk)
     rel_treino_exercicio = RelTreinoExercicio.objects.filter(id_treino=pk)
-    exercicios = Exercicios.objects.filter(id_exercicio__in=[rel.id_exercicio for rel in rel_treino_exercicio])
+    exercicios = Exercicios.objects.filter(id_exercicios__in=[rel.id_exercicio for rel in rel_treino_exercicio])
     context={
         'treino': treino,
         'exercicios': exercicios,
+        'rels': rel_treino_exercicio,
     }
+    print([rel.id_exercicio for rel in rel_treino_exercicio])
+    print([exercicio.id_exercicios for exercicio in exercicios])
     return render(request, 'pgTreino.html', context)
+
+def treinoia(request,pk):
+    treino = Treino.objects.get(id_treino=pk)
+    rel_treino_exercicio = RelTreinoExercicio.objects.filter(id_treino=pk)
+    exercicios = Exercicios.objects.filter(id_exercicios__in=[rel.id_exercicio for rel in rel_treino_exercicio])
+    context={
+        'treino': treino,
+        'exercicios': exercicios,
+        'rels': rel_treino_exercicio,
+    }
+    return render(request,'treinoIA.html', context)
 

@@ -122,7 +122,7 @@ class RelPlanoTreino(models.Model):
 
 class RelTreinoExercicio(models.Model):
     id_treino = models.IntegerField(primary_key=True)  # The composite primary key (id_treino, id_exercicio) found, that is not supported. The first column is selected.
-    id_exercicio = models.CharField(max_length=45)
+    id_exercicio = models.IntegerField()
     numero_repeticoes = models.IntegerField()
     numero_series = models.IntegerField()
 
