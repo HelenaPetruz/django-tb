@@ -92,18 +92,18 @@
             
             <div class="col-lg-6 col-12 p-5 d-flex  justify-content-center align-items-center " id="exDia">
                
-                   <img src="{% static 'images/exercicioDia.png' %}" style="width: 100%;">
+                <img src="{% static 'images/exercicioDia.png' %}" style="width: 100%;">
                 
         
             </div>
             <div class="col-lg-6 col-12 d-flex  justify-content-center align-items-center" >
               <div class="p-5 myContainerE rounded-5 text-center">
-                              <a href="pgExercicio.html">
-                                Vou colocar a imagem ainda!
-                                <img src="abdominal.png" class="img-fluid mb-3" style="width: 500px;">
-                                <p class="fw-bold" style="font-size: 30px;">Abdominal</p>
+                              <a href="{% url 'exercicio' exercicio.id_exercicios %}">
+                                <img src="{{exercicio.imagem.url}}" class="img-fluid mb-3" style="width: 500px;">
+                                
+                                <p class="fw-bold" style="font-size: 30px;">{{exercicio.nome_exercicio}}</p>
                                 </a>
-                                <button type="button" class="btn rounded-pill btnSalvarT" style="font-size: 25px;"><a href="pgExercicio.html">Mais Detalhes ᕙ(`▿´)ᕗ</a></button>
+                                <button type="button" class="btn rounded-pill btnSalvarT" style="font-size: 25px;"><a href=" {%url 'exercicio' exercicio.id_exercicios%}">Mais Detalhes ᕙ(`▿´)ᕗ</a></button>
                             </div>
             </div>
         </div>
@@ -120,36 +120,15 @@
         </div>
 
                        <div class="row text-uppercase" style="padding: 2%;">
-            
+            {% for plano in planos %}
            <div class="col-lg-4 col-12 d-flex  justify-content-center align-items-center" >
-              <div class="p-5 myContainerE rounded-5 text-center">
-                            
-                                <img src="{% static 'images/ico.png' %}" class="img-fluid mb-3" style="width: 400px;" >
-                                <p class="fw-bold" style="font-size: 30px;">Ia</p>
-                                
-                                <button type="button" class="btn rounded-pill btnSalvarT" style="font-size: 25px;"><a href="">Assine aqui</a></button>
-                            </div>
+                <div class="p-5 myContainerE rounded-5 text-center">
+                    <img src="{% static 'images/ico.png' %}" class="img-fluid mb-3" style="width: 400px;" >
+                    <p class="fw-bold" style="font-size: 30px;">{{plano.nome_plano}}</p>
+                    <button type="button" class="btn rounded-pill btnSalvarT" style="font-size: 25px;"><a href="">Assine aqui</a></button>
+                </div>
             </div>
-
-            <div class="col-lg-4 col-12 d-flex  justify-content-center align-items-center" >
-              <div class="p-5 myContainerE rounded-5 text-center">
-                              
-                                <img src="{% static 'images/ico.png' %}" class="img-fluid mb-3" style="width: 400px;">
-                                <p class="fw-bold" style="font-size: 30px;">Ia & montagem de treino</p>
-                               
-                                <button type="button" class="btn rounded-pill btnSalvarT" style="font-size: 25px;"><a href="">Assine aqui</a></button>
-                            </div>
-            </div>
-
-             <div class="col-lg-4 col-12 d-flex  justify-content-center align-items-center" >
-              <div class="p-5 myContainerE rounded-5 text-center">
-                             
-                                <img src="{% static 'images/ico.png' %}" class="img-fluid mb-3" style="width: 400px;">
-                                <p class="fw-bold" style="font-size: 30px;">Montagem de treino</p>
-                              
-                                <button type="button" class="btn rounded-pill btnSalvarT" style="font-size: 25px;"><a href="">Assine aqui</a></button>
-                            </div>
-            </div>
+            {% endfor %}
         </div>
 
 

@@ -23,7 +23,7 @@
 <div id="menuMT">
   <nav class="navbar">
       <div class="container-fluid">
-        <div id="icone"><a href="home.html" ><img src="ico.png" height="150" width="150"></a> </div>
+        <div id="icone"><a href="{% url 'home' %}" ><img src="{% static 'images/ico.png' %}" height="150" width="150"></a> </div>
           <button class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" id="btnMenu">
               <i class="bi bi-list" style="font-size: 30px;"></i> 
           </button>
@@ -39,16 +39,17 @@
       <div class="offcanvas-body">
         <ul class="list-unstyled fs-5">
                   
-          <li><a href="home.html" class="nav-link">Home</a></li>
-          <li><a href="home.html#secao3" class="nav-link">Planos</a></li>
-          <li><a href="exercicios.html" class="nav-link">Exercícios</a></li>
-          <li><a href="treinos.html" class="nav-link">Treinos</a></li>
-          <li><a href="montagemTreinos.html" class="nav-link">Montagem de Treinos</a></li>
-          <li><a href="meusTreinos.html" class="nav-link">Meus Treinos</a></li>
+          <li><a href="{% url 'home' %}" class="nav-link">Home</a></li>
+          <li><a href="{% url 'home' %}#secao3" class="nav-link">Planos</a></li>
+          <li><a href="{% url 'exercicios' %}" class="nav-link">Exercícios</a></li>
+          <li><a href="{% url 'treinos' %}" class="nav-link">Treinos</a></li>
+          <li><a href="{% url 'montagem_treinos' %}" class="nav-link">Montagem de Treinos</a></li>
+          <li><a href="{% url 'meus_treinos' %}" class="nav-link">Meus Treinos</a></li>
+        
         
 
-          <li style="margin-top: 5%;"><a href="cadastro.html" class="nav-link">Cadastro</a></li>
-          <li><a href="login.html" class="nav-link">Login</a></li>
+          <li style="margin-top: 5%;"><a href="{% url 'cadastro' %}" class="nav-link">Cadastro</a></li>
+          <li><a href="{% url 'login' %}" class="nav-link">Login</a></li>
       </ul>
       </div>
   </div>
@@ -64,7 +65,7 @@
                     
                   <div class="centralized-container">
                             <div class="p-5 myContainerT rounded-5 text-center" style="width: 90%;">
-                                <img src="ico.png" class="img-fluid mb-3">
+                                <img src="{% static 'images/ico.png' %}" class="img-fluid mb-3">
                                 <p class="fw-bold">Core</p>
                                 <button type="submit" class="btn rounded-pill btnSalvarT">Salvar</button>
                             </div>
@@ -77,7 +78,7 @@
                 
                   <div class="row" style="margin-bottom: 2%;">
                     <div class="col-12" >
-                        <h1 class="fw-bold text-center"  id="titleT">Core</h1>
+                        <h1 class="fw-bold text-center"  id="titleT">{{treino.nome_treino}}</h1>
                     </div>
 
                      
@@ -89,10 +90,11 @@
                     	 
                         
          <div class="scroll-containerPE rounded-top" >
+          {% for exercicio in exercicios %}
     	    <div class="scroll-item">
     	    	<div class="p-3  myContainerPE rounded-5">
                      <img src="ico.png" class="img-fluid" >
-                     <p class="fw-bold">Abdominal</p>
+                     <p class="fw-bold">{{exercicio.nome_exercicio}}</p>
                       <div style="display: flex; justify-content: center; gap: 5px;">
             <p class="fw-bold" id="numero_series" >2</p>
             <p class="fw-bold">X</p>
@@ -100,127 +102,9 @@
    					     </div>
                     </div>
     	    </div>
-
-    	    <div class="scroll-item">
-    	    	<div class="p-3  myContainerPE rounded-5">
-                     <img src="ico.png" class="img-fluid" >
-                     <p class="fw-bold">Abdominal</p>
-                      <div style="display: flex; justify-content: center; gap: 5px;">
-            <p class="fw-bold" id="numero_series" >2</p>
-            <p class="fw-bold">X</p>
-            <p class="fw-bold" id="numero_repeticoes">15</p>
-   					     </div>
-                    </div>
-    	    </div>
-
-    	    <div class="scroll-item">
-    	    	<div class="p-3  myContainerPE rounded-5">
-                     <img src="ico.png" class="img-fluid" >
-                     <p class="fw-bold">Abdominal</p>
-                      <div style="display: flex; justify-content: center; gap: 5px; ">
-            <p class="fw-bold" id="numero_series" >2</p>
-            <p class="fw-bold">X</p>
-            <p class="fw-bold" id="numero_repeticoes">15</p>
-   					     </div>
-                    </div>
-    	    </div>
-
-    	    <div class="scroll-item">
-    	    	<div class="p-3  myContainerPE rounded-5">
-                     <img src="ico.png" class="img-fluid" >
-                     <p class="fw-bold">Abdominal</p>
-                      <div style="display: flex; justify-content: center; gap: 5px; ">
-            <p class="fw-bold" id="numero_series" >2</p>
-            <p class="fw-bold">X</p>
-            <p class="fw-bold" id="numero_repeticoes">15</p>
-   					     </div>
-                    </div>
-    	    </div>
-
-    	    <div class="scroll-item">
-    	    	<div class="p-3  myContainerPE rounded-5">
-                     <img src="ico.png" class="img-fluid" >
-                     <p class="fw-bold">Abdominal</p>
-                      <div style="display: flex; justify-content: center; gap: 5px; ">
-            <p class="fw-bold" id="numero_series" >2</p>
-            <p class="fw-bold">X</p>
-            <p class="fw-bold" id="numero_repeticoes">15</p>
-   					     </div>
-                    </div>
-    	    </div>
-
-    	    <div class="scroll-item">
-    	    	<div class="p-3  myContainerPE rounded-5">
-                     <img src="ico.png" class="img-fluid" >
-                     <p class="fw-bold">Abdominal</p>
-                      <div style="display: flex; justify-content: center; gap: 5px; ">
-            <p class="fw-bold" id="numero_series" >2</p>
-            <p class="fw-bold">X</p>
-            <p class="fw-bold" id="numero_repeticoes">15</p>
-   					     </div>
-                    </div>
-    	    </div>
-
-    	    <div class="scroll-item">
-    	    	<div class="p-3  myContainerPE rounded-5">
-                     <img src="ico.png" class="img-fluid" >
-                     <p class="fw-bold">Abdominal</p>
-                      <div style="display: flex; justify-content: center; gap: 5px; ">
-            <p class="fw-bold" id="numero_series" >2</p>
-            <p class="fw-bold">X</p>
-            <p class="fw-bold" id="numero_repeticoes">15</p>
-   					     </div>
-                    </div>
-    	    </div>
-
-    	    <div class="scroll-item">
-    	    	<div class="p-3  myContainerPE rounded-5">
-                     <img src="ico.png" class="img-fluid" >
-                     <p class="fw-bold">Abdominal</p>
-                      <div style="display: flex; justify-content: center; gap: 5px; ">
-            <p class="fw-bold" id="numero_series" >2</p>
-            <p class="fw-bold">X</p>
-            <p class="fw-bold" id="numero_repeticoes">15</p>
-   					     </div>
-                    </div>
-    	    </div>
-
-    	    <div class="scroll-item">
-    	    	<div class="p-3  myContainerPE rounded-5">
-                     <img src="ico.png" class="img-fluid" >
-                     <p class="fw-bold">Abdominal</p>
-                      <div style="display: flex; justify-content: center; gap: 5px; ">
-            <p class="fw-bold" id="numero_series" >2</p>
-            <p class="fw-bold">X</p>
-            <p class="fw-bold" id="numero_repeticoes">15</p>
-   					     </div>
-                    </div>
-    	    </div>
-
-    	    <div class="scroll-item">
-    	    	<div class="p-3  myContainerPE rounded-5">
-                     <img src="ico.png" class="img-fluid" >
-                     <p class="fw-bold">Abdominal</p>
-                      <div style="display: flex; justify-content: center; gap: 5px;">
-            <p class="fw-bold" id="numero_series" >2</p>
-            <p class="fw-bold">X</p>
-            <p class="fw-bold" id="numero_repeticoes">15</p>
-   					     </div>
-                    </div>
-    	    </div>
-
-		   
-    	    
-
-
 	  					  </div>
 
                     	</div>
-                       
-    
-   							
-                    
-
                     <div class="row  justify-content-center">
                     	 <div class="col-12 text-center" >
                     	  <button type="submit" class="btn rounded-pill " id="btnTreinar">Treinar</button>

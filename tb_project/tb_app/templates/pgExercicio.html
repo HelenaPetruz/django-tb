@@ -86,8 +86,9 @@
                        
                         <div class="col-lg-3 col-md-3 col-12" >
                           <p class="h4" >Músculos</p>
-                          <img src="icoAbdomen.png" id="musculos_envolvidos">
-                         
+                          {% for musculo in musculos %}
+                          <img src="{{musculo.imagem.url}}" id="musculos_envolvidos">
+                          {% endfor %}
                         </div>
 
 
