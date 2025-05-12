@@ -124,6 +124,10 @@
   
      
  /*Home*/
+
+ #menuHsm{
+    background-color: #312854;
+ }
  
  .backH {
             background-image: linear-gradient(to bottom, rgb(48,40,87) 45%,rgb(176,138,42));
@@ -142,6 +146,7 @@
         }
 
      #menuH {
+    background-color: rgb(48,40,87);
       font-size: 20px;
       /* padding-bottom: 10px;*/
       display: flex;
@@ -636,14 +641,47 @@ p {
         padding-left:7% ;
         padding-right:7% ;
         font-size: 30px;
+        a{
         color: #f4bf3a;
+        text-decoration: none;
+        }
+        
         font-weight: bold;
 
 }
 #btnTreinar:hover{
  background-color:#f4bf3a;
- color:  #44377d;
+  a{
+        color:  #44377d;
+        text-decoration: none;
+        }
+ 
 }
+
+#btnTreinarIA{
+    background-color: #44377d;
+        
+       
+         padding: 2%;
+         margin-top: 5%;
+         padding-left:7% ;
+         padding-right:7% ;
+         font-size: 30px;
+         font-weight: bold;
+           a{
+        color: #f4bf3a;
+        text-decoration: none;
+        }
+ 
+ }
+ #btnTreinarIA:hover{
+  background-color:#f4bf3a;
+    a{
+         color:  #44377d;
+        text-decoration: none;
+        }
+
+ }
 
 
 /*montagem de treinos*/
@@ -668,3 +706,107 @@ p {
     color: #312854;
     border-color: #f4bf3a;
 }
+
+/* pagamento */
+ .backP {
+        background-image: linear-gradient(to bottom, rgb(48,40,87)55%,rgb(176,138,42));
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+        height: 100vh;
+        width: 100vw;
+        position: -1;
+        position: fixed;
+    }
+
+    #bodyP {
+       
+        font-family: Poppins;
+        width: 100vw;
+        height: 100vh;
+    }
+
+   
+    #containerFormP{
+        background:rgba(244,191,58,50%);
+        
+        width: 40%; 
+        height: 40%;
+         margin: 4%;
+    
+    border-radius: 8px;
+    color: #fff;
+        color: white;
+       a{
+        color: white;
+       }
+    }
+
+   
+    #btnAssinar{
+        background-color: #44377d;
+        border-radius: 40%;
+        border: none;
+        padding: 2%;
+        padding-left:5% ;
+        padding-right:5% ;
+        font-size: 20px;
+        color: #f4bf3a;
+        font-weight: bold;
+    }
+
+    #cpf, #nomeCartao, #nCartao, #mesExp, #anoExp, #cvv{
+        background-color: #44377d;
+        border-color: #44377d;
+        color: #f4bf3a;
+       
+    }
+
+ /* treino guiado */
+
+    #btnFimSerie{
+        background-color: #44377d;
+        border-radius: 40%;
+        border: none;
+        padding: 3%;
+        padding-left:7% ;
+        padding-right:7%;
+        font-size: 20px;
+        color: #f4bf3a;
+        font-weight: bold;
+    }
+
+    #btnFimSerie:hover{
+        background-color:  #f4bf3a;
+        border-radius: 40%;
+        border: none;
+        padding: 3%;
+        padding-left:7% ;
+        padding-right:7% ;
+        font-size: 20px;
+        color:#44377d;
+        font-weight: bold;
+    }
+
+    #containerTG{
+
+
+    }
+
+    /* 
+    treino IA */
+
+     #btnTIA{
+        background-color:#dfa921;
+        border-radius: 40%;
+        border: none;
+        padding: 2%;
+        padding-left:7% ;
+        padding-right:7% ;
+        font-size: 20px;
+        color:#44377d;
+        font-weight:bold;
+    }
+
+
+  

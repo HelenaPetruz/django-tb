@@ -84,3 +84,5 @@ def treinoia(request,pk):
     }
     return render(request,'treinoIA.html', context)
 
+def pagamento(request):
+    return render(request, "pagamento.html")
