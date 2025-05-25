@@ -102,11 +102,20 @@ def treinoia(request,pk):
 
     if request.method == 'POST':
         
-        if mostrar_descanso == False:
-            # Primeiro clique, ativa descanso
-            mostrar_descanso = True
-            request.session['mostrar_descanso'] = True
-            return redirect('treinoia', pk=pk)
+        if mostrar_descanso == False: # Primeiro clique, ativa descanso
+            ultima_serie_do_ultimo_exercicio = (
+                indice == len(exercicios) - 1 and
+                serie_atual + 1 == rel.numero_series
+            )
+
+            if not ultima_serie_do_ultimo_exercicio:
+                mostrar_descanso = True
+                request.session['mostrar_descanso'] = True
+                return redirect('treinoia', pk=pk)
+            else:
+                request.session.flush() # apaga tudo da session
+                return redirect('home')
+
         
         else:
             # Segunda vez clicando, desativa descanso e avança série ou exercício
