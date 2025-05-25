@@ -73,17 +73,20 @@ def treino(request, pk):
     print([exercicio.id_exercicios for exercicio in exercicios])
     return render(request, 'pgTreino.html', context)
 
+
 def treinoia(request,pk):
-    treino = Treino.objects.get(id_treino=pk)
+
     rel_treino_exercicio = RelTreinoExercicio.objects.filter(id_treino=pk)
     exercicios = list(Exercicios.objects.filter(id_exercicios__in=[rel.id_exercicio for rel in rel_treino_exercicio]))
 
-    if 'indice' not in request.session or 'serie_atual' not in request.session:
+    if 'indice' not in request.session or 'serie_atual' not in request.session or 'mostrar_descanso' not in request.session:
         request.session['indice'] = 0
         request.session['serie_atual'] = 0
+        request.session['mostrar_descanso'] = False
 
     indice = request.session['indice']
     serie_atual = request.session['serie_atual']
+    mostrar_descanso = request.session['mostrar_descanso']
 
     # mostrar_descanso = request.session.get('mostrar_descanso', False)
     # request.session['mostrar_descanso'] = False 
@@ -99,29 +102,37 @@ def treinoia(request,pk):
 
     if request.method == 'POST':
         
-        if serie_atual+1 < rel.numero_series: #se as séries ainda não acabaram
-            serie_atual +=1
-            # mostrar_descanso = True  # pra ativar o popup
-            # request.session['mostrar_descanso'] = mostrar_descanso
+        if mostrar_descanso == False:
+            # Primeiro clique, ativa descanso
+            mostrar_descanso = True
+            request.session['mostrar_descanso'] = True
+            return redirect('treinoia', pk=pk)
+        
+        else:
+            # Segunda vez clicando, desativa descanso e avança série ou exercício
+            mostrar_descanso = False
+            request.session['mostrar_descanso'] = False
 
-        else: #se a série acabou
-            # mostrar_descanso=False
-            if indice<len(exercicios): #vai para o próximo exercicio
-                indice+=1
-                serie_atual=0
+            if serie_atual+1 < rel.numero_series: #se as séries ainda não acabaram
+                serie_atual +=1
+            else: #se a série acabou
+                if indice<len(exercicios): #vai para o próximo exercicio
+                    indice+=1
+                    serie_atual=0
+                else: # se acabou tudo
+                    request.session.flush() # apaga tudo da session
+                    return redirect('home')
         
         # Atualiza sessões
         request.session['indice'] = indice
         request.session['serie_atual'] = serie_atual
-        # # Recarrega view
-        # mostrar_descanso=False
         return redirect('treinoia', pk=pk)
 
     context={
         'rel': rel,
         'exercicio_atual': exercicio_atual,
         'serie_atual': serie_atual+1,
-        # 'mostrar_descanso':  mostrar_descanso,
+        'mostrar_descanso':  mostrar_descanso,
     }
     return render(request,'treinoIA.html', context)
 
