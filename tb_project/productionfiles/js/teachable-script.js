@@ -2,7 +2,6 @@
 // https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/pose
 
 async function init() {
-        document.getElementById("btnTIA").style.display = "none";
         const modelURL = URL + "model.json";
         const metadataURL = URL + "metadata.json";
 
@@ -13,10 +12,9 @@ async function init() {
         maxPredictions = model.getTotalClasses();
 
         // Convenience function to setup a webcam
-        const size1 = 900;
-        const size2 = 900;
+        const size = 300;
         const flip = true; // whether to flip the webcam
-        webcam = new tmPose.Webcam(size1, size2, flip); // width, height, flip
+        webcam = new tmPose.Webcam(size, size, flip); // width, height, flip
         await webcam.setup(); // request access to the webcam
         await webcam.play();
         window.requestAnimationFrame(loop);
@@ -24,7 +22,7 @@ async function init() {
         // append/get elements to the DOM
 
         const canvas = document.getElementById("canvas");
-        canvas.width = size1; canvas.height = size2;
+        canvas.width = size; canvas.height = size;
         ctx = canvas.getContext("2d");
         labelContainer = document.getElementById("label-container");
         for (let i = 0; i < maxPredictions; i++) { // and class labels
@@ -41,22 +39,31 @@ async function init() {
         window.requestAnimationFrame(loop);
     }
 
-    async function predict() {
-      
-        // Prediction #1: run input through posenet
-        // estimatePose can take in an image, video or canvas html element
-        const { pose, posenetOutput } = await model.estimatePose(webcam.canvas);
-        // Prediction 2: run input through teachable machine classification model
-        const prediction = await model.predict(posenetOutput);
+   
+    let alertShown = false; // Variável para garantir que o alerta só ocorra uma vez
 
-        // for (let i = 0; i < maxPredictions; i++) {
-        //     const classPrediction =
-        //         prediction[i].className + ": " + prediction[i].probability.toFixed(2);
-        //     labelContainer.childNodes[i].innerHTML = classPrediction;
-        // }
+async function predict() {
+    const { pose, posenetOutput } = await model.estimatePose(webcam.canvas);
+    const prediction = await model.predict(posenetOutput);
 
-        // finally draw the poses
-        drawPose(pose);
+    for (let i = 0; i < maxPredictions; i++) {
+        const classPrediction =
+            prediction[i].className + ": " + prediction[i].probability.toFixed(2);
+        labelContainer.childNodes[i].innerHTML = classPrediction;
+
+        if (prediction[i].className === "triceps errado" && prediction[i].probability > 0.9 && !alertShown) {
+            alertShown = true; // Marca o alerta como mostrado
+            playSound();
+            showAlertPopup();
+        }
+    }
+
+    drawPose(pose);
+}
+
+    function playSound(){
+        const audio = new Audio('sonoro.mp3');
+        audio.play();
     }
 
     function drawPose(pose) {
@@ -70,3 +77,20 @@ async function init() {
             }
         }
     }
+
+function showAlertPopup() {
+    const popup = document.createElement("div");
+    popup.innerHTML = `
+        <div style="position:fixed; top:50%; left:50%; transform:translate(-50%, -50%);
+                    background:#fff; padding:20px; border-radius:10px; box-shadow:0px 0px 10px rgba(0,0,0,0.2);">
+            <p>Alerta: Corrija sua postura!</p>
+            <button id="okButton">OK</button>
+        </div>
+    `;
+    document.body.appendChild(popup);
+    
+    document.getElementById("okButton").addEventListener("click", () => {
+        alertShown = false; // Reseta o alerta para permitir novos avisos
+        popup.remove(); // Remove o pop-up
+    });
+}

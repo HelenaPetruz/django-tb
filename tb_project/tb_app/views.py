@@ -176,44 +176,49 @@ def treino_guiado(request,pk):
     rel = rel_treino_exercicio.get(id_exercicio = exercicio_atual.id_exercicios)
 
     if request.method == 'POST':
-        acao = request.POST.get('acao')
+        # acao = request.POST.get('acao')
+        # if acao=="finalizar":
+        
+        if mostrar_descanso == False: # Primeiro clique, ativa descanso
+            ultima_serie_do_ultimo_exercicio = (
+                indice == len(exercicios) - 1 and
+                serie_atual + 1 == rel.numero_series
+            )
 
-        if acao=="finalizar":
-            if mostrar_descanso == False: # Primeiro clique, ativa descanso
-                ultima_serie_do_ultimo_exercicio = (
-                    indice == len(exercicios) - 1 and
-                    serie_atual + 1 == rel.numero_series
-                )
+            if not ultima_serie_do_ultimo_exercicio:
+                mostrar_descanso = True
+                request.session['mostrar_descanso'] = True
+                return redirect('treinoia', pk=pk)
+            else:
+                request.session.flush() # apaga tudo da session
+                return redirect('home')
+        else:
+            # Segunda vez clicando, desativa descanso e avança série ou exercício
+            mostrar_descanso = False
+            request.session['mostrar_descanso'] = False
 
-                if not ultima_serie_do_ultimo_exercicio:
-                    mostrar_descanso = True
-                    request.session['mostrar_descanso'] = True
-                    return redirect('treino_guiado', pk=pk)
-                else:
+            if serie_atual+1 < rel.numero_series: #se as séries ainda não acabaram
+                serie_atual +=1
+            else: #se a série acabou
+                if indice<len(exercicios): #vai para o próximo exercicio
+                    indice+=1
+                    serie_atual=0
+                else: # se acabou tudo
                     request.session.flush() # apaga tudo da session
                     return redirect('home')
-           
-            else:
-                # Segunda vez clicando, desativa descanso e avança série ou exercício
-                mostrar_descanso = False
-                request.session['mostrar_descanso'] = False
-
-                if serie_atual+1 < rel.numero_series: #se as séries ainda não acabaram
-                    serie_atual +=1
-                else: #se a série acabou
-                    indice += 1
-                    serie_atual = 0
-                    if indice >= len(exercicios):  # se acabou tudo
-                        request.session.flush()
-                        return redirect('home')
-            # Atualiza sessões
-            request.session['indice'] = indice
-            request.session['serie_atual'] = serie_atual
-            return redirect('treino_guiado', pk=pk)
         
-        elif acao=='cancelar':
-            request.session.flush()
-            return redirect('home')
+        # Atualiza sessões
+        request.session['indice'] = indice
+        request.session['serie_atual'] = serie_atual
+        return redirect('treino_guiado', pk=pk)
+        
+        # if acao=="cancelar":
+        #     #request.session.flush()
+        #     request.session['indice'] = 0
+        #     request.session['serie_atual'] = 0
+        #     request.session['mostrar_descanso'] = False
+        #     return redirect('home')
+        
 
     context={
         'rel': rel,
