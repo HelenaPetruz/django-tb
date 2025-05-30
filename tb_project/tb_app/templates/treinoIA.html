@@ -42,11 +42,10 @@
                     <div class="text-center pb-2">
                         <div id="introIa">
 
-
-                            <button id="btnTIA" class="rounded-pill" onclick="init()">Iniciar série</button>
+                            <button id="btnTIAl" class="rounded-pill" onclick="init1()">Iniciar série</button>
                         </div>
-                        <div><canvas id="canvas" class="img-fluid rounded mx-auto d-block"></canvas></div>
-                        <div id="label-container"></div>
+                        <div><canvas id="canvasLarge" class="img-fluid rounded mx-auto d-block"></canvas></div>
+                        <div id="label-containerLarge"></div>
                     </div>
                     <div style="display: flex; justify-content: center; gap: 5px; ">
                         <p class="fw-bold" id="numero_repeticoes">{{rel.numero_repeticoes}}</p>
@@ -96,10 +95,10 @@
                             <div id="introIa">
 
 
-                                <button id="btnTIA" onclick="init()" class="rounded-pill">Iniciar série</button>
+                                <button id="btnTIAs" onclick="init()" class="rounded-pill">Iniciar série</button>
                             </div>
-                            <div><canvas id="canvas" class="img-fluid rounded mx-auto d-block"></canvas></div>
-                            <div id="label-container"></div>
+                            <div><canvas id="canvasSmall" class="img-fluid rounded mx-auto d-block"></canvas></div>
+                            <div id="label-containerSmall"></div>
                         </div>
                         <!-- <div style="display: flex; justify-content: center; gap: 5px; ">
                                 <p class="fw-bold" id="numero_series" >2</p>
@@ -150,8 +149,8 @@
                             {% csrf_token %}
                             <button type="submit" class="rounded-pill text-center fs-3 mx-auto mt-2 d-block"
                                 id="btnFimSerie" name="acao" value="finalizar">Finalizar série</button>
-                            <button type="submit" class="rounded-pill text-center fs-3 mx-auto mt-2 d-block"
-                                id="btnFimSerie" name="acao" value="cancelar">Cancelar treino (não funciona ainda!)</button>
+                            <!-- <button type="submit" class="rounded-pill text-center fs-3 mx-auto mt-2 d-block"
+                                id="btnFimSerie" name="acao" value="cancelar">Cancelar treino (não funciona ainda!)</button> -->
                         </form>
 
 
@@ -259,6 +258,7 @@
         const URL = "{{exercicio_atual.link_ia}}";
         //https://teachablemachine.withgoogle.com/models/I93YxZeUt/
         let model, webcam, ctx, labelContainer, maxPredictions;
+        const nome_do_erro = "{{erro.nome}}";
     </script> 
 
     <script src="{% static 'js/teachable-script.js' %}"></script>

@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 import random
-from .models import Exercicios, Treino, NivelDificuldade, MusculosEnvolvidos, RelExerciciosMusculos, Plano, RelTreinoExercicio
+from .models import Exercicios, Treino, NivelDificuldade, MusculosEnvolvidos, RelExerciciosMusculos, Plano, RelTreinoExercicio, ErrosPossiveis, CondPagamento
 
 def home(request):
     exercicios = Exercicios.objects.all()
@@ -136,18 +136,17 @@ def treinoia(request,pk):
         request.session['indice'] = indice
         request.session['serie_atual'] = serie_atual
         return redirect('treinoia', pk=pk)
+    
+    erros_possiveis = ErrosPossiveis.objects.filter(id_exercicio=exercicio_atual.id_exercicios)
 
     context={
         'rel': rel,
         'exercicio_atual': exercicio_atual,
         'serie_atual': serie_atual+1,
         'mostrar_descanso':  mostrar_descanso,
+        'erros': erros_possiveis
     }
     return render(request,'treinoIA.html', context)
-
-
-def pagamento(request):
-    return render(request, "pagamento.html")
 
 def treino_guiado(request,pk):
 
@@ -227,3 +226,11 @@ def treino_guiado(request,pk):
         'mostrar_descanso':  mostrar_descanso,
     }
     return render(request,'treinoGuiado.html', context)
+
+def pagamento(request):
+    # if request.method == 'POST':
+    #     CondPagamento.objects.create(
+    #         numero_do_cartao = request.POST.get('numero_cartao'),
+    #     )
+
+    return render(request, "pagamento.html")

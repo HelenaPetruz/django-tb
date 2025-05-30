@@ -33,25 +33,26 @@
                         <!-- <div class="text-center">
                           <img src="ico.png" width="30%">
                         </div> -->
-
+                
                             <div id="titleE">
                 <h1 class="text-center fw-bold text-uppercase">Plano</h1>
                 <h2 id="" class="text-center fw-bold text-uppercase">nome</h2>
               
             </div>
-                        <form >
+            <form method="post" id="formSerie">
+                {% csrf_token %}
                             
                              <div class="mb-3">
-                                <label for="cpf" class="form-label" maxlength="14"  >CPF:</label>
-                                <input type="text" class="form-control rounded-pill" id="cpf" placeholder="000.000.000-00" >
+                                <label for="cpf" class="form-label" maxlength="14" >CPF:</label>
+                                <input type="text" class="form-control rounded-pill" id="cpf" placeholder="000.000.000-00" name="cpf">
                             </div>
                             <div class="mb-3">
-                                <label for="nomeCartao" class="form-label">Nome no cartão:</label>
-                                <input type="text" class="form-control rounded-pill" id="nomeCartao">
+                                <label for="nomeCartao" class="form-label" >Nome no cartão:</label>
+                                <input type="text" class="form-control rounded-pill" id="nomeCartao" name="nome_cartao">
                             </div>
                              <div class="mb-3">
                                 <label for="nCartao" class="form-label" maxlength="19" >Número do cartão:</label>
-                                <input type="text" class="form-control rounded-pill" id="nCartao" placeholder="0000 0000 0000 0000">
+                                <input type="text" class="form-control rounded-pill" id="nCartao" placeholder="0000 0000 0000 0000" name="numero_cartao">
                             </div>
                              <div class="mb-3">
                                 <div class="row">
@@ -65,15 +66,15 @@
                                 </div>
                                 <div class="row">  
                                  <div class="col-3">     
-                                <input type="number" placeholder="Mês" class="form-control rounded-5" id="mesExp" min="1" max="12" >
+                                <input type="number" placeholder="Mês" class="form-control rounded-5" id="mesExp" min="1" max="12" name="exp1">
                                 </div>
                                   <div class="col-3">
-                                 <input type="number" placeholder="Ano" class="form-control rounded-5" id="anoExp" min="2025" >
+                                 <input type="number" placeholder="Ano" class="form-control rounded-5" id="anoExp" min="2025" name="exp2">
                                     </div>
                                 
                                 <div class="col-3">
     
-                                 <input type="text" class="form-control rounded-pill" id="cvv" maxlength="3" placeholder="ex: 123">
+                                 <input type="text" class="form-control rounded-pill" id="cvv" maxlength="3" placeholder="ex: 123" name="cvv">
                             </div>
                             </div>
                              </div>
@@ -86,7 +87,7 @@
 
                                 </div>
                                 </div>
-                            <button type="submit" class="rounded-pill"  id="btnAssinar">Assinar</button>
+                                <button type="submit" class="rounded-pill"  id="btnAssinar">Assinar</button>
                         </div>
                         </form>
                         

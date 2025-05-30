@@ -143,11 +143,9 @@ class MusculosEnvolvidos(models.Model):
 
 class ErrosPossiveis(models.Model):
     id_erro = models.IntegerField(primary_key=True)
-    descricao = models.CharField(max_length=1000, blank=True, null=True)
+    nome = models.CharField(max_length=1000, blank=True, null=True)
+    id_exercicio = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'erros_possiveis'
-
-    def __str__(self):
-        return self.nome_nivel_dificuldade
