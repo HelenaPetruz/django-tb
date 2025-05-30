@@ -24,15 +24,16 @@
                 <div class="text-center">
                   <img src="{%static 'images/ico.png' %}" width="30%">
                 </div>
-                <form >
+                <form method="POST">
+                    {% csrf_token %}
                     <div class="mb-3">
-                        <label for="userL" class="form-label">Nome de usuário ou e-mail:</label>
-                        <input type="email" class="form-control rounded-pill" id="userL" >
+                        <label for="userL" class="form-label">E-mail:</label>
+                        <input type="email" name="email" class="form-control rounded-pill" id="userL" >
                     </div>
                     <div class="mb-3">
                         <label for="passwordL" class="form-label">Senha:</label>
                         <!-- <i class="bi bi-person-fill"></i> -->
-                        <input type="password" class="form-control rounded-pill" id="passwordL">
+                        <input type="password" name="senha" class="form-control rounded-pill" id="passwordL">
                     </div>
                     <br>
                     <div class="text-center">
@@ -49,6 +50,35 @@
         </div>
     </div>
 </div>
+
+{% if messages %}
+  {% for message in messages %}
+    <div class="modal fade" id="messageModal{{ forloop.counter }}" tabindex="-1" aria-labelledby="messageModalLabel{{ forloop.counter }}" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header bg-danger text-white">
+            <h5 class="modal-title" id="messageModalLabel{{ forloop.counter }}">Erro</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+          </div>
+          <div class="modal-body">{{ message }}</div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        var modal = new bootstrap.Modal(document.getElementById('messageModal{{ forloop.counter }}'));
+        modal.show();
+      });
+
+    </script>
+  {% endfor %}
+{% endif %}
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>

@@ -1,13 +1,15 @@
 from django.shortcuts import render, redirect
+from django.contrib.auth.hashers import make_password, check_password
 import random
-from .models import Exercicios, Treino, NivelDificuldade, MusculosEnvolvidos, RelExerciciosMusculos, Plano, RelTreinoExercicio, ErrosPossiveis, CondPagamento
+from django.contrib import messages
+from .models import Exercicios, Treino, NivelDificuldade, MusculosEnvolvidos, RelExerciciosMusculos, Plano, RelTreinoExercicio, ErrosPossiveis, CondPagamento, Pessoa
 
 def home(request):
     exercicios = Exercicios.objects.all()
     exercicios_count = exercicios.count()
     numero_aleatorio = random.randint(1, exercicios_count)
     exercicio = Exercicios.objects.get(id_exercicios= numero_aleatorio)
-    planos = Plano.objects.all()
+    planos = Plano.objects.exclude(id_plano=4)
 
     context ={
         'exercicio': exercicio,
@@ -32,10 +34,58 @@ def treinos(request):
     return render(request, 'treinos.html', context)
 
 def cadastro(request):
+    if request.method == 'POST':
+        nome = request.POST.get('nome')
+        email = request.POST.get('email')
+        senha1 = request.POST.get('senha1')
+        senha2 = request.POST.get('senha2')
+
+        if senha1!=senha2:
+            messages.error(request, 'Os campos de senha devem ser preenchidos com a mesma senha!')
+            context={
+                'nome': nome,
+                'email': email,
+            }
+            return redirect('cadastro', context)
+        if Pessoa.objects.filter(email=email).exists():
+            messages.error(request, 'Esse email já existe!')
+            return redirect('cadastro')
+            
+    
+        pessoa = Pessoa(
+            nome_usuario = nome,
+            email=email,
+            senha=make_password(senha1),
+            id_plano = 4,
+            id_perfil = 1
+        )
+        pessoa.save()
+        return redirect('home')
+    
     return render(request, 'cadastro.html')
 
 def login(request):
+    if request.method == 'POST':
+        email = request.POST['email']
+        senha = request.POST['senha']
+
+        try:
+            pessoa = Pessoa.objects.get(email=email)
+            if check_password(senha, pessoa.senha):
+                request.session['pessoa_id'] = pessoa.idpessoa
+                return redirect('home')
+            else:
+                messages.error(request, 'Senha incorreta!')
+
+        except Pessoa.DoesNotExist:
+            messages.error(request, 'Email não encontrado.')
+            return redirect('login')
+    
     return render(request, 'login.html')
+
+def logout(request):
+    request.session.flush()
+    return redirect('login')
 
 def montagem_treinos(request):
     exercicios = Exercicios.objects.all()

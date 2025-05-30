@@ -23,7 +23,7 @@ class Pessoa(models.Model):
     nome_usuario = models.CharField(max_length=45, blank=True, null=True)
     cpf = models.CharField(max_length=45, blank=True, null=True)
     email = models.CharField(max_length=45, blank=True, null=True)
-    senha = models.CharField(max_length=45, blank=True, null=True)
+    senha = models.CharField(max_length=130, blank=True, null=True)
     id_plano = models.IntegerField(blank=True, null=True)
     id_perfil = models.IntegerField(blank=True, null=True)
 
