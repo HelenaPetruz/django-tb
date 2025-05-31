@@ -5,6 +5,7 @@ from django.contrib import messages
 from .models import Exercicios, Treino, NivelDificuldade, MusculosEnvolvidos, RelExerciciosMusculos, Plano, RelTreinoExercicio, ErrosPossiveis, CondPagamento, Pessoa
 
 def home(request):
+
     exercicios = Exercicios.objects.all()
     exercicios_count = exercicios.count()
     numero_aleatorio = random.randint(1, exercicios_count)
@@ -15,6 +16,15 @@ def home(request):
         'exercicio': exercicio,
         'planos': planos,
     }
+
+    if 'pessoa_id' in request.session:
+        pessoa = Pessoa.objects.get(idpessoa=request.session['pessoa_id'])
+        context ={
+            'exercicio': exercicio,
+            'planos': planos,
+            'pessoa': pessoa,
+        }
+    
     return render(request, 'home.html', context)
 
 def exercicios(request):
@@ -82,6 +92,7 @@ def login(request):
             return redirect('login')
     
     return render(request, 'login.html')
+
 
 def logout(request):
     request.session.flush()

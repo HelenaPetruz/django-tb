@@ -27,6 +27,7 @@ urlpatterns = [
     path('treinos/', views.treinos, name='treinos'),
     path('cadastro/', views.cadastro, name='cadastro'),
     path('login/', views.login, name='login'),
+    path('login/', views.logout, name='logout'),
     path('montagem_treinos/', views.montagem_treinos, name='montagem_treinos'),
     path('meus_treinos/', views.meus_treinos, name='meus_treinos'),
     path('exercicio/<int:pk>', views.exercicio, name='exercicio'),
