@@ -70,14 +70,15 @@ def cadastro(request):
             id_perfil = 1
         )
         pessoa.save()
+        request.session['pessoa_id'] = pessoa.idpessoa
         return redirect('home')
     
     return render(request, 'cadastro.html')
 
 def login(request):
     if request.method == 'POST':
-        email = request.POST['email']
-        senha = request.POST['senha']
+        email = request.POST.get('email')
+        senha = request.POST.get('senha')
 
         try:
             pessoa = Pessoa.objects.get(email=email)
@@ -95,8 +96,13 @@ def login(request):
 
 
 def logout(request):
-    request.session.flush()
-    return redirect('login')
+    print("enrou na def logout")
+    if request.method == 'POST':
+        request.session.flush()
+        print("Sessão encerrada. Redirecionando para home.")
+        return redirect('home')
+    else:
+        return redirect('home')
 
 def montagem_treinos(request):
     exercicios = Exercicios.objects.all()

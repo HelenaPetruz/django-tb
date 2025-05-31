@@ -124,8 +124,9 @@
 
     <div class="row justify-content-end" id="itensEnd">
         {% if pessoa %}
+        <form method="POST" action="{% url 'logout' %}">
         <div class="col-4">
-            <div class="myItens" id="itensB"><a href="{% url 'logout' %}"  >Logout</a></div>
+            <div class="myItens" id="itensB"><a href="#" data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</a></div>
         </div>
         {% else %}
         <div class="col-4">
@@ -164,7 +165,7 @@
                 <li><a href="{% url 'meus_treinos' %}" class="nav-link">Meus Treinos</a></li>
               
                 {% if pessoa %}
-                    <li style="margin-top: 5%;"><a href="{% url 'logout' %}" class="nav-link">Log-out</a></li>
+                    <li style="margin-top: 5%;"><a href="#" data-bs-toggle="modal" data-bs-target="#logoutModal" class="nav-link">Logout</a></li>
                 {% else %}
                     <li style="margin-top: 5%;"><a href="{% url 'cadastro' %}" class="nav-link">Cadastro</a></li>
                     <li><a href="{% url 'login' %}" class="nav-link">Login</a></li>
@@ -303,9 +304,42 @@
         </div>
     </section>
 
+
+
+    <!-- Modal de confirmação de logout -->
+<div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      
+      <div class="modal-header bg-warning">
+        <h5 class="modal-title" id="logoutModalLabel">Confirmar Logout</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+      </div>
+      
+      <div class="modal-body">
+        Você tem certeza que deseja sair?
+      </div>
+      
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        
+        <form method="POST" action="{% url 'logout' %}">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-danger">Sim, sair</button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
     <!-- Importando os scripts do Bootstrap -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>
