@@ -34,6 +34,14 @@ def exercicios(request):
         'exercicios': exercicios,
         'exercicios_count': exercicios_count,
     }
+
+    if 'pessoa_id' in request.session:
+        pessoa = Pessoa.objects.get(idpessoa=request.session['pessoa_id'])
+        context = {
+        'exercicios': exercicios,
+        'exercicios_count': exercicios_count,
+        'pessoa': pessoa
+    }
     return render(request, 'exercicios.html', context)
 
 def treinos(request):
@@ -41,6 +49,14 @@ def treinos(request):
     context = {
         'treinos': treinos,
     }
+
+    if 'pessoa_id' in request.session:
+        pessoa = Pessoa.objects.get(idpessoa=request.session['pessoa_id'])
+        context = {
+        'treinos': treinos,
+        'pessoa': pessoa,
+    }
+        
     return render(request, 'treinos.html', context)
 
 def cadastro(request):
@@ -55,11 +71,30 @@ def cadastro(request):
             context={
                 'nome': nome,
                 'email': email,
+                'senha1': senha1,
+                'senha2': senha2
             }
-            return redirect('cadastro', context)
+            return render(request, 'cadastro.html', context)
+        
+        if senha1=="" or senha2=="":
+            messages.error(request, 'Insira uma senha!')
+            context={
+                'nome': nome,
+                'email': email,
+                'senha1': senha1,
+                'senha2': senha2
+            }
+            return render(request, 'cadastro.html', context)
+        
         if Pessoa.objects.filter(email=email).exists():
             messages.error(request, 'Esse email já existe!')
-            return redirect('cadastro')
+            context={
+                'nome': nome,
+                'email': email,
+                'senha1': senha1,
+                'senha2': senha2
+            }
+            return render(request, 'cadastro.html', context)
             
     
         pessoa = Pessoa(
@@ -294,10 +329,32 @@ def treino_guiado(request,pk):
     }
     return render(request,'treinoGuiado.html', context)
 
-def pagamento(request):
-    # if request.method == 'POST':
-    #     CondPagamento.objects.create(
-    #         numero_do_cartao = request.POST.get('numero_cartao'),
-    #     )
+def pagamento(request, pk):
+    plano = Plano.objects.get(id_plano=pk)
+    context={
+        'plano': plano,
+    }
 
-    return render(request, "pagamento.html")
+    if 'pessoa_id' in request.session:
+        pessoa = Pessoa.objects.get(idpessoa=request.session['pessoa_id'])
+
+        if request.method == 'POST':
+            mes = request.POST.get('data_mes')
+            ano = request.POST.get('data_ano')
+            data_validade = f"{mes.zfill(2)}/{ano}"
+            CondPagamento.objects.create(
+                numero_do_cartao = request.POST.get('numero_cartao'),
+                nome = request.POST.get('nome'),
+                id_plano = plano.id_plano,
+                data_validade = data_validade,
+                cvv = request.POST.get('cvv'),
+            )
+            pessoa.id_plano=plano.id_plano
+            pessoa.save()
+            return redirect('home')
+            
+        context={
+            'plano': plano,
+            'pessoa': pessoa,
+        }
+    return render(request, "pagamento.html", context)

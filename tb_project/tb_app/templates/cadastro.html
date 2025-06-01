@@ -25,20 +25,20 @@
                         <form method="POST">
                             {% csrf_token %}
                             <div class="mb-3">
-                                <label for="userC" class="form-label" value="{{nome}}" >Nome de usuário:</label>
-                                <input name="nome" type="text" class="form-control rounded-pill" id="userC" >
+                                <label for="userC" class="form-label">Nome de usuário:</label>
+                                <input name="nome" type="text" class="form-control rounded-pill" id="userC" value="{{nome}}">
                             </div>
                              <div class="mb-3">
-                                <label for="emailC" class="form-label" value="{{email}}">Email:</label>
-                                <input name="email" type="email" class="form-control rounded-pill" id="emailC" >
+                                <label for="emailC" class="form-label">Email:</label>
+                                <input name="email" type="email" class="form-control rounded-pill" id="emailC" value="{{email}}">
                             </div>
                             <div class="mb-3">
                                 <label for="passwordC" class="form-label">Senha:</label>
-                                <input name="senha1" type="password" class="form-control rounded-pill" id="passwordC">
+                                <input name="senha1" type="password" class="form-control rounded-pill" id="passwordC" value="{{senha1}}">
                             </div>
                              <div class="mb-3">
                                 <label for="passwordC" class="form-label">Confirme sua senha:</label>
-                                <input name="senha2" type="password" class="form-control rounded-pill" id="passwordC">
+                                <input name="senha2" type="password" class="form-control rounded-pill" id="passwordC" value="{{senha2}}">
                             </div>
                             <br>
                             <div class="text-center">
@@ -60,19 +60,25 @@
         {% if messages %}
   {% for message in messages %}
     <div class="modal fade" id="messageModal{{ forloop.counter }}" tabindex="-1" aria-labelledby="messageModalLabel{{ forloop.counter }}" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header bg-danger text-white">
-            <h5 class="modal-title" id="messageModalLabel{{ forloop.counter }}">Erro</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
-          </div>
-          <div class="modal-body">{{ message }}</div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-          </div>
-        </div>
+  <div class="modal-dialog">
+    <div class="modal-content" style="background-color: rgb(48, 40, 87); color: white;">
+      
+      <div class="modal-header" style="background-color: rgb(176, 138, 42); color: white;">
+        <h5 class="modal-title" id="messageModalLabel{{ forloop.counter }}">Erro</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fechar"></button>
       </div>
+      
+      <div class="modal-body">
+        {{ message }}
+      </div>
+      
+      <div class="modal-footer" style="background-color: rgb(48, 40, 87);">
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Fechar</button>
+      </div>
+
     </div>
+  </div>
+</div>
 
     <script>
       document.addEventListener('DOMContentLoaded', function () {

@@ -34,7 +34,7 @@ urlpatterns = [
     path('treino/<int:pk>', views.treino, name='treino'),
     path('treinoia/<int:pk>', views.treinoia, name='treinoia'),
     path('treino_guiado/<int:pk>', views.treino_guiado, name='treino_guiado'),
-    path('pagamento/', views.pagamento, name='pagamento'),
+    path('pagamento/<int:pk>', views.pagamento, name='pagamento'),
 ]
 
 if settings.DEBUG:

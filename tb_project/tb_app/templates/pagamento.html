@@ -36,60 +36,63 @@
                 
                             <div id="titleE">
                 <h1 class="text-center fw-bold text-uppercase">Plano</h1>
-                <h2 id="" class="text-center fw-bold text-uppercase">nome</h2>
+                <h2 id="" class="text-center fw-bold text-uppercase">{{plano.nome_plano}}</h2>
               
             </div>
+            {% if pessoa %}
             <form method="post" id="formSerie">
                 {% csrf_token %}
                             
-                             <div class="mb-3">
-                                <label for="cpf" class="form-label" maxlength="14" >CPF:</label>
-                                <input type="text" class="form-control rounded-pill" id="cpf" placeholder="000.000.000-00" name="cpf">
-                            </div>
-                            <div class="mb-3">
-                                <label for="nomeCartao" class="form-label" >Nome no cartão:</label>
-                                <input type="text" class="form-control rounded-pill" id="nomeCartao" name="nome_cartao">
-                            </div>
-                             <div class="mb-3">
-                                <label for="nCartao" class="form-label" maxlength="19" >Número do cartão:</label>
-                                <input type="text" class="form-control rounded-pill" id="nCartao" placeholder="0000 0000 0000 0000" name="numero_cartao">
-                            </div>
-                             <div class="mb-3">
-                                <div class="row">
-                                <div class="col-6">    
-                                <label class="form-label">Data de expiração:</label>
-                                     </div>
-                                <div class="col-3">
-                                <label class="form-label">CVV:</label>
-                                   
-                                </div>
-                                </div>
-                                <div class="row">  
-                                 <div class="col-3">     
-                                <input type="number" placeholder="Mês" class="form-control rounded-5" id="mesExp" min="1" max="12" name="exp1">
-                                </div>
-                                  <div class="col-3">
-                                 <input type="number" placeholder="Ano" class="form-control rounded-5" id="anoExp" min="2025" name="exp2">
-                                    </div>
-                                
-                                <div class="col-3">
-    
-                                 <input type="text" class="form-control rounded-pill" id="cvv" maxlength="3" placeholder="ex: 123" name="cvv">
-                            </div>
-                            </div>
-                             </div>
-                            <br>
-                            <div class="text-center">
-                                <div class="row">
-                                    <div class="col d-flex">
-                                <p class="fs-5">Valor da assinatura: R$</p>
-                                <p id="valorAss" class="fs-5">22</p>
-
-                                </div>
-                                </div>
-                                <button type="submit" class="rounded-pill"  id="btnAssinar">Assinar</button>
+                <div class="mb-3">
+                    <label for="cpf" class="form-label" maxlength="14" >CPF:</label>
+                    <input type="text" class="form-control rounded-pill" id="cpf" placeholder="000.000.000-00" name="cpf">
+                </div>
+                <div class="mb-3">
+                    <label for="nomeCartao" class="form-label" >Nome no cartão:</label>
+                    <input type="text" class="form-control rounded-pill" id="nomeCartao" name="nome">
+                </div>
+                <div class="mb-3">
+                    <label for="nCartao" class="form-label" maxlength="19" >Número do cartão:</label>
+                    <input type="text" class="form-control rounded-pill" id="nCartao" placeholder="0000 0000 0000 0000" name="numero_cartao">
+                </div>
+                <div class="mb-3">
+                    <div class="row">
+                        <div class="col-6">    
+                            <label class="form-label">Data de expiração:</label>
                         </div>
-                        </form>
+                        <div class="col-3">
+                            <label class="form-label">CVV:</label>           
+                        </div>
+                    </div>
+                    <div class="row">  
+                        <div class="col-3">     
+                            <input type="number" placeholder="Mês" class="form-control rounded-5" id="mesExp" min="1" max="12" name="data_mes">
+                        </div>
+                        <div class="col-3">
+                            <input type="number" placeholder="Ano" class="form-control rounded-5" id="anoExp" min="2025" name="data_ano">
+                        </div>
+                        <div class="col-3">
+                            <input type="text" class="form-control rounded-pill" id="cvv" maxlength="3" placeholder="ex: 123" name="cvv">
+                        </div>
+                    </div>
+                </div><br>
+                <div class="text-center">
+                    <div class="row">
+                        <div class="col d-flex">
+                            <p class="fs-5">Valor da assinatura: R$</p>
+                            <p id="valorAss" class="fs-5">22</p>
+                        </div>
+                    </div>
+                    <button type="submit" class="rounded-pill"  id="btnAssinar">Assinar</button>
+                </div>
+            </form>
+            {% else %}
+                <p>Faça login antes de adquirir um plano!</p>
+                <div  class="myItens" id="itensA"><a href="{% url 'login' %}">Login</a></div>
+                <div class="text-center mt-3">
+                    <p>Ou cadastre se <a href="{% url 'cadastro' %}">aqui</a></p>
+                </div>
+            {% endif %}
                         
                     </div>
                     <div class="col-md-6 d-flex  justify-content-center align-items-center" id="divBuddyC"  >

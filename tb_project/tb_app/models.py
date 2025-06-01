@@ -49,7 +49,7 @@ class Plano(models.Model):
 
 
 class CondPagamento(models.Model):
-    id_cond_pagamento = models.IntegerField(primary_key=True)
+    id_cond_pagamento = models.AutoField(primary_key=True)
     numero_do_cartao = models.CharField(max_length=45)
     nome = models.CharField(max_length=45)
     id_plano = models.IntegerField()

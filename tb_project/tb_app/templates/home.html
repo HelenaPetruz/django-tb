@@ -236,7 +236,7 @@
                 <div class="p-5 myContainerE rounded-5 text-center">
                     <img src="{% static 'images/ico.png' %}" class="img-fluid mb-3" style="width: 300px;" >
                     <p class="fw-bold" style="font-size: 30px;">{{plano.nome_plano}}</p>
-                    <button type="button" class="btn rounded-pill btnSalvarT" style="font-size: 25px;"><a href="{% url 'pagamento' %}">Assine aqui</a></button>
+                    <button type="button" class="btn rounded-pill btnSalvarT" style="font-size: 25px;"><a href="{% url 'pagamento' plano.id_plano %}">Assine aqui</a></button>
                 </div>
             </div>
             {% endfor %}
@@ -306,14 +306,14 @@
 
 
 
-    <!-- Modal de confirmação de logout -->
+<!-- Modal de confirmação de logout -->
 <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
   <div class="modal-dialog">
-    <div class="modal-content">
+    <div class="modal-content" style="background-color: rgb(48, 40, 87); color: white;">
       
-      <div class="modal-header bg-warning">
+      <div class="modal-header" style="background-color: rgb(176, 138, 42); color: white;">
         <h5 class="modal-title" id="logoutModalLabel">Confirmar Logout</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fechar"></button>
       </div>
       
       <div class="modal-body">
@@ -321,11 +321,11 @@
       </div>
       
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn" style="background-color: #6c757d; color: white;" data-bs-dismiss="modal">Cancelar</button>
         
         <form method="POST" action="{% url 'logout' %}">
           {% csrf_token %}
-          <button type="submit" class="btn btn-danger">Sim, sair</button>
+          <button type="submit" class="btn" style="background-color: rgb(176, 138, 42); color: white;">Sim, sair</button>
         </form>
       </div>
 

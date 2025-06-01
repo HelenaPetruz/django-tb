@@ -23,12 +23,20 @@
             <div  class="myItens" id="itensA"> <a href="{% url 'treinos' %}" target="_blank" >Treinos </a></div>
            
             <div class="row justify-content-end" id="itensEnd">
+              {% if pessoa %}
+              <form method="POST" action="{% url 'logout' %}">
                 <div class="col-4">
-            <div class="myItens" id="itensB"><a href="{% url 'cadastro' %}"  >Cadastro</a></div>
-        </div>
-        <div class="col-4">
-               <div class="myItens" id="itensA"><a href="{% url 'login' %}">Login</a></div>
-           </div>
+                  <div class="myItens" id="itensB"><a href="#" data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</a></div>
+                </div>
+              {% else %}
+              <div class="col-4">
+                <div class="myItens" id="itensB"><a href="{% url 'cadastro' %}"  >Cadastro</a></div>
+              </div>
+              <div class="col-4">
+                <div class="myItens" id="itensA"><a href="{% url 'login' %}">Login</a></div>
+              </div>
+            {% endif %}
+
           </div>
         </div>
 
@@ -58,8 +66,12 @@
                   <li><a href="{% url 'meus_treinos' %}" class="nav-link">Meus Treinos</a></li>
                 
   
-                  <li style="margin-top: 5%;"><a href="{% url 'cadastro' %}" class="nav-link">Cadastro</a></li>
-                  <li><a href="{% url 'login' %}" class="nav-link">Login</a></li>
+                  {% if pessoa %}
+                    <li style="margin-top: 5%;"><a href="#" data-bs-toggle="modal" data-bs-target="#logoutModal" class="nav-link">Logout</a></li>
+                  {% else %}
+                    <li style="margin-top: 5%;"><a href="{% url 'cadastro' %}" class="nav-link">Cadastro</a></li>
+                    <li><a href="{% url 'login' %}" class="nav-link">Login</a></li>
+                  {% endif %}
               </ul>
               </div>
           </div>
