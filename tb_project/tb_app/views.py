@@ -302,7 +302,7 @@ def treino_guiado(request,pk):
             if not ultima_serie_do_ultimo_exercicio:
                 mostrar_descanso = True
                 request.session['mostrar_descanso'] = True
-                return redirect('treinoia', pk=pk)
+                return redirect('treino_guiado', pk=pk)
             else:
                 request.session.flush() # apaga tudo da session
                 return redirect('home')
