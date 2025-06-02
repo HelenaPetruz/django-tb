@@ -106,7 +106,20 @@ def cadastro(request):
         )
         pessoa.save()
         request.session['pessoa_id'] = pessoa.idpessoa
-        return redirect('home')
+
+        cadastro_sucesso = True
+        exercicios = Exercicios.objects.all()
+        exercicios_count = exercicios.count()
+        numero_aleatorio = random.randint(1, exercicios_count)
+        exercicio = Exercicios.objects.get(id_exercicios= numero_aleatorio)
+        planos = Plano.objects.exclude(id_plano=4)
+        context ={
+            'exercicio': exercicio,
+            'planos': planos,
+            'pessoa': pessoa,
+            'cadastro_sucesso': cadastro_sucesso
+        }
+        return render(request, 'home.html', context)
     
     return render(request, 'cadastro.html')
 

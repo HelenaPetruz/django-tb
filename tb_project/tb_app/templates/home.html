@@ -304,6 +304,31 @@
         </div>
     </section>
 
+{% if cadastro_sucesso %}
+    <!-- cadastro sucesso -->
+<div class="modal fade" id="modalCadFeito" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered"> 
+    <div class="modal-content rounded-5">
+      <div class="modal-header">
+        <h3 class="modal-title fw-bold" id="exampleModalLabel">Aviso do Buddy</h3>
+       
+      </div>
+      <div class="modal-body">
+        Yeah!! cadastro realizado com sucesso ᕙ(`▿´)ᕗ
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn rounded-5 btnOk" data-bs-dismiss="modal">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+   var modal = new bootstrap.Modal(document.getElementById('modalCadFeito'));
+   modal.show();
+
+</script>
+{% endif %}
 
 
 <!-- Modal de confirmação de logout -->
