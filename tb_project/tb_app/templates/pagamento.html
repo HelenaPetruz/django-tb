@@ -39,7 +39,6 @@
                 <h2 id="" class="text-center fw-bold text-uppercase">{{plano.nome_plano}}</h2>
               
             </div>
-            {% if pessoa %}
             <form method="post" id="formSerie">
                 {% csrf_token %}
                             
@@ -86,13 +85,6 @@
                     <button type="submit" class="rounded-pill"  id="btnAssinar">Assinar</button>
                 </div>
             </form>
-            {% else %}
-                <p>Faça login antes de adquirir um plano!</p>
-                <div  class="myItens" id="itensA"><a href="{% url 'login' %}">Login</a></div>
-                <div class="text-center mt-3">
-                    <p>Ou cadastre se <a href="{% url 'cadastro' %}">aqui</a></p>
-                </div>
-            {% endif %}
                         
                     </div>
                     <div class="col-md-6 d-flex  justify-content-center align-items-center" id="divBuddyC"  >
@@ -101,6 +93,34 @@
                 </div>
             </div>
         </div>
+
+<!-- planos -->
+<div class="modal fade" id="modalCadPlan" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered"> 
+    <div class="modal-content rounded-5">
+      <div class="modal-header">
+        <h3 class="modal-title fw-bold" id="exampleModalLabel">Aviso do Buddy</h3>
+       
+      </div>
+      <div class="modal-body">
+  Ops, se cadastre antes de escolher um plano ;)
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn rounded-5 btnOk" data-bs-dismiss="modal">Cadastrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% if faca_login_antes %}
+<script>
+  window.onload = function() {
+    var modal = new bootstrap.Modal(document.getElementById('modalCadPlan'));
+    modal.show();
+  };
+</script>
+{% endif %}
+
+
 	<script>
   const cpfInput = document.getElementById('cpf');
 

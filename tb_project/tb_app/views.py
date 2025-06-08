@@ -372,6 +372,14 @@ def pagamento(request, pk):
             pessoa.id_plano=plano.id_plano
             pessoa.save()
             return redirect('home')
+        
+    else:
+        faca_login_antes = True
+        context={
+            'plano': plano,
+            'pessoa': pessoa,
+            'faca_login_antes': faca_login_antes,
+        }
             
         context={
             'plano': plano,

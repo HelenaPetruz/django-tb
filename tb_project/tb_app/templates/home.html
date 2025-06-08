@@ -394,10 +394,9 @@
     <div class="modal-content rounded-5">
       <div class="modal-header">
         <h3 class="modal-title fw-bold" id="exampleModalLabel">Aviso do Buddy</h3>
-       
       </div>
       <div class="modal-body">
-   Parabéns, treino concluído!! ᕙ(`▿´)ᕗ
+        Parabéns, treino concluído!! ᕙ(`▿´)ᕗ
       <div class="modal-footer">
         <button type="button" class="btn rounded-5 btnOk" data-bs-dismiss="modal">OK</button>
       </div>
@@ -415,30 +414,24 @@
 
 
 <!-- Modal de confirmação de logout -->
-<div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content" style="background-color: rgb(48, 40, 87); color: white;">
-      
-      <div class="modal-header" style="background-color: rgb(176, 138, 42); color: white;">
-        <h5 class="modal-title" id="logoutModalLabel">Confirmar Logout</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fechar"></button>
+<div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered"> 
+    <div class="modal-content rounded-5">
+      <div class="modal-header">
+        <h3 class="modal-title fw-bold" id="exampleModalLabel">Aviso do Buddy</h3>
       </div>
-      
       <div class="modal-body">
-        Você tem certeza que deseja sair?
-      </div>
-      
+        Já vai? :( Você tem certeza que deseja sair?
       <div class="modal-footer">
-        <button type="button" class="btn" style="background-color: #6c757d; color: white;" data-bs-dismiss="modal">Cancelar</button>
-        
+        <button type="button" class="btn rounded-5 btnOk" data-bs-dismiss="modal">Cancelar</button>
         <form method="POST" action="{% url 'logout' %}">
-          {% csrf_token %}
-          <button type="submit" class="btn" style="background-color: rgb(176, 138, 42); color: white;">Sim, sair</button>
+        {% csrf_token %}
+        <button type="submit" class="btn rounded-5 btnOk" data-bs-dismiss="modal">Sim, sair</button>
         </form>
       </div>
-
     </div>
   </div>
+</div>
 </div>
 
 
