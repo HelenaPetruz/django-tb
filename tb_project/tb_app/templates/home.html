@@ -66,10 +66,39 @@
     justify-content: space-between; /* distribui conteúdo sem sair do limite */
 }
 
+    .modal-footer {
+    border: none !important;
+  }
+  .modal-header{
+    border-bottom: 2px rgb(48,40,87) solid;
+  }
 
+  .modal-content{
+    padding: 2%;
+       background-color: #44377d;
+       color: #f4bf3a;
+          font-family: Poppins, sans-serif;
+  }
 
+  .btnOk{
+   background-color:#f4bf3a;  
+        padding: 2%;
+        /* margin-top: 5%; */
+        padding-left:7% ;
+        padding-right:7% ;
+        font-size: 18px;
+        color:rgb(48,40,87);
+        font-weight: bold;
+        border: 2px #f4bf3a solid ;
+  }
 
-
+  .btnOk:hover{
+        background-color:#44377d;
+        border: 2px #f4bf3a solid ;
+        a{
+      color:#f4bf3a;
+        }
+    }
 
         /* Responsividade para todas as larguras de tela */
 
@@ -304,7 +333,7 @@
         </div>
     </section>
 
-{% if cadastro_sucesso %}
+
     <!-- cadastro sucesso -->
 <div class="modal fade" id="modalCadFeito" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered"> 
@@ -322,11 +351,65 @@
     </div>
   </div>
 </div>
-
+{% if cadastro_sucesso %}
 <script>
-   var modal = new bootstrap.Modal(document.getElementById('modalCadFeito'));
-   modal.show();
+  window.onload = function() {
+    var modal = new bootstrap.Modal(document.getElementById('modalCadFeito'));
+    modal.show();
+  };
+</script>
+{% endif %}
 
+
+<!-- login -->
+<div class="modal fade" id="modalLoginFeito" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered"> 
+    <div class="modal-content rounded-5">
+      <div class="modal-header">
+        <h3 class="modal-title fw-bold" id="exampleModalLabel">Aviso do Buddy</h3>
+       
+      </div>
+      <div class="modal-body">
+     Yeah!! login realizado com sucesso, que bom te ver novamente ᕙ(`▿´)ᕗ
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn rounded-5 btnOk" data-bs-dismiss="modal">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% if login_sucesso %}
+<script>
+  window.onload = function() {
+    var modal = new bootstrap.Modal(document.getElementById('modalLoginFeito'));
+    modal.show();
+  };
+</script>
+{% endif %}
+
+
+<!-- fim de treino -->
+<div class="modal fade" id="modalTreinoTerm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered"> 
+    <div class="modal-content rounded-5">
+      <div class="modal-header">
+        <h3 class="modal-title fw-bold" id="exampleModalLabel">Aviso do Buddy</h3>
+       
+      </div>
+      <div class="modal-body">
+   Parabéns, treino concluído!! ᕙ(`▿´)ᕗ
+      <div class="modal-footer">
+        <button type="button" class="btn rounded-5 btnOk" data-bs-dismiss="modal">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% if fim_de_treino %}
+<script>
+  window.onload = function() {
+    var modal = new bootstrap.Modal(document.getElementById('modalTreinoTerm'));
+    modal.show();
+  };
 </script>
 {% endif %}
 

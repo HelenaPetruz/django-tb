@@ -12,9 +12,17 @@ def home(request):
     exercicio = Exercicios.objects.get(id_exercicios= numero_aleatorio)
     planos = Plano.objects.exclude(id_plano=4)
 
+    #popups
+    cadastro_sucesso = request.session.pop('cadastro_sucesso', False)
+    login_sucesso = request.session.pop('login_sucesso', False)
+    fim_de_treino = request.session.pop('fim_de_treino', False)
+
     context ={
         'exercicio': exercicio,
         'planos': planos,
+        'cadastro_sucesso': cadastro_sucesso,
+        'login_sucesso': login_sucesso,
+        'fim_de_treino': fim_de_treino
     }
 
     if 'pessoa_id' in request.session:
@@ -23,6 +31,9 @@ def home(request):
             'exercicio': exercicio,
             'planos': planos,
             'pessoa': pessoa,
+            'cadastro_sucesso': cadastro_sucesso,
+            'login_sucesso': login_sucesso,
+            'fim_de_treino': fim_de_treino
         }
     
     return render(request, 'home.html', context)
@@ -107,19 +118,8 @@ def cadastro(request):
         pessoa.save()
         request.session['pessoa_id'] = pessoa.idpessoa
 
-        cadastro_sucesso = True
-        exercicios = Exercicios.objects.all()
-        exercicios_count = exercicios.count()
-        numero_aleatorio = random.randint(1, exercicios_count)
-        exercicio = Exercicios.objects.get(id_exercicios= numero_aleatorio)
-        planos = Plano.objects.exclude(id_plano=4)
-        context ={
-            'exercicio': exercicio,
-            'planos': planos,
-            'pessoa': pessoa,
-            'cadastro_sucesso': cadastro_sucesso
-        }
-        return render(request, 'home.html', context)
+        request.session['cadastro_sucesso'] = True
+        return redirect('home')
     
     return render(request, 'cadastro.html')
 
@@ -132,6 +132,7 @@ def login(request):
             pessoa = Pessoa.objects.get(email=email)
             if check_password(senha, pessoa.senha):
                 request.session['pessoa_id'] = pessoa.idpessoa
+                request.session['login_sucesso'] = True
                 return redirect('home')
             else:
                 messages.error(request, 'Senha incorreta!')
@@ -210,6 +211,7 @@ def treinoia(request,pk):
             # Zera a sessão
             request.session.pop('indice', None)
             request.session.pop('serie_atual', None)
+            request.session['fim_de_treino'] = True
             return redirect('home')
     
     exercicio_atual = exercicios[indice]
@@ -229,6 +231,7 @@ def treinoia(request,pk):
                 return redirect('treinoia', pk=pk)
             else:
                 request.session.flush() # apaga tudo da session
+                request.session['fim_de_treino'] = True
                 return redirect('home')
 
         
@@ -245,6 +248,7 @@ def treinoia(request,pk):
                     serie_atual=0
                 else: # se acabou tudo
                     request.session.flush() # apaga tudo da session
+                    request.session['fim_de_treino'] = True
                     return redirect('home')
         
         # Atualiza sessões
@@ -284,6 +288,7 @@ def treino_guiado(request,pk):
             # Zera a sessão
             request.session.pop('indice', None)
             request.session.pop('serie_atual', None)
+            request.session['fim_de_treino'] = True
             return redirect('home')
     
     exercicio_atual = exercicios[indice]
@@ -302,9 +307,10 @@ def treino_guiado(request,pk):
             if not ultima_serie_do_ultimo_exercicio:
                 mostrar_descanso = True
                 request.session['mostrar_descanso'] = True
-                return redirect('treinoia', pk=pk)
+                return redirect('treino_guiado', pk=pk)
             else:
                 request.session.flush() # apaga tudo da session
+                request.session['fim_de_treino'] = True
                 return redirect('home')
         else:
             # Segunda vez clicando, desativa descanso e avança série ou exercício
@@ -319,6 +325,7 @@ def treino_guiado(request,pk):
                     serie_atual=0
                 else: # se acabou tudo
                     request.session.flush() # apaga tudo da session
+                    request.session['fim_de_treino'] = True
                     return redirect('home')
         
         # Atualiza sessões
