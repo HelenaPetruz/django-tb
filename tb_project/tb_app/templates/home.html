@@ -148,8 +148,13 @@
 <div id="menuH">
     <div id="icone"> <img src="{% static 'images/ico.png' %}" height="150" width="150"> </div>
     <div class="myItens" id="itensB" ><a href="#planos"> Planos</a> </div>
+    {% if pessoa %}
     <div  class="myItens" id="itensA"> <a href="{% url 'treinos' %}" target="_blank" >Treinos </a></div>
     <div class="myItens" id="itensA"> <a href="{% url 'exercicios' %}" > Exercícios</a> </div>
+    {% else %}
+    <div  class="myItens" id="itensA"> <a href="{% url 'treinos' %}" data-bs-toggle="modal" data-bs-target="#modalTreinoCad" >Treinos </a></div>
+    <div class="myItens" id="itensA"> <a href="{% url 'exercicios' %}" data-bs-toggle="modal" data-bs-target="#modalExCad"> Exercícios</a> </div>
+    {% endif %}
 
     <div class="row justify-content-end" id="itensEnd">
         {% if pessoa %}
@@ -352,6 +357,42 @@
     </div>
   </div>
 </div>
+</div>
+
+<!-- exercícios -->
+<div class="modal fade" id="modalExCad" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered"> 
+    <div class="modal-content rounded-5">
+      <div class="modal-header">
+        <h3 class="modal-title fw-bold" id="exampleModalLabel">Aviso do Buddy</h3>
+       
+      </div>
+      <div class="modal-body">
+     Cadastre-se agora para ver nossa coleção de exercícios ᕙ(`▿´)ᕗ
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn rounded-5 btnOk" data-bs-dismiss="modal"><a href="{% url 'cadastro' %}">Cadastrar</a></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- treinos -->
+<div class="modal fade" id="modalTreinoCad" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered"> 
+    <div class="modal-content rounded-5">
+      <div class="modal-header">
+        <h3 class="modal-title fw-bold" id="exampleModalLabel">Aviso do Buddy</h3>
+       
+      </div>
+      <div class="modal-body">
+    Se cadastre para acessar nossos treinos ᕙ(`▿´)ᕗ
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn rounded-5 btnOk" data-bs-dismiss="modal"><a href="{% url 'cadastro' %}">Cadastrar</a></button>
+      </div>
+    </div>
+  </div>
 </div>
 
     <!-- cadastro sucesso -->
