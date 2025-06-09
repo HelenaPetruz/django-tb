@@ -72,18 +72,18 @@ class NivelDificuldade(models.Model):
         db_table = 'nivel_dificuldade'
 
 class Exercicios(models.Model):
-    id_exercicios = models.IntegerField(primary_key=True)  # The composite primary key (id_exercicios, id_nivel_dificuldade) found, that is not supported. The first column is selected.
+    id_exercicios = models.IntegerField(primary_key=True)  # The composite primary key (id_exercicios, id_nivel_dificuldade_id) found, that is not supported. The first column is selected.
     nome_exercicio = models.CharField(max_length=45)
     descricao = models.CharField(max_length=1000)
     id_nivel_dificuldade = models.ForeignKey('NivelDificuldade', models.DO_NOTHING)
     imagem = models.ImageField(null=True, default="tb.png", upload_to='exercicios/')
     link_ia = models.CharField(db_column='link_IA', max_length=150, blank=True, null=True)  # Field name made lowercase.
+    video = models.FileField(max_length=45, blank=True, null=True, upload_to='videos/')
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'exercicios'
-        unique_together = (('id_exercicios', 'id_nivel_dificuldade'))
-
+        unique_together = (('id_exercicios', 'id_nivel_dificuldade'), ('id_exercicios', 'id_nivel_dificuldade'),)
     def __str__(self):
         return self.nome_exercicio
 
