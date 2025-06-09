@@ -153,7 +153,7 @@
 
     <div class="row justify-content-end" id="itensEnd">
         {% if pessoa %}
-        <form method="POST" action="{% url 'logout' %}">
+        <!-- <form method="POST" action="{% url 'logout' %}"> -->
         <div class="col-4">
             <div class="myItens" id="itensB"><a href="#" data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</a></div>
         </div>
@@ -333,6 +333,26 @@
         </div>
     </section>
 
+<!-- Modal de confirmação de logout -->
+<div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered"> 
+    <div class="modal-content rounded-5">
+      <div class="modal-header">
+        <h3 class="modal-title fw-bold" id="exampleModalLabel">Aviso do Buddy</h3>
+      </div>
+      <div class="modal-body">
+        Já vai? :( Você tem certeza que deseja sair?
+      <div class="modal-footer">
+        <button type="button" class="btn rounded-5 btnOk" data-bs-dismiss="modal">Cancelar</button>
+        <form method="POST" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit" class="btn rounded-5 btnOk" data-bs-dismiss="modal">Sim, sair</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
 
     <!-- cadastro sucesso -->
 <div class="modal fade" id="modalCadFeito" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -411,28 +431,6 @@
   };
 </script>
 {% endif %}
-
-
-<!-- Modal de confirmação de logout -->
-<div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-<div class="modal-dialog modal-dialog-centered"> 
-    <div class="modal-content rounded-5">
-      <div class="modal-header">
-        <h3 class="modal-title fw-bold" id="exampleModalLabel">Aviso do Buddy</h3>
-      </div>
-      <div class="modal-body">
-        Já vai? :( Você tem certeza que deseja sair?
-      <div class="modal-footer">
-        <button type="button" class="btn rounded-5 btnOk" data-bs-dismiss="modal">Cancelar</button>
-        <form method="POST" action="{% url 'logout' %}">
-        {% csrf_token %}
-        <button type="submit" class="btn rounded-5 btnOk" data-bs-dismiss="modal">Sim, sair</button>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-</div>
 
 
 
