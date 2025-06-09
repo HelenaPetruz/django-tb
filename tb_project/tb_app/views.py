@@ -49,10 +49,13 @@ def exercicios(request):
     if 'pessoa_id' in request.session:
         pessoa = Pessoa.objects.get(idpessoa=request.session['pessoa_id'])
         context = {
-        'exercicios': exercicios,
-        'exercicios_count': exercicios_count,
-        'pessoa': pessoa
-    }
+            'exercicios': exercicios,
+            'exercicios_count': exercicios_count,
+            'pessoa': pessoa
+        }
+    else:
+        messages.error(request, 'Ops! Você não tem acesso à essa página')
+        
     return render(request, 'exercicios.html', context)
 
 def treinos(request):
@@ -145,7 +148,7 @@ def login(request):
 
 
 def logout(request):
-    print("enrou na def logout")
+    print("entrou na def logout")
     if request.method == 'POST':
         request.session.flush()
         print("Sessão encerrada. Redirecionando para home.")
@@ -177,6 +180,7 @@ def exercicio(request, pk):
     return render(request, 'pgExercicio.html', context)
 
 def treino(request, pk):
+
     treino = Treino.objects.get(id_treino=pk)
     rel_treino_exercicio = RelTreinoExercicio.objects.filter(id_treino=pk)
     exercicios = Exercicios.objects.filter(id_exercicios__in=[rel.id_exercicio for rel in rel_treino_exercicio])
@@ -372,17 +376,16 @@ def pagamento(request, pk):
             pessoa.id_plano=plano.id_plano
             pessoa.save()
             return redirect('home')
+        context={
+            'plano': plano,
+            'pessoa': pessoa,
+        }
         
     else:
         faca_login_antes = True
         context={
             'plano': plano,
-            'pessoa': pessoa,
             'faca_login_antes': faca_login_antes,
         }
-            
-        context={
-            'plano': plano,
-            'pessoa': pessoa,
-        }
+
     return render(request, "pagamento.html", context)

@@ -270,8 +270,12 @@
                 <div class="p-5 myContainerE rounded-5 text-center">
                     <img src="{% static 'images/ico.png' %}" class="img-fluid mb-3" style="width: 300px;" >
                     <p class="fw-bold" style="font-size: 30px;">{{plano.nome_plano}}</p>
+                    {% if pessoa %}
                     <button type="button" class="btn rounded-pill btnSalvarT" style="font-size: 25px;"><a href="{% url 'pagamento' plano.id_plano %}">Assine aqui</a></button>
-                </div>
+                    {% else %}
+                    <button type="button" class="btn rounded-pill btnSalvarT" style="font-size: 25px;" data-bs-toggle="modal" data-bs-target="#modalCadPlan"><a>Assine aqui</a></button>
+                    {% endif %}
+                  </div>
             </div>
             {% endfor %}
         </div>
@@ -387,6 +391,24 @@
       </div>
       <div class="modal-body">
     Se cadastre para acessar nossos treinos ᕙ(`▿´)ᕗ
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn rounded-5 btnOk" data-bs-dismiss="modal"><a href="{% url 'cadastro' %}">Cadastrar</a></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- planos -->
+<div class="modal fade" id="modalCadPlan" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered"> 
+    <div class="modal-content rounded-5">
+      <div class="modal-header">
+        <h3 class="modal-title fw-bold" id="exampleModalLabel">Aviso do Buddy</h3>
+       
+      </div>
+      <div class="modal-body">
+  Ops, se cadastre antes de escolher um plano ;)
       </div>
       <div class="modal-footer">
         <button type="button" class="btn rounded-5 btnOk" data-bs-dismiss="modal"><a href="{% url 'cadastro' %}">Cadastrar</a></button>
