@@ -90,6 +90,10 @@
         color:rgb(48,40,87);
         font-weight: bold;
         border: 2px #f4bf3a solid ;
+        a{
+          color:rgb(48,40,87);
+          text-decoration: none;
+        }
   }
 
   .btnOk:hover{
@@ -143,71 +147,88 @@
     </style>
 </head>
 <body id="bodyH">
-    <nav>
-   
-<div id="menuH">
-    <div id="icone"> <img src="{% static 'images/ico.png' %}" height="150" width="150"> </div>
-    <div class="myItens" id="itensB" ><a href="#planos"> Planos</a> </div>
+  <nav>
+
     {% if pessoa %}
-    <div  class="myItens" id="itensA"> <a href="{% url 'treinos' %}" target="_blank" >Treinos </a></div>
-    <div class="myItens" id="itensA"> <a href="{% url 'exercicios' %}" > Exercícios</a> </div>
-    {% else %}
-    <div  class="myItens" id="itensA"> <a href="{% url 'treinos' %}" data-bs-toggle="modal" data-bs-target="#modalTreinoCad" >Treinos </a></div>
-    <div class="myItens" id="itensA"> <a href="{% url 'exercicios' %}" data-bs-toggle="modal" data-bs-target="#modalExCad"> Exercícios</a> </div>
-    {% endif %}
-
-    <div class="row justify-content-end" id="itensEnd">
-        {% if pessoa %}
-        <!-- <form method="POST" action="{% url 'logout' %}"> -->
-        <div class="col-4">
-            <div class="myItens" id="itensB"><a href="#" data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</a></div>
-        </div>
-        {% else %}
-        <div class="col-4">
-            <div class="myItens" id="itensB"><a href="{% url 'cadastro' %}"  >Cadastro</a></div>
-        </div>
-        <div class="col-4">
-            <div class="myItens" id="itensA"><a href="{% url 'login' %}">Login</a></div>
-        </div>
-        {% endif %}
-    </div>
-</div>
-
-<div id="menuHsm">
-    <nav class="navbar">
-        <div class="container-fluid">
-             <div id="icone"> <img src="{% static 'images/ico.png' %}" height="100" width="100"> </div>
-            <button class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" id="btnMenu">
-                <i class="bi bi-list" style="font-size: 30px;"></i> 
-            </button>
-        </div>
-    </nav>
-    
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
-        <div class="offcanvas-header">
-            <h5 class="offcanvas-title fs-1 " id="offcanvasRightLabel" style="color: #f4bf3a;">TrainerBuddy</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <hr>
-        <div class="offcanvas-body">
-            <ul class="list-unstyled fs-5">
-             
-                <li><a href="{% url 'home' %}#planos" class="nav-link">Planos</a></li>
-                <li><a href="{% url 'exercicios' %}" class="nav-link">Exercícios</a></li>
-                <li><a href="{% url 'treinos' %}" class="nav-link">Treinos</a></li>
-                <li><a href="{% url 'montagem_treinos' %}" class="nav-link">Montagem de Treinos</a></li>
-                <li><a href="{% url 'meus_treinos' %}" class="nav-link">Meus Treinos</a></li>
+      <div id="menuHUser" style=" background-color: #312854;">
+      <nav class="navbar">
+          <div class="container-fluid">
+              <div id="icone"> <img src="{% static 'images/ico.png' %}" height="100" width="100"> </div>
+              <button class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" id="btnMenu">
+                  <i class="bi bi-list" style="font-size: 30px;"></i> 
+              </button>
+          </div>
+      </nav>
+      
+      <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+          <div class="offcanvas-header">
+              <h5 class="offcanvas-title fs-1 " id="offcanvasRightLabel" style="color: #f4bf3a;">TrainerBuddy</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          </div>
+          <hr>
+          <div class="offcanvas-body">
+              <ul class="list-unstyled fs-5">
               
-                {% if pessoa %}
-                    <li style="margin-top: 5%;"><a href="#" data-bs-toggle="modal" data-bs-target="#logoutModal" class="nav-link">Logout</a></li>
-                {% else %}
-                    <li style="margin-top: 5%;"><a href="{% url 'cadastro' %}" class="nav-link">Cadastro</a></li>
-                    <li><a href="{% url 'login' %}" class="nav-link">Login</a></li>
-                {% endif %}
-            </ul>
+                  <li><a href="{% url 'home' %}#planos" class="nav-link">Planos</a></li>
+                  <li><a href="{% url 'exercicios' %}" class="nav-link">Exercícios</a></li>
+                  <li><a href="{% url 'treinos' %}" class="nav-link">Treinos</a></li>
+                  <li><a href="{% url 'montagem_treinos' %}" class="nav-link">Montagem de Treinos</a></li>
+                  {% if pessoa.id_plano == 2 or pessoa.id_plano == 3 %}
+                  <li><a href="{% url 'meus_treinos' %}" class="nav-link">Meus Treinos</a></li>
+                  {% endif %}
+                  <li style="margin-top: 5%;"><a href="#" data-bs-toggle="modal" data-bs-target="#logoutModal" class="nav-link">Logout</a></li>
+              </ul>
+          </div>
+      </div>
+      </div>
+
+    {% else %}
+      <div id="menuH">
+        <div id="icone"> <img src="{% static 'images/ico.png' %}" height="150" width="150"> </div>
+        <div class="myItens" id="itensB" ><a href="#planos"> Planos</a> </div>
+        <div  class="myItens" id="itensA"> <a href="{% url 'treinos' %}" data-bs-toggle="modal" data-bs-target="#modalTreinoCad" >Treinos </a></div>
+        <div class="myItens" id="itensA"> <a href="{% url 'exercicios' %}" data-bs-toggle="modal" data-bs-target="#modalExCad"> Exercícios</a> </div>
+
+        <div class="row justify-content-end" id="itensEnd">
+            <div class="col-4">
+                <div class="myItens" id="itensB"><a href="{% url 'cadastro' %}"  >Cadastro</a></div>
+            </div>
+            <div class="col-4">
+                <div class="myItens" id="itensA"><a href="{% url 'login' %}">Login</a></div>
+            </div>
         </div>
-    </div>
-    </div></nav>
+      </div>
+
+      <div id="menuHsm">
+      <nav class="navbar">
+          <div class="container-fluid">
+              <div id="icone"> <img src="{% static 'images/ico.png' %}" height="100" width="100"> </div>
+              <button class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" id="btnMenu">
+                  <i class="bi bi-list" style="font-size: 30px;"></i> 
+              </button>
+          </div>
+      </nav>
+      <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+          <div class="offcanvas-header">
+              <h5 class="offcanvas-title fs-1 " id="offcanvasRightLabel" style="color: #f4bf3a;">TrainerBuddy</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          </div>
+          <hr>
+          <div class="offcanvas-body">
+              <ul class="list-unstyled fs-5">
+                  <li><a href="{% url 'home' %}#planos" class="nav-link">Planos</a></li>
+                  <li><a href="#" data-bs-toggle="modal" data-bs-target="#modalExCad" class="nav-link">Exercícios</a></li>
+                  <li><a href="#" data-bs-toggle="modal" data-bs-target="#modalTreinoCad" class="nav-link">Treinos</a></li>
+                  <li style="margin-top: 5%;"><a href="{% url 'cadastro' %}" class="nav-link">Cadastro</a></li>
+                  <li><a href="{% url 'login' %}" class="nav-link">Login</a></li>
+              </ul>
+          </div>
+      </div>
+      </div>
+
+    {% endif %}
+  
+  </nav>
 
     <section id="home" class="bgH1 text-white">
        <div class="container d-flex justify-content-center align-items-center ">
