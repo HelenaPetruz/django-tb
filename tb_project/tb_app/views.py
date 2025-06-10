@@ -11,18 +11,21 @@ def home(request):
     numero_aleatorio = random.randint(1, exercicios_count)
     exercicio = Exercicios.objects.get(id_exercicios= numero_aleatorio)
     planos = Plano.objects.exclude(id_plano=4)
+    
 
     #popups
     cadastro_sucesso = request.session.pop('cadastro_sucesso', False)
     login_sucesso = request.session.pop('login_sucesso', False)
     fim_de_treino = request.session.pop('fim_de_treino', False)
+    assinatura_feita = request.session.pop('assinatura_feita', False)
 
     context ={
         'exercicio': exercicio,
         'planos': planos,
         'cadastro_sucesso': cadastro_sucesso,
         'login_sucesso': login_sucesso,
-        'fim_de_treino': fim_de_treino
+        'fim_de_treino': fim_de_treino,
+        'assinatura_feita': assinatura_feita
     }
 
     if 'pessoa_id' in request.session:
@@ -33,7 +36,8 @@ def home(request):
             'pessoa': pessoa,
             'cadastro_sucesso': cadastro_sucesso,
             'login_sucesso': login_sucesso,
-            'fim_de_treino': fim_de_treino
+            'fim_de_treino': fim_de_treino,
+            'assinatura_feita': assinatura_feita
         }
     
     return render(request, 'home.html', context)
@@ -375,17 +379,12 @@ def pagamento(request, pk):
             )
             pessoa.id_plano=plano.id_plano
             pessoa.save()
+            request.session['assinatura_feita'] = True
             return redirect('home')
+        
         context={
             'plano': plano,
             'pessoa': pessoa,
-        }
-        
-    else:
-        faca_login_antes = True
-        context={
-            'plano': plano,
-            'faca_login_antes': faca_login_antes,
         }
 
     return render(request, "pagamento.html", context)

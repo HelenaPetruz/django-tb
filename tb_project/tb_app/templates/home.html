@@ -175,7 +175,7 @@
                   {% if pessoa.id_plano == 2 or pessoa.id_plano == 3 %}
                   <li><a href="{% url 'montagem_treinos' %}" class="nav-link">Montagem de Treinos</a></li>
                   {% else %}
-                  <li><a href="#" data-bs-toggle="modal" data-bs-target="#modalPremiumTIA" class="nav-link">Montagem de Treinos</a></li>
+                  <li><a href="#" data-bs-toggle="modal" data-bs-target="#modalAssMT" class="nav-link">Montagem de Treinos</a></li>
                   {% endif %}
                   {% if pessoa.id_plano == 2 or pessoa.id_plano == 3 %}
                   <li><a href="{% url 'meus_treinos' %}" class="nav-link">Meus Treinos</a></li>
@@ -241,7 +241,12 @@
                
                   <img src="{% static 'images/TrainerBuddy.png' %}" style="width: 100%;" >
                   <h6 class="fw-lighter fw-medium fs-5" style="color: white; font-size: 35px">Seu parceiro de treinos inteligente!</h6>
-                  <div class="fw-bold boraTreinar rounded-pill  fs-5" ><a href="{% url 'cadastro' %}">Bora treinar :)</a> </div>
+                  {% if pessoa %}
+                    <div class="fw-bold boraTreinar rounded-pill  fs-5" ><a href="{% url 'treinos' %}">Bora treinar :)</a> </div>
+                  {% else %}
+                    <div class="fw-bold boraTreinar rounded-pill  fs-5" ><a href="{% url 'cadastro' %}">Bora treinar :)</a> </div>
+                  {% endif %}
+
                   {% if pessoa %}
                   <p>Seja bem vindo(a), {{pessoa.nome_usuario}}</p>
                   {% endif %}
@@ -444,25 +449,6 @@
   </div>
 </div>
 
-<!-- recurso premium -->
-<div class="modal fade" id="modalPremiumTIA" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered"> 
-    <div class="modal-content rounded-5">
-      <div class="modal-header">
-        <h3 class="modal-title fw-bold" id="exampleModalLabel">Aviso do Buddy</h3>
-       
-      </div>
-      <div class="modal-body">
-   Seja um dos nossos alunos Premium para usar esse recurso!! ᕙ(`▿´)ᕗ
-      </div>
-      <div class="modal-footer">
-        <!-- ver se é melhor assinar ou planos -->
-        <button type="button" class="btn rounded-5 btnOk" data-bs-dismiss="modal"><a href="{% url 'home' %}#planos ">Ver planos</a></button>
-      </div>
-    </div>
-  </div>
-</div>
-
 <!-- plano diferente  -->
 <div class="modal fade" id="modalCadPlanDif" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered"> 
@@ -480,6 +466,51 @@
   </div>
 </div>
 </div>
+
+<!-- montagem de treinos -->
+<div class="modal fade" id="modalAssMT" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered"> 
+    <div class="modal-content rounded-5">
+      <div class="modal-header">
+        <h3 class="modal-title fw-bold" id="exampleModalLabel">Aviso do Buddy</h3>
+       
+      </div>
+      <div class="modal-body">
+   Ops, você precisa de uma assinatura ativa para montar treinos :(
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn rounded-5 btnOk" data-bs-dismiss="modal"><a href="{% url 'home' %}#planos ">Ver planos</a></button>
+        <!-- <button type="button" class="btn rounded-5 btnOk" data-bs-dismiss="modal">Assinar</button> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- assisnatura feita -->
+<div class="modal fade" id="modalAssFeita" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered"> 
+    <div class="modal-content rounded-5">
+      <div class="modal-header">
+        <h3 class="modal-title fw-bold" id="exampleModalLabel">Aviso do Buddy</h3>
+       
+      </div>
+      <div class="modal-body">
+     Yeah! Agora você tem um personal trainer! ᕙ(`▿´)ᕗ
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn rounded-5 btnOk" data-bs-dismiss="modal">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% if assinatura_feita %}
+<script>
+  window.onload = function() {
+    var modal = new bootstrap.Modal(document.getElementById('modalAssFeita'));
+    modal.show();
+  };
+</script>
+{% endif %}
 
     <!-- cadastro sucesso -->
 <div class="modal fade" id="modalCadFeito" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
