@@ -122,99 +122,81 @@
         <div class="col-12 text-center " >
           <div class="scroll-containerPE rounded-top" >
 
-            {% for exercicio in exercicios %}
-              <input type="checkbox" class="btn-check" id="exercicio{{ forloop.counter }}" name="exercicios_selecionados" value="{{ exercicio.id }}" autocomplete="off">
-              <label class="scroll-item" for="exercicio{{ forloop.counter }}">
-                <div class="p-3 myContainerPE rounded-5">
-                  <img src="{{ exercicio.imagem.url }}" class="img-fluid">
-                  <p class="fw-bold">{{ exercicio.nome_exercicio }}</p>
+          <form method="POST" id="formSerie" action="{% url 'montagem_treinos' %}">
+            {% csrf_token %}
+
+              {% for exercicio in exercicios %}
+                <input type="checkbox" class="btn-check" id="exercicio{{ forloop.counter }}" name="exercicios_selecionados" value="{{ exercicio.id }}" {% if exercicio.id|stringformat:"s" in selecionados %}checked{% endif %} autocomplete="off">
+                <label class="scroll-item" for="exercicio{{ forloop.counter }}">
+                  <div class="p-3 myContainerPE rounded-5">
+                    <img src="{{ exercicio.imagem.url }}" class="img-fluid">
+                    <p class="fw-bold">{{ exercicio.nome_exercicio }}</p>
+                  </div>
+                </label>
+              {% endfor %}
+
+              <!-- {% for exercicio in exercicios %}
+              <div class="scroll-item">
+                <div class="p-3  myContainerPE rounded-5">
+                  <img src="{{exercicio.imagem.url}}" class="img-fluid" >
+                  <p class="fw-bold">{{exercicio.nome_exercicio}}</p>     
                 </div>
-              </label>
-            {% endfor %}
-
-            <!-- {% for exercicio in exercicios %}
-            <div class="scroll-item">
-              <div class="p-3  myContainerPE rounded-5">
-                <img src="{{exercicio.imagem.url}}" class="img-fluid" >
-                <p class="fw-bold">{{exercicio.nome_exercicio}}</p>     
               </div>
+              {% endfor %} -->
             </div>
-            {% endfor %} -->
-          
-          </div>
-
-          <button type="submit" class="btn rounded-pill btnSalvarT">Selecionar</button>
-
-        </div>
+            <button name="acao" value="selecionar" type="submit" class="btn rounded-pill btnSalvarT">Selecionar</button>
+            </div>
   
-  <div class="row  justify-content-center" style="margin-top: 5%;">
-    <div class="col-12 text-center" >
-      <div class="col-12 mx-auto " >
-        <div id="titleE">
-
-          <form method="post" id="formSerie">
-          {% csrf_token %}
-
-          <h6 class="lead">2. Selecione o número de séries e repetições </h6>
-                </div></div>
-
+            <div class="row  justify-content-center" style="margin-top: 5%;">
+            <div class="col-12 text-center" >
+            <div class="col-12 mx-auto " >
+              <div id="titleE">
+                <h6 class="lead">2. Selecione o número de séries e repetições </h6>
+              </div></div>
                 <div class="container overflow-hidden text-center rounded-5" style="padding:2%;  background-color: #44377d;">
                   <div class="row gy-5 gx-5  text-uppercase">
-                  {% for exercicio in exercicios %}
+                    {% if exe_serie_rep %}
+                    {% for exe in exe_serie_rep %}
                     <div class="col-lg-3 col-md-4 col-sm-6 col-12 mx-auto " >
                       <div class=" p-3 myContainerMT rounded-5 ">
-                          <img src="{{exercicio.imagem.url}}" class="img-fluid" >
-                          <p class="fw-bold" > {{exercicio.nome_exercicio}}</p>
-                          <div style="display: flex; justify-content: center; align-items: center; gap: 5px; ">
-                            <input type="number" id="inputSeries" class="form-control w-25 text-center"  min="1">
-                            <p class="fw-bold my-auto">X</p>
-                            <input type="number" id="inputReps" class="form-control w-25 text-center"  min="1">
-                          </div>
+                        <img src="{{exe.imagem.url}}" class="img-fluid" >
+                        <p class="fw-bold" > {{exe.nome_exercicio}}</p>
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 5px; ">
+                          <input type="number" id="inputSeries" class="form-control w-25 text-center"  min="1">
+                          <p class="fw-bold my-auto">X</p>
+                          <input type="number" id="inputReps" class="form-control w-25 text-center"  min="1">
+                        </div>
                       </div>
                     </div>
                     {% endfor %}
-                </div>
-        
-              </div>
+                    {% else %}
+                    <p class="fw-bold" >Selecione o(s) exercícios(s) antes</p>
+                    {% endif %}
+                    </div>
+                    </div>
 
-               
-
-              <div class="row  justify-content-center" style="margin-top: 5%;">
-                <div class="col-12 text-center" >
-                 <div class="col-12 mx-auto " >
-                   <div id="titleE">
-                  
-                     <h6 class="lead">3. Escreva um nome para o treino </h6>
-                 </div></div>
- 
-            </div>
-        </div>  
-
-        <div class="container overflow-hidden text-center rounded-5" style="padding:2%;  background-color: #44377d;  ">
-          <div class="row gy-2 gx-5  text-uppercase" style="justify-content: center; align-items: center;">
-
-            
-
-            <div class="col-lg-9  col-12 mx-auto " >
-              <input type="text" class="form-control rounded-pill" id="nomeTreino" >
-            </div>
-            <div class="col-lg-3  col-12" >
-              <button type="submit" class="btn rounded-pill btnSalvarT">Salvar</button>
-            </div>
-            
-            
-          
+                    <div class="row  justify-content-center" style="margin-top: 5%;">
+                      <div class="col-12 text-center" >
+                        <div class="col-12 mx-auto " >
+                          <div id="titleE">
+                            <h6 class="lead">3. Escreva um nome para o treino </h6>
+                          </div>
+                        </div>
+                      </div>
+                    </div> 
+                    <div class="container overflow-hidden text-center rounded-5" style="padding:2%;  background-color: #44377d;  ">
+                      <div class="row gy-2 gx-5  text-uppercase" style="justify-content: center; align-items: center;">
+                  <div class="col-lg-9  col-12 mx-auto " >
+                    <input type="text" class="form-control rounded-pill" id="nomeTreino" >
+                  </div>
+                  <div class="col-lg-3  col-12" >
+                    <button name="acao" value="salvar" type="submit" class="btn rounded-pill btnSalvarT">Salvar</button>
+                  </div>
           </form> 
         </div>
-
       </div>
-
-
-       
-
-
-              </div>
-            </div>
+    </div>
+  </div>
     
 
 <!-- Modal de confirmação de logout -->

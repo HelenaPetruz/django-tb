@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.hashers import make_password, check_password
 import random
 from django.contrib import messages
-from .models import Exercicios, Treino, NivelDificuldade, MusculosEnvolvidos, RelExerciciosMusculos, Plano, RelTreinoExercicio, ErrosPossiveis, CondPagamento, Pessoa, UsuarioTreino
+from .models import Exercicios, Treino, NivelDificuldade, MusculosEnvolvidos, RelExerciciosMusculos, Plano, RelTreinoExercicio, ErrosPossiveis, CondPagamento, Pessoa, RelUsuarioTreino
 
 def home(request):
 
@@ -63,7 +63,7 @@ def exercicios(request):
     return render(request, 'exercicios.html', context)
 
 def treinos(request):
-    treinos = Treino.objects.all()
+    treinos = Treino.objects.filter(treino_do_buddy=1)
     context = {
         'treinos': treinos,
     }
@@ -167,9 +167,27 @@ def montagem_treinos(request):
         exercicios = Exercicios.objects.all()
         exercicios_count = exercicios.count()
 
-        # if request.method == "POST":
-        #     exercicios_ids = request.POST.getlist("exercicios_selecionados")
-        #     for ex_id in exercicios_ids:
+        context = {
+            'exercicios': exercicios,
+            'exercicios_count': exercicios_count,
+        }
+
+        if request.method == "POST":
+            acao = request.POST.get('acao')
+
+            if acao == "selecionar":
+                exercicios_ids = request.POST.getlist("exercicios_selecionados")
+                # Convertemos os IDs para inteiros
+                exercicios_ids = [int(ex_id) for ex_id in exercicios_ids if ex_id.isdigit()]
+                exe_serie_rep = Exercicios.objects.filter(id_exercicios__in=exercicios_ids)
+
+                context = {
+                    'exercicios': exercicios,
+                    'exercicios_count': exercicios_count,
+                    'exercicios_ids': exercicios_ids,
+                    'exe_serie_rep': exe_serie_rep
+                }
+                return render(request, 'montagemTreinos.html', context) 
         #         RelTreinoExercicio.objects.create{
         #             id_treino = 
         #             id_exercicio = 
@@ -181,10 +199,6 @@ def montagem_treinos(request):
         #             nome_do_treino = 
         #         }
 
-        context = {
-            'exercicios': exercicios,
-            'exercicios_count': exercicios_count,
-        }
     return render(request, 'montagemTreinos.html', context) 
 
 def meus_treinos(request):

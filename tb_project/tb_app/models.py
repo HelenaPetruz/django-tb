@@ -33,17 +33,15 @@ class Pessoa(models.Model):
 
     def __str__(self):
         return self.nome_usuario
-    
-class UsuarioTreino(models.Model):
-    id_treino_usuario = models.AutoField(primary_key=True)  # The composite primary key (id_treino_usuario, id_pessoa) found, that is not supported. The first column is selected.
+
+class RelUsuarioTreino(models.Model):
+    id_treino = models.AutoField(primary_key=True)  # The composite primary key (id_treino, id_pessoa) found, that is not supported. The first column is selected.
     id_pessoa = models.IntegerField()
-    nome_do_treino = models.CharField(max_length=45, blank=True, null=True)
 
     class Meta:
         managed = False
-        db_table = 'usuario_treino'
-        unique_together = (('id_treino_usuario', 'id_pessoa'),)
-
+        db_table = 'rel_usuario_treino'
+        unique_together = (('id_treino', 'id_pessoa'),)    
 
 class Plano(models.Model):
     id_plano = models.AutoField(primary_key=True)
@@ -100,7 +98,8 @@ class Exercicios(models.Model):
 class Treino(models.Model):
     id_treino = models.AutoField(primary_key=True)
     nome_treino = models.CharField(max_length=45)
-   
+    imagem = models.ImageField(null=True, default="tb.png", upload_to='exercicios/')
+    treino_do_buddy = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
