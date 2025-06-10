@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.hashers import make_password, check_password
 import random
 from django.contrib import messages
-from .models import Exercicios, Treino, NivelDificuldade, MusculosEnvolvidos, RelExerciciosMusculos, Plano, RelTreinoExercicio, ErrosPossiveis, CondPagamento, Pessoa
+from .models import Exercicios, Treino, NivelDificuldade, MusculosEnvolvidos, RelExerciciosMusculos, Plano, RelTreinoExercicio, ErrosPossiveis, CondPagamento, Pessoa, UsuarioTreino
 
 def home(request):
 
@@ -161,12 +161,30 @@ def logout(request):
         return redirect('home')
 
 def montagem_treinos(request):
-    exercicios = Exercicios.objects.all()
-    exercicios_count = exercicios.count()
-    context = {
-        'exercicios': exercicios,
-        'exercicios_count': exercicios_count,
-    }
+    if 'pessoa_id' in request.session:
+        pessoa = Pessoa.objects.get(idpessoa=request.session['pessoa_id'])
+
+        exercicios = Exercicios.objects.all()
+        exercicios_count = exercicios.count()
+
+        # if request.method == "POST":
+        #     exercicios_ids = request.POST.getlist("exercicios_selecionados")
+        #     for ex_id in exercicios_ids:
+        #         RelTreinoExercicio.objects.create{
+        #             id_treino = 
+        #             id_exercicio = 
+        #             numero_repeticoes = 
+        #             numero_series = 
+        #         }
+        #         UsuarioTreino.objects.create{
+        #             id_usuario = pessoa.idpessoa
+        #             nome_do_treino = 
+        #         }
+
+        context = {
+            'exercicios': exercicios,
+            'exercicios_count': exercicios_count,
+        }
     return render(request, 'montagemTreinos.html', context) 
 
 def meus_treinos(request):

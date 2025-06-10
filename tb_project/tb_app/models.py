@@ -34,14 +34,15 @@ class Pessoa(models.Model):
     def __str__(self):
         return self.nome_usuario
     
-class RelUsuarioTreino(models.Model):
-    id_treino = models.IntegerField(primary_key=True)  # The composite primary key (id_treino, id_usuario) found, that is not supported. The first column is selected.
-    id_usuario = models.IntegerField()
+class UsuarioTreino(models.Model):
+    id_treino_usuario = models.AutoField(primary_key=True)  # The composite primary key (id_treino_usuario, id_pessoa) found, that is not supported. The first column is selected.
+    id_pessoa = models.IntegerField()
+    nome_do_treino = models.CharField(max_length=45, blank=True, null=True)
 
     class Meta:
         managed = False
-        db_table = 'rel_usuario_treino'
-        unique_together = (('id_treino', 'id_usuario'),)
+        db_table = 'usuario_treino'
+        unique_together = (('id_treino_usuario', 'id_pessoa'),)
 
 
 class Plano(models.Model):

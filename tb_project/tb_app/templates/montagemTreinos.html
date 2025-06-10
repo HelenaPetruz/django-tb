@@ -53,6 +53,11 @@
         }
     }
 
+    .btn-check:checked + label .myContainerPE {
+  border: 3px solid #FFD700;
+  background-color: #2e1b4f; /* tom mais escuro */
+}
+
     </style>
 
     <title>Montagem de Treinos</title>
@@ -118,15 +123,28 @@
           <div class="scroll-containerPE rounded-top" >
 
             {% for exercicio in exercicios %}
+              <input type="checkbox" class="btn-check" id="exercicio{{ forloop.counter }}" name="exercicios_selecionados" value="{{ exercicio.id }}" autocomplete="off">
+              <label class="scroll-item" for="exercicio{{ forloop.counter }}">
+                <div class="p-3 myContainerPE rounded-5">
+                  <img src="{{ exercicio.imagem.url }}" class="img-fluid">
+                  <p class="fw-bold">{{ exercicio.nome_exercicio }}</p>
+                </div>
+              </label>
+            {% endfor %}
+
+            <!-- {% for exercicio in exercicios %}
             <div class="scroll-item">
               <div class="p-3  myContainerPE rounded-5">
                 <img src="{{exercicio.imagem.url}}" class="img-fluid" >
                 <p class="fw-bold">{{exercicio.nome_exercicio}}</p>     
               </div>
             </div>
-            {% endfor %}
+            {% endfor %} -->
           
           </div>
+
+          <button type="submit" class="btn rounded-pill btnSalvarT">Selecionar</button>
+
         </div>
   
   <div class="row  justify-content-center" style="margin-top: 5%;">
