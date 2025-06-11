@@ -161,6 +161,9 @@ def logout(request):
         return redirect('home')
 
 def montagem_treinos(request):
+    print(">>> Entrou na montagem_treinos")
+    print("Método:", request.method)
+
     if 'pessoa_id' in request.session:
         pessoa = Pessoa.objects.get(idpessoa=request.session['pessoa_id'])
 
@@ -177,7 +180,8 @@ def montagem_treinos(request):
 
             if acao == "selecionar":
                 exercicios_ids = request.POST.getlist("exercicios_selecionados")
-                # Convertemos os IDs para inteiros
+                
+                # Converte IDs para inteiros
                 exercicios_ids = [int(ex_id) for ex_id in exercicios_ids if ex_id.isdigit()]
                 exe_serie_rep = Exercicios.objects.filter(id_exercicios__in=exercicios_ids)
 
@@ -188,21 +192,44 @@ def montagem_treinos(request):
                     'exe_serie_rep': exe_serie_rep
                 }
                 return render(request, 'montagemTreinos.html', context) 
-        #         RelTreinoExercicio.objects.create{
-        #             id_treino = 
-        #             id_exercicio = 
-        #             numero_repeticoes = 
-        #             numero_series = 
-        #         }
-        #         UsuarioTreino.objects.create{
-        #             id_usuario = pessoa.idpessoa
-        #             nome_do_treino = 
-        #         }
+            
+            if acao == "salvar":
+                exercicios_ids = request.POST.getlist("exercicios_selecionados")
+                exercicios_ids = [int(ex_id) for ex_id in exercicios_ids if ex_id.isdigit()]
+
+                novo_treino = Treino.objects.create(
+                    nome_treino = request.POST.get('nome'),
+                    treino_do_buddy = 0
+                )
+                
+                for ex_id in exercicios_ids:
+                    valor_series = request.POST.get(f"series_{ex_id}")# esse f antes é pro python montar o nome da variável corretamente, 'somando' o id depois
+                    valor_repeticoes = request.POST.get(f"repeticoes_{ex_id}")
+
+                    RelTreinoExercicio.objects.create(
+                        id_treino = novo_treino.id_treino,
+                        id_exercicio = ex_id,
+                        numero_repeticoes = int(valor_repeticoes), 
+                        numero_series = int(valor_series),
+                    )
+
+                RelUsuarioTreino.objects.create(
+                    id_pessoa = pessoa.idpessoa,
+                    id_treino = novo_treino.id_treino
+                )
+                return redirect('meus_treinos')
 
     return render(request, 'montagemTreinos.html', context) 
 
 def meus_treinos(request):
-    return render(request, 'meusTreinos.html')
+    if 'pessoa_id' in request.session:
+        pessoa = Pessoa.objects.get(idpessoa=request.session['pessoa_id'])
+        rel_user_treino = RelUsuarioTreino.objects.filter(id_pessoa=pessoa.idpessoa)
+        treinos = Treino.objects.filter(id_treino__in=[rel.id_treino for rel in rel_user_treino])
+        context = {
+            'treinos': treinos
+        }
+    return render(request, 'meusTreinos.html', context)
 
 def exercicio(request, pk):
     exercicio = Exercicios.objects.get(id_exercicios=pk)
