@@ -266,17 +266,20 @@ def exercicio(request, pk):
     return render(request, 'pgExercicio.html', context)
 
 def treino(request, pk):
+    if 'pessoa_id' in request.session:
+        pessoa = Pessoa.objects.get(idpessoa=request.session['pessoa_id'])
+        treino = Treino.objects.get(id_treino=pk)
+        rel_treino_exercicio = RelTreinoExercicio.objects.filter(id_treino=pk)
+        exercicios = Exercicios.objects.filter(id_exercicios__in=[rel.id_exercicio for rel in rel_treino_exercicio])
+        context={
+            'treino': treino,
+            'exercicios': exercicios,
+            'rels': rel_treino_exercicio,
+            'pessoa': pessoa
+        }
+        print([rel.id_exercicio for rel in rel_treino_exercicio])
+        print([exercicio.id_exercicios for exercicio in exercicios])
 
-    treino = Treino.objects.get(id_treino=pk)
-    rel_treino_exercicio = RelTreinoExercicio.objects.filter(id_treino=pk)
-    exercicios = Exercicios.objects.filter(id_exercicios__in=[rel.id_exercicio for rel in rel_treino_exercicio])
-    context={
-        'treino': treino,
-        'exercicios': exercicios,
-        'rels': rel_treino_exercicio,
-    }
-    print([rel.id_exercicio for rel in rel_treino_exercicio])
-    print([exercicio.id_exercicios for exercicio in exercicios])
     return render(request, 'pgTreino.html', context)
 
 
