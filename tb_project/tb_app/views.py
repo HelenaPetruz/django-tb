@@ -161,9 +161,6 @@ def logout(request):
         return redirect('home')
 
 def montagem_treinos(request):
-    print(">>> Entrou na montagem_treinos")
-    print("Método:", request.method)
-
     if 'pessoa_id' in request.session:
         pessoa = Pessoa.objects.get(idpessoa=request.session['pessoa_id'])
 
@@ -180,6 +177,14 @@ def montagem_treinos(request):
 
             if acao == "selecionar":
                 exercicios_ids = request.POST.getlist("exercicios_selecionados")
+                if not exercicios_ids:
+                    falta_ex = request.session["falta_ex"] = True
+                    context={
+                        'exercicios': exercicios,
+                        'exercicios_count': exercicios_count,
+                        'falta_ex': falta_ex
+                    }
+                    return render(request, 'montagemTreinos.html', context) 
                 
                 # Converte IDs para inteiros
                 exercicios_ids = [int(ex_id) for ex_id in exercicios_ids if ex_id.isdigit()]
@@ -195,6 +200,14 @@ def montagem_treinos(request):
             
             if acao == "salvar":
                 exercicios_ids = request.POST.getlist("exercicios_selecionados")
+                if not exercicios_ids:
+                    falta_ex = request.session["falta_ex"] = True
+                    context={
+                        'exercicios': exercicios,
+                        'exercicios_count': exercicios_count,
+                        'falta_ex': falta_ex
+                    }
+                    return render(request, 'montagemTreinos.html', context) 
                 exercicios_ids = [int(ex_id) for ex_id in exercicios_ids if ex_id.isdigit()]
 
                 novo_treino = Treino.objects.create(
@@ -217,6 +230,8 @@ def montagem_treinos(request):
                     id_pessoa = pessoa.idpessoa,
                     id_treino = novo_treino.id_treino
                 )
+
+                request.session['montagem_sucesso'] = True
                 return redirect('meus_treinos')
 
     return render(request, 'montagemTreinos.html', context) 
@@ -229,6 +244,14 @@ def meus_treinos(request):
         context = {
             'treinos': treinos
         }
+
+        if 'montagem_sucesso' in request.session:
+            montagem_sucesso = request.session.pop('montagem_sucesso', False)
+            context = {
+                'treinos': treinos,
+                'montagem_sucesso': montagem_sucesso
+            }
+
     return render(request, 'meusTreinos.html', context)
 
 def exercicio(request, pk):
