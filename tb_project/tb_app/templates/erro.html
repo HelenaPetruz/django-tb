@@ -1,0 +1,177 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons
+    .css" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap" rel="stylesheet">
+
+    <link rel="icon" href="{% static 'images/ico.ico' %}">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <title>Erro</title>
+    <style>
+        /* Garantir que cada seção ocupe toda a altura da tela */
+        section {
+            min-height: 100vh; /* Altura mínima de 100% da janela */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden; /* Impede o conteúdo de ultrapassar */
+            flex-direction: column; /* Organiza o conteúdo verticalmente */
+            text-align: center;
+        }
+
+        .bgH1{
+            background: linear-gradient(to bottom, rgb(48,40,87) 45%, rgb(176,138,42));
+
+        }
+
+        .bgH2{
+      background: linear-gradient(to bottom, rgb(176,138,42) 45%, rgb(48,40,87));        
+  }
+
+        /* Estilo do texto */
+        h1, h2 {
+            font-weight: bold;
+        }
+
+        /* Ajustes em formulários */
+        input, textarea {
+            max-width: 100%; /* Não ultrapassa a largura da seção */
+        }
+
+        /* Fazendo as colunas se ajustarem de forma responsiva */
+        .col-md-4 {
+            margin-bottom: 20px; /* Espaçamento entre colunas */
+        }
+
+        /* Ajuste de imagens */
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+.contFaleConosco {
+    height: 100%; /* importante para o flex funcionar */
+    min-height: 420px; /* altura mínima comum a todos */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* distribui conteúdo sem sair do limite */
+}
+
+    .modal-footer {
+    border: none !important;
+  }
+  .modal-header{
+    border-bottom: 2px rgb(48,40,87) solid;
+  }
+
+  .modal-content{
+    padding: 2%;
+       background-color: #44377d;
+       color: #f4bf3a;
+          font-family: Poppins, sans-serif;
+  }
+
+  .btnOk{
+   background-color:#f4bf3a;  
+        padding: 2%;
+        /* margin-top: 5%; */
+        padding-left:7% ;
+        padding-right:7% ;
+        font-size: 18px;
+        color:rgb(48,40,87);
+        font-weight: bold;
+        border: 2px #f4bf3a solid ;
+        a{
+          color:rgb(48,40,87);
+          text-decoration: none;
+        }
+  }
+
+  .btnOk:hover{
+        background-color:#44377d;
+        border: 2px #f4bf3a solid ;
+        a{
+      color:#f4bf3a;
+        }
+    }
+
+        /* Responsividade para todas as larguras de tela */
+
+
+        @media (max-width: 1200px) {
+            .col-lg-4 {
+                margin-bottom: 20px;
+            }
+         
+        }
+
+        @media (max-width: 992px) {
+            .col-md-4 {
+                margin-bottom: 40px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .col-sm-6 {
+                margin-bottom: 20px;
+            }
+
+             .contFaleConosco {
+        min-height: 380px; /* um pouco menor no mobile */
+    }
+        }
+
+        @media (max-width: 576px) {
+            .col-12 {
+                margin-bottom: 30px;
+              
+            }
+            h1 {
+                font-size: 1.5rem;
+            }
+            h2 {
+                font-size: 1.2rem;
+            }
+        }
+
+   
+    </style>
+</head>
+<body id="bodyH">
+
+    <div style=" background-color: #312854;">
+        <div class="container-fluid">
+            <div id="icone"> <img src="{% static 'images/ico.png' %}" height="200" width="200"> </div>
+        </div>
+    </div>
+
+    <section id="home" class="bgH1 text-white">
+       <div class="container d-flex justify-content-center align-items-center ">
+        <div class="row">
+            <div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-12 p-4">
+                <h6 class="fw-lighter fw-medium fs-5" style="color: white; font-size: 35px">Ops, você não tem acesso à essa página</h6>
+            </div>
+            <div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 d-flex justify-content-center align-items-center">
+                <img src="{% static 'images/buddy.png'%}" class="img-fluid" width="70%" >
+            </div>
+        </div>
+    </div>
+    </section>
+
+    <!-- Importando os scripts do Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

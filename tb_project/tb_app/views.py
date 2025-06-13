@@ -58,7 +58,8 @@ def exercicios(request):
             'pessoa': pessoa
         }
     else:
-        messages.error(request, 'Ops! Você não tem acesso à essa página')
+        return redirect('erro')
+
         
     return render(request, 'exercicios.html', context)
 
@@ -74,6 +75,8 @@ def treinos(request):
         'treinos': treinos,
         'pessoa': pessoa,
     }
+    else:
+        return redirect('erro')
         
     return render(request, 'treinos.html', context)
 
@@ -164,6 +167,9 @@ def montagem_treinos(request):
     if 'pessoa_id' in request.session:
         pessoa = Pessoa.objects.get(idpessoa=request.session['pessoa_id'])
 
+        if pessoa.id_plano != 2 or pessoa.id_plano != 3:
+            return redirect('erro')
+
         exercicios = Exercicios.objects.all()
         exercicios_count = exercicios.count()
 
@@ -233,12 +239,19 @@ def montagem_treinos(request):
 
                 request.session['montagem_sucesso'] = True
                 return redirect('meus_treinos')
+            
+    if not 'pessoa_id' in request.session:
+        return redirect('erro')
 
     return render(request, 'montagemTreinos.html', context) 
 
 def meus_treinos(request):
     if 'pessoa_id' in request.session:
         pessoa = Pessoa.objects.get(idpessoa=request.session['pessoa_id'])
+
+        if pessoa.id_plano != 2 or pessoa.id_plano != 3:
+            return redirect('erro')
+
         rel_user_treino = RelUsuarioTreino.objects.filter(id_pessoa=pessoa.idpessoa)
         treinos = Treino.objects.filter(id_treino__in=[rel.id_treino for rel in rel_user_treino])
         context = {
@@ -251,18 +264,23 @@ def meus_treinos(request):
                 'treinos': treinos,
                 'montagem_sucesso': montagem_sucesso
             }
+    else:
+        return redirect('erro')
 
     return render(request, 'meusTreinos.html', context)
 
 def exercicio(request, pk):
-    exercicio = Exercicios.objects.get(id_exercicios=pk)
-    rel_exercicios_musculos = RelExerciciosMusculos.objects.filter(id_exercicio=pk)
-    musculos = MusculosEnvolvidos.objects.filter(id_musculos_envolvidos__in=[rel.id_musculo for rel in rel_exercicios_musculos])
-    context={
-        'exercicio': exercicio,
-        'rel_exercicios_musculos': rel_exercicios_musculos,
-        'musculos': musculos,
-    }
+    if 'pessoa_id' in request.session:
+        exercicio = Exercicios.objects.get(id_exercicios=pk)
+        rel_exercicios_musculos = RelExerciciosMusculos.objects.filter(id_exercicio=pk)
+        musculos = MusculosEnvolvidos.objects.filter(id_musculos_envolvidos__in=[rel.id_musculo for rel in rel_exercicios_musculos])
+        context={
+            'exercicio': exercicio,
+            'rel_exercicios_musculos': rel_exercicios_musculos,
+            'musculos': musculos,
+        }
+    else:
+        return redirect('erro')
     return render(request, 'pgExercicio.html', context)
 
 def treino(request, pk):
@@ -279,11 +297,22 @@ def treino(request, pk):
         }
         print([rel.id_exercicio for rel in rel_treino_exercicio])
         print([exercicio.id_exercicios for exercicio in exercicios])
+    else:
+        return redirect('erro')
 
     return render(request, 'pgTreino.html', context)
 
 
 def treinoia(request,pk):
+
+    if 'pessoa_id' in request.session:
+        pessoa = Pessoa.objects.get(idpessoa=request.session['pessoa_id'])
+
+        if pessoa.id_plano != 1 or pessoa.id_plano != 2:
+            return redirect('erro')
+
+    if not 'pessoa_id' in request.session:
+        return redirect('erro')
 
     rel_treino_exercicio = RelTreinoExercicio.objects.filter(id_treino=pk)
     exercicios = list(Exercicios.objects.filter(id_exercicios__in=[rel.id_exercicio for rel in rel_treino_exercicio]))
@@ -361,6 +390,9 @@ def treinoia(request,pk):
     return render(request,'treinoIA.html', context)
 
 def treino_guiado(request,pk):
+
+    if not 'pessoa_id' in request.session:
+        return redirect('erro')
 
     rel_treino_exercicio = RelTreinoExercicio.objects.filter(id_treino=pk)
     exercicios = list(Exercicios.objects.filter(id_exercicios__in=[rel.id_exercicio for rel in rel_treino_exercicio]))
@@ -443,6 +475,9 @@ def treino_guiado(request,pk):
     return render(request,'treinoGuiado.html', context)
 
 def pagamento(request, pk):
+    if not 'pessoa_id' in request.session:
+        return redirect('erro')
+
     plano = Plano.objects.get(id_plano=pk)
     context={
         'plano': plano,
@@ -473,3 +508,6 @@ def pagamento(request, pk):
         }
 
     return render(request, "pagamento.html", context)
+
+def erro(request):
+    return render(request, "erro.html")
