@@ -61,8 +61,39 @@
 </head>
 <body id="bodyT">
 	
+  <div id="menuMT">
+        <nav class="navbar">
+            <div class="container-fluid">
+                 <div id="icone"> <img src="{% static 'images/ico.png' %}" height="200" width="200"> </div>
+                <button class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" id="btnMenu">
+                    <i class="bi bi-list" style="font-size: 30px;"></i> 
+                </button>
+            </div>
+        </nav>
+        
+  
+  <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title fs-1 " id="offcanvasRightLabel" style="color: #f4bf3a;">TrainerBuddy</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <hr>
+      <div class="offcanvas-body">
+        <ul class="list-unstyled fs-5">
+                  
+          <li><a href="{% url 'home' %}" class="nav-link">Home</a></li>
+          <li><a href="{% url 'home' %}#planos" class="nav-link">Planos</a></li>
+          <li><a href="{% url 'exercicios' %}" class="nav-link">Exercícios</a></li>
+          <li><a href="{% url 'meus_treinos' %}" class="nav-link">Meus Treinos</a></li>
+          <li><a href="{% url 'montagem_treinos' %}" class="nav-link">Montagem de Treinos</a></li>
+          <li style="margin-top: 5%;"><a href="#" data-bs-toggle="modal" data-bs-target="#logoutModal" class="nav-link">Logout</a></li>
+      </ul>
+      </div>
+  </div>
+  </div>	
+
 		
-<div id="menuT" >
+<!-- <div id="menuT" >
     <div id="icone"><a href="{% url 'home' %}"><img src="{%static 'images/ico.png' %}" height="200" width="200"></a> </div>
     <div class="myItens"  id="itensA"><a href="{% url 'home' %}#planos" >Planos</a> </div>
     <div  class="myItens" id="itensA"> <a href="{% url 'exercicios' %}" target="_blank" >Exercícios</a></div>
@@ -122,7 +153,7 @@
       </ul>
       </div>
   </div>
-  </div>
+  </div> -->
        
 
 

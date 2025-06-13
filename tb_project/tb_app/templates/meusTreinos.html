@@ -107,6 +107,7 @@
     <div class="row " style="padding-bottom: 2%;">
       <div class="row text-uppercase" style="padding-bottom: 2%;">
 
+        {% if treinos %}
         {% for treino in treinos %}
         <div class="col-lg-3 col-md-4 col-sm-6 col-12">
           <div class="p-5 myContainerT rounded-5 text-center">
@@ -117,7 +118,12 @@
             <button type="submit" class="btn rounded-pill btnSalvarT"><i class="bi bi-trash-fill"></i></button>
           </div>
         </div>
-        {% endfor %}       
+        {% endfor %}   
+        {% else %}
+        <div id="titleT" class="text-center">
+          <h6 >Você ainda não criou nenhum treino!</h6>    
+        </div>
+        {% endif %}
 
       </div>
     </div>

@@ -61,10 +61,41 @@
 </head>
 <body id="bodyT">
   
-    
+  <div id="menuMT">
+        <nav class="navbar">
+            <div class="container-fluid">
+                 <div id="icone"> <img src="{% static 'images/ico.png' %}" height="200" width="200"> </div>
+                <button class="btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" id="btnMenu">
+                    <i class="bi bi-list" style="font-size: 30px;"></i> 
+                </button>
+            </div>
+        </nav>
+        
+  
+  <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title fs-1 " id="offcanvasRightLabel" style="color: #f4bf3a;">TrainerBuddy</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <hr>
+      <div class="offcanvas-body">
+        <ul class="list-unstyled fs-5">
+                  
+          <li><a href="{% url 'home' %}" class="nav-link">Home</a></li>
+          <li><a href="{% url 'home' %}#planos" class="nav-link">Planos</a></li>
+          <li><a href="{% url 'exercicios' %}" class="nav-link">Exercícios</a></li>
+          <li><a href="{% url 'treinos' %}" class="nav-link">Treinos</a></li>
+          <li><a href="{% url 'meus_treinos' %}" class="nav-link">Meus Treinos</a></li>
+          <li><a href="{% url 'montagem_treinos' %}" class="nav-link">Montagem de Treinos</a></li>
+          <li style="margin-top: 5%;"><a href="#" data-bs-toggle="modal" data-bs-target="#logoutModal" class="nav-link">Logout</a></li>
+      </ul>
+      </div>
+  </div>
+  </div>	
+
  
 
-<div id="menuMT">
+<!-- <div id="menuMT">
   <nav class="navbar">
       <div class="container-fluid">
         <div id="icone"><a href="{% url 'home' %}" ><img src="{% static 'images/ico.png' %}" height="150" width="150"></a> </div>
@@ -97,7 +128,7 @@
       </ul>
       </div>
   </div>
-  </div>
+  </div> -->
        
  
              <div class="container-fluid col-12" style="position: relative;
@@ -174,7 +205,27 @@
             </div>
         </div>
 
-    
+      <!-- Modal de confirmação de logout -->
+<div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered"> 
+    <div class="modal-content rounded-5">
+      <div class="modal-header">
+        <h3 class="modal-title fw-bold" id="exampleModalLabel">Aviso do Buddy</h3>
+      </div>
+      <div class="modal-body">
+        Já vai? :( Você tem certeza que deseja sair?
+      <div class="modal-footer">
+        <button type="button" class="btn rounded-5 btnOk" data-bs-dismiss="modal">Cancelar</button>
+        <form method="POST" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit" class="btn rounded-5 btnOk" data-bs-dismiss="modal">Sim, sair</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+        
 <!-- recurso premium -->
 <div class="modal fade" id="modalPremiumTIA" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered"> 
