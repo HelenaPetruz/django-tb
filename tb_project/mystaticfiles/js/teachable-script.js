@@ -2,6 +2,10 @@
 // https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/pose
 
  async function init() {
+            // Mostra o modal de "Aguarde"
+            const modal = new bootstrap.Modal(document.getElementById('modalTreinoIAAguarde'));
+            modal.show();
+
             document.getElementById("btnTIAs").style.display = "none";
             const modelURL = URL + "model.json";
             const metadataURL = URL + "metadata.json";
@@ -31,6 +35,9 @@
                 labelContainer.appendChild(document.createElement("div"));
 
             }
+
+            // Agora que tudo foi carregado, esconda o modal
+            modal.hide();
 
 
         }
@@ -129,22 +136,22 @@
 
                 labelContainer.appendChild(progressWrapper);
 
-                // Verifica se "Errado abdominal" foi detectado e se a probabilidade é alta
-                if (className.includes("errado")== true && probability > 0.9) {
-                    erradoDetectado = true;
-                }
-            }
+            //     // Verifica se "Errado abdominal" foi detectado e se a probabilidade é alta
+            //     if (className.includes("errado")== true && probability > 0.9) {
+            //         erradoDetectado = true;
+            //     }
+            // }
 
-            if (erradoDetectado) {
-                if (!soundInterval) {
-                    soundInterval = setInterval(playSound, 5000);
-                }
-            } else {
-                if (soundInterval) {
-                    clearInterval(soundInterval);
-                    soundInterval = null;
-                }
-            }
+            // if (erradoDetectado) {
+            //     if (!soundInterval) {
+            //         soundInterval = setInterval(playSound, 5000);
+            //     }
+            // } else {
+            //     if (soundInterval) {
+            //         clearInterval(soundInterval);
+            //         soundInterval = null;
+            //     }
+            // }
 
             drawPose(pose);
         }
