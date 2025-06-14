@@ -135,23 +135,7 @@
                 progressWrapper.appendChild(progress);
 
                 labelContainer.appendChild(progressWrapper);
-
-            //     // Verifica se "Errado abdominal" foi detectado e se a probabilidade é alta
-            //     if (className.includes("errado")== true && probability > 0.9) {
-            //         erradoDetectado = true;
-            //     }
-            // }
-
-            // if (erradoDetectado) {
-            //     if (!soundInterval) {
-            //         soundInterval = setInterval(playSound, 5000);
-            //     }
-            // } else {
-            //     if (soundInterval) {
-            //         clearInterval(soundInterval);
-            //         soundInterval = null;
-            //     }
-            // }
+             }
 
             drawPose(pose);
         }

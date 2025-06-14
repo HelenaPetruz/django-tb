@@ -16,6 +16,56 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="icon" href="{% static 'images/ico.ico' %}">
     <link rel="stylesheet" href="{% static 'style.css' %}">
+
+
+<style>
+     
+  
+  .modal-footer {
+    border: none !important;
+  }
+  .modal-header{
+    border-bottom: 2px rgb(48,40,87) solid;
+  }
+
+  .modal-content{
+    padding: 2%;
+       background-color: #44377d;
+       color: #f4bf3a;
+          font-family: Poppins, sans-serif;
+  }
+
+  .btnOk{
+   background-color:#f4bf3a;  
+        padding: 2%;
+        /* margin-top: 5%; */
+        padding-left:7% ;
+        padding-right:7% ;
+        font-size: 18px;
+        color:rgb(48,40,87);
+        font-weight: bold;
+        border: 2px #f4bf3a solid ;
+        a{
+          color:rgb(48,40,87);
+          text-decoration: none;
+        }
+  }
+
+  .btnOk:hover{
+        background-color:#44377d;
+        border: 2px #f4bf3a solid ;
+        a{
+      color:#f4bf3a;
+        }
+    }
+
+    .btn-check:checked + label .myContainerPE {
+  border: 3px solid #FFD700;
+  background-color: #2e1b4f; /* tom mais escuro */
+}
+
+    </style>
+
     <title>Treino Guiado IA</title>
 
 
@@ -280,7 +330,172 @@
     </script> 
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>       
-    <script src="{% static 'js/teachable-script.js' %}"></script>
+    <!-- <script src="{% static 'js/teachable-script.js' %}"></script> -->
+     
+     <script>
+        async function init() {
+            // Mostra o modal de "Aguarde"
+            const modal = new bootstrap.Modal(document.getElementById('modalTreinoIAAguarde'));
+            modal.show();
+
+            document.getElementById("btnTIAs").style.display = "none";
+            const modelURL = URL + "model.json";
+            const metadataURL = URL + "metadata.json";
+
+            // load the model and metadata
+            // Refer to tmImage.loadFromFiles() in the API to support files from a file picker
+            // Note: the pose library adds a tmPose object to your window (window.tmPose)
+            model = await tmPose.load(modelURL, metadataURL);
+            maxPredictions = model.getTotalClasses();
+
+            // Convenience function to setup a webcam
+            const size1 = 900;
+            const size2 = 900;
+            const flip = true; // whether to flip the webcam
+            webcam = new tmPose.Webcam(size1, size2, flip); // width, height, flip
+            await webcam.setup(); // request access to the webcam
+            await webcam.play();
+            window.requestAnimationFrame(loop);
+
+            // append/get elements to the DOM
+
+            const canvas = document.getElementById("canvasSmall");
+            canvas.width = size1; canvas.height = size2;
+            ctx = canvas.getContext("2d");
+            labelContainer = document.getElementById("label-containerSmall");
+            for (let i = 0; i < maxPredictions; i++) { // and class labels
+                labelContainer.appendChild(document.createElement("div"));
+
+            }
+
+            // Agora que tudo foi carregado, esconda o modal
+            modal.hide();
+
+
+        }
+
+        async function init1() {
+            document.getElementById("btnTIAl").style.display = "none";
+            const modelURL = URL + "model.json";
+            const metadataURL = URL + "metadata.json";
+
+            // load the model and metadata
+            // Refer to tmImage.loadFromFiles() in the API to support files from a file picker
+            // Note: the pose library adds a tmPose object to your window (window.tmPose)
+            model = await tmPose.load(modelURL, metadataURL);
+            maxPredictions = model.getTotalClasses();
+
+            // Convenience function to setup a webcam
+            const size1 = 900;
+            const size2 = 900;
+            const flip = true; // whether to flip the webcam
+            webcam = new tmPose.Webcam(size1, size2, flip); // width, height, flip
+            await webcam.setup(); // request access to the webcam
+            await webcam.play();
+            window.requestAnimationFrame(loop);
+
+            // append/get elements to the DOM
+
+            const canvas = document.getElementById("canvasLarge");
+            canvas.width = size1; canvas.height = size2;
+            ctx = canvas.getContext("2d");
+            labelContainer = document.getElementById("label-containerLarge");
+            for (let i = 0; i < maxPredictions; i++) { // and class labels
+                labelContainer.appendChild(document.createElement("div"));
+
+            }
+
+
+        }
+
+        async function loop(timestamp) {
+            webcam.update(); // update the webcam frame
+            await predict();
+            window.requestAnimationFrame(loop);
+        }
+        let erroInicio = null; // Variável para armazenar o tempo de início do erro
+        const tempoTolerancia = 3000; // 3 segundos de tolerância
+        let alertShown = false; // Flag para evitar alertas repetitivos
+
+
+        let soundInterval;
+
+        async function predict() {
+            const { pose, posenetOutput } = await model.estimatePose(webcam.canvas);
+            const prediction = await model.predict(posenetOutput);
+            labelContainer.innerHTML = "";
+
+
+            for (let i = 0; i < maxPredictions; i++) {
+                let className = prediction[i].className.trim().toLowerCase();
+                const probability = prediction[i].probability;
+                const percentage = Math.round(probability * 100);
+
+                //console.log("Classe detectada:", className); // Log para depuração
+
+                // Ignora qualquer variação da classe "nada"
+                if (className.includes("nada")) continue;
+
+                const progressWrapper = document.createElement("div");
+                progressWrapper.className = "mt-6 text-start";
+
+                const label = document.createElement("div");
+                label.innerText = `${prediction[i].className} (${percentage}%)`;
+                label.className = "fw-bold mb-1";
+
+                const progress = document.createElement("div");
+                progress.className = "progress";
+                progress.style.height = "20px";
+
+                const progressBar = document.createElement("div");
+                progressBar.className = "progress-bar";
+                progressBar.style.width = `${percentage}%`;
+                progressBar.setAttribute("aria-valuenow", percentage);
+                progressBar.setAttribute("aria-valuemin", "0");
+                progressBar.setAttribute("aria-valuemax", "100");
+                progressBar.innerText = `${percentage}%`;
+
+                // Define cor conforme a postura detectada
+                if (className.includes("certo")) {
+                    progressBar.classList.add("bg-success");
+                } else {
+                    progressBar.classList.add("bg-danger");
+                }
+
+                progress.appendChild(progressBar);
+                progressWrapper.appendChild(label);
+                progressWrapper.appendChild(progress);
+
+                labelContainer.appendChild(progressWrapper);
+             }
+
+            drawPose(pose);
+        }
+
+        function drawPose(pose) {
+            if (webcam.canvas) {
+                ctx.drawImage(webcam.canvas, 0, 0);
+                // draw the keypoints and skeleton
+                if (pose) {
+                    const minPartConfidence = 0.5;
+                    tmPose.drawKeypoints(pose.keypoints, minPartConfidence, ctx);
+                    tmPose.drawSkeleton(pose.keypoints, minPartConfidence, ctx);
+                }
+            }
+        }
+
+        function mostrarDescricao() {
+            var myModal = new bootstrap.Modal(document.getElementById('modalDescanso'));
+            myModal.show();
+        }
+
+
+        function playSound() {
+            const audio = new Audio(alertaPath);
+            audio.play();
+            setTimeout(5000);
+        }
+     </script>
 
 </body>
 </html>
