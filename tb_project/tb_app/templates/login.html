@@ -12,6 +12,54 @@
      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
      <link rel="stylesheet" href="{% static 'style.css' %}">
 
+<style>
+     
+  
+  .modal-footer {
+    border: none !important;
+  }
+  .modal-header{
+    border-bottom: 2px rgb(48,40,87) solid;
+  }
+
+  .modal-content{
+    padding: 2%;
+       background-color: #44377d;
+       color: #f4bf3a;
+          font-family: Poppins, sans-serif;
+  }
+
+  .btnOk{
+   background-color:#f4bf3a;  
+        padding: 2%;
+        /* margin-top: 5%; */
+        padding-left:7% ;
+        padding-right:7% ;
+        font-size: 18px;
+        color:rgb(48,40,87);
+        font-weight: bold;
+        border: 2px #f4bf3a solid ;
+        a{
+          color:rgb(48,40,87);
+          text-decoration: none;
+        }
+  }
+
+  .btnOk:hover{
+        background-color:#44377d;
+        border: 2px #f4bf3a solid ;
+        a{
+      color:#f4bf3a;
+        }
+    }
+
+    .btn-check:checked + label .myContainerPE {
+  border: 3px solid #FFD700;
+  background-color: #2e1b4f; /* tom mais escuro */
+}
+
+    </style>
+
     <title>Login</title>
 </head>
 <body id="bodyL">
@@ -24,21 +72,44 @@
                 <div class="text-center">
                   <img src="{%static 'images/ico.png' %}" width="30%">
                 </div>
-                <form method="POST">
+                <form method="POST" class="row g-3 needs-validation" novalidate>
                     {% csrf_token %}
-                    <div class="mb-3">
+
+                    <div class="col-12 position-relative">
+                      <label for="userL" class="form-label">E-mail:</label>
+                      <input name="email" type="email" class="form-control rounded-pill" id="userL" placeholder="exemplo@dominio.com" required />
+                      <div class="invalid-tooltip">
+                        Por favor, insira um e-mail válido.
+                      </div>
+                    </div>
+
+                    <!-- <div class="mb-3">
                         <label for="userL" class="form-label">E-mail:</label>
                         <input type="email" name="email" class="form-control rounded-pill" id="userL" >
+                    </div> -->
+                    
+                    <div class="col-12 position-relative">
+                      <label for="passwordL" class="form-label">Senha:</label>
+                      <input name="senha" type="password" required minlength="6" class="form-control rounded-pill" id="passwordL" required />
+                      <div class="invalid-tooltip">
+                        Ops,  insira uma senha válida :( 
+                      </div>
                     </div>
-                    <div class="mb-3">
+
+                    <div class="text-center mt-3 ">
+                      <p class="fs-6 text-decoration-underline"> Recupere sua senha aqui :)</p>
+                    </div>
+                    
+                    <!-- <div class="mb-3">
                         <label for="passwordL" class="form-label">Senha:</label>
-                        <!-- <i class="bi bi-person-fill"></i> -->
+                        
                         <input type="password" name="senha" class="form-control rounded-pill" id="passwordL">
+                    </div> -->
+                    
+                    <div class="col-12 text-center mt-3">
+                      <button type="submit" class="btn btn-primary rounded-pill" id="btnEntrarL">Entrar</button>
                     </div>
-                    <br>
-                    <div class="text-center">
-                    <button type="submit" class="rounded-pill"  id="btnEntrarL">Entrar</button>
-                </div>
+                
                 </form>
                 <div class="text-center mt-3">
                  <p>Ou cadastre se <a href="{% url 'cadastro' %}">aqui</a></p>
@@ -51,7 +122,37 @@
     </div>
 </div>
 
-{% if messages %}
+
+  {% if messages %}
+  {% for message in messages %}
+
+<div class="modal fade" id="messageModal{{ forloop.counter }}" tabindex="-1" aria-labelledby="messageModalLabel{{ forloop.counter }}" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered"> 
+    <div class="modal-content rounded-5">
+      <div class="modal-header">
+        <h3 class="modal-title fw-bold" id="exampleModalLabel">Aviso do Buddy</h3>
+       
+      </div>
+      <div class="modal-body">
+        {{ message }}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn rounded-5 btnOk" data-bs-dismiss="modal">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        var modal = new bootstrap.Modal(document.getElementById('messageModal{{ forloop.counter }}'));
+        modal.show();
+      });
+
+    </script>
+  {% endfor %}
+{% endif %}
+
+<!-- {% if messages %}
   {% for message in messages %}
     <div class="modal fade" id="messageModal{{ forloop.counter }}" tabindex="-1" aria-labelledby="messageModalLabel{{ forloop.counter }}" aria-hidden="true">
       <div class="modal-dialog">
@@ -76,7 +177,25 @@
 
     </script>
   {% endfor %}
-{% endif %}
+{% endif %} -->
+
+
+<script>
+  // Script para validação 
+  (() => {
+    'use strict';
+    const forms = document.querySelectorAll('.needs-validation');
+    Array.from(forms).forEach(form => {
+      form.addEventListener('submit', event => {
+        if (!form.checkValidity()) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  })();
+</script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 

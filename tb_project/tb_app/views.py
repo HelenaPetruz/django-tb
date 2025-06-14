@@ -145,10 +145,10 @@ def login(request):
                 request.session['login_sucesso'] = True
                 return redirect('home')
             else:
-                messages.error(request, 'Senha incorreta!')
+                messages.error(request, 'Ops! Senha incorreta :(')
 
         except Pessoa.DoesNotExist:
-            messages.error(request, 'Email não encontrado.')
+            messages.error(request, 'Ops! Email não encontrado :(')
             return redirect('login')
     
     return render(request, 'login.html')
