@@ -39,22 +39,78 @@
                 <h2 id="" class="text-center fw-bold text-uppercase">{{plano.nome_plano}}</h2>
               
             </div>
-            <form method="post" id="formSerie">
+            <form method="post" id="formSerie" class="row g-3 needs-validation" novalidate>
                 {% csrf_token %}
                             
-                <div class="mb-3">
+                <div class="col-12 position-relative">
+                    <label for="cpf" class="form-label" maxlength="14" required >CPF:</label>
+                    <input name="cpf" type="text" class="form-control rounded-pill" id="cpf" placeholder="000.000.000-00" maxlength="14" required >
+                    <div class="invalid-tooltip">
+                        Ops,  insira o cpf :(
+                    </div>
+                </div>
+                <!-- <div class="mb-3">
                     <label for="cpf" class="form-label" maxlength="14" >CPF:</label>
                     <input type="text" class="form-control rounded-pill" id="cpf" placeholder="000.000.000-00" name="cpf">
+                </div> -->
+
+                <div class="col-12 position-relative">
+                    <label for="nomeCartao" class="form-label">Nome no cartão:</label>
+                    <input name="nome" required minlength="3" type="text" class="form-control rounded-pill" id="nomeCartao" required>
+                    <div class="invalid-tooltip">
+                        Ops, insira o nome no cartão :(
+                    </div>
                 </div>
-                <div class="mb-3">
+                <!-- <div class="mb-3">
                     <label for="nomeCartao" class="form-label" >Nome no cartão:</label>
                     <input type="text" class="form-control rounded-pill" id="nomeCartao" name="nome">
+                </div> -->
+
+                <div class="col-12 position-relative">
+                    <label for="nCartao" class="form-label" maxlength="19" >Número do cartão:</label>
+                    <input name="numero_cartao" type="text" class="form-control rounded-pill" id="nCartao" placeholder="0000 0000 0000 0000" minlength="19" maxlength="19" required>
+                    <div class="invalid-tooltip">
+                        Ops,  insira o número do cartão :(
+                    </div>
                 </div>
-                <div class="mb-3">
+                <!-- <div class="mb-3">
                     <label for="nCartao" class="form-label" maxlength="19" >Número do cartão:</label>
                     <input type="text" class="form-control rounded-pill" id="nCartao" placeholder="0000 0000 0000 0000" name="numero_cartao">
-                </div>
-                <div class="mb-3">
+                </div> -->
+
+                <div class="col-12 position-relative">
+                    <div class="row">
+                        <div class="col-6">    
+                            <label class="form-label">Data de expiração:</label>
+                        </div>
+                        <div class="col-3">
+                            <label class="form-label">CVV:</label>  
+                        </div>
+                    </div>
+                    <div class="row">  
+                        <div class="col-3">     
+                            <input name="data_mes" type="number" placeholder="Mês" class="form-control rounded-5" id="mesExp" min="1" max="12" required>
+                            <div class="invalid-tooltip">
+                                Ops, insira o mês de expiração :(
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <input name="data_ano" type="number" placeholder="Ano" class="form-control rounded-5" id="anoExp" min="2025" required>
+                            <div class="invalid-tooltip">
+                                Ops, insira o ano de expiração :( 
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <input name="cvv" type="text" class="form-control rounded-pill" id="cvv" maxlength="3" pattern="\d{3}" placeholder="ex: 123" required>
+                            <!-- <input name="cvv" type="text" class="form-control rounded-pill" id="cvv" maxlength="3" placeholder="ex: 123" required> -->
+                            <div class="invalid-tooltip">
+                                Ops, insira o CVV :(
+                            </div>
+                        </div>
+                    </div>
+                </div><br>
+
+                <!-- <div class="mb-3">
                     <div class="row">
                         <div class="col-6">    
                             <label class="form-label">Data de expiração:</label>
@@ -74,7 +130,7 @@
                             <input type="text" class="form-control rounded-pill" id="cvv" maxlength="3" placeholder="ex: 123" name="cvv">
                         </div>
                     </div>
-                </div><br>
+                </div><br> -->
                 <div class="text-center">
                     <div class="row">
                         <div class="col d-flex">
@@ -118,7 +174,76 @@
     value = value.replace(/(\d{4})(?=\d)/g, '$1 ');
     nCartaoInput.value = value.trim();
   });
+
+   // Script para validação 
+   (() => {
+            'use strict';
+            const forms = document.querySelectorAll('.needs-validation');
+            Array.from(forms).forEach(form => {
+              form.addEventListener('submit', event => {
+                if (!form.checkValidity()) {
+                  event.preventDefault();
+                  event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+              }, false);
+            });
+          })();
+
+    document.getElementById('formSerie').addEventListener('submit', function (event) {
+  const mes = document.getElementById('mesExp');
+  const ano = document.getElementById('anoExp');
+
+  const mesVal = parseInt(mes.value);
+  const anoVal = parseInt(ano.value);
+  const hoje = new Date();
+  const anoAtual = hoje.getFullYear();
+  const mesAtual = hoje.getMonth() + 1;
+
+  let invalido = false;
+
+  if (anoVal < anoAtual || (anoVal === anoAtual && mesVal < mesAtual)) {
+    ano.classList.add('is-invalid');
+    mes.classList.add('is-invalid');
+    invalido = true;
+  } else {
+    ano.classList.remove('is-invalid');
+    mes.classList.remove('is-invalid');
+  }
+
+  if (invalido) {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+});
+
 </script>
+
+	<!-- <script>
+  const cpfInput = document.getElementById('cpf');
+
+  cpfInput.addEventListener('input', function () {
+    let value = cpfInput.value.replace(/\D/g, ''); // remove tudo que não for dígito
+    if (value.length > 11) value = value.slice(0, 11);
+
+    value = value.replace(/(\d{3})(\d)/, '$1.$2');
+    value = value.replace(/(\d{3})(\d)/, '$1.$2');
+    value = value.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+
+    cpfInput.value = value;
+  });
+
+  const nCartaoInput = document.getElementById('nCartao');
+
+  nCartaoInput.addEventListener('input', function () {
+    let value = nCartaoInput.value.replace(/\D/g, ''); // só números
+    if (value.length > 16) value = value.slice(0, 16); // máximo 16 dígitos
+
+    // adiciona espaço a cada 4 números
+    value = value.replace(/(\d{4})(?=\d)/g, '$1 ');
+    nCartaoInput.value = value.trim();
+  });
+</script> -->
 
 </body>
 </html>
