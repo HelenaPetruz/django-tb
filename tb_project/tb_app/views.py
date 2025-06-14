@@ -87,25 +87,25 @@ def cadastro(request):
         senha1 = request.POST.get('senha1')
         senha2 = request.POST.get('senha2')
 
-        if senha1!=senha2:
-            messages.error(request, 'Os campos de senha devem ser preenchidos com a mesma senha!')
-            context={
-                'nome': nome,
-                'email': email,
-                'senha1': senha1,
-                'senha2': senha2
-            }
-            return render(request, 'cadastro.html', context)
+        # if senha1!=senha2:
+        #     messages.error(request, 'Os campos de senha devem ser preenchidos com a mesma senha!')
+        #     context={
+        #         'nome': nome,
+        #         'email': email,
+        #         'senha1': senha1,
+        #         'senha2': senha2
+        #     }
+        #     return render(request, 'cadastro.html', context)
         
-        if senha1=="" or senha2=="":
-            messages.error(request, 'Insira uma senha!')
-            context={
-                'nome': nome,
-                'email': email,
-                'senha1': senha1,
-                'senha2': senha2
-            }
-            return render(request, 'cadastro.html', context)
+        # if senha1=="" or senha2=="":
+        #     messages.error(request, 'Insira uma senha!')
+        #     context={
+        #         'nome': nome,
+        #         'email': email,
+        #         'senha1': senha1,
+        #         'senha2': senha2
+        #     }
+        #     return render(request, 'cadastro.html', context)
         
         if Pessoa.objects.filter(email=email).exists():
             messages.error(request, 'Esse email já existe!')
@@ -167,7 +167,7 @@ def montagem_treinos(request):
     if 'pessoa_id' in request.session:
         pessoa = Pessoa.objects.get(idpessoa=request.session['pessoa_id'])
 
-        if pessoa.id_plano != 2 or pessoa.id_plano != 3:
+        if pessoa.id_plano == 1 or pessoa.id_plano == 4:
             return redirect('erro')
 
         exercicios = Exercicios.objects.all()
@@ -249,7 +249,7 @@ def meus_treinos(request):
     if 'pessoa_id' in request.session:
         pessoa = Pessoa.objects.get(idpessoa=request.session['pessoa_id'])
 
-        if pessoa.id_plano != 2 or pessoa.id_plano != 3:
+        if pessoa.id_plano == 1 or pessoa.id_plano == 4:
             return redirect('erro')
 
         rel_user_treino = RelUsuarioTreino.objects.filter(id_pessoa=pessoa.idpessoa)
@@ -308,7 +308,7 @@ def treinoia(request,pk):
     if 'pessoa_id' in request.session:
         pessoa = Pessoa.objects.get(idpessoa=request.session['pessoa_id'])
 
-        if pessoa.id_plano != 1 or pessoa.id_plano != 2:
+        if pessoa.id_plano == 3 or pessoa.id_plano == 4:
             return redirect('erro')
 
     if not 'pessoa_id' in request.session:
@@ -487,6 +487,7 @@ def pagamento(request, pk):
         pessoa = Pessoa.objects.get(idpessoa=request.session['pessoa_id'])
 
         if request.method == 'POST':
+            cpf = request.POST.get('cpf')
             mes = request.POST.get('data_mes')
             ano = request.POST.get('data_ano')
             data_validade = f"{mes.zfill(2)}/{ano}"
@@ -497,6 +498,7 @@ def pagamento(request, pk):
                 data_validade = data_validade,
                 cvv = request.POST.get('cvv'),
             )
+            pessoa.cpf = cpf
             pessoa.id_plano=plano.id_plano
             pessoa.save()
             request.session['assinatura_feita'] = True
