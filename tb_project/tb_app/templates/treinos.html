@@ -223,7 +223,7 @@
                     <div class="row text-uppercase">
                       {% if treinos %}
                        {% for treino in treinos %}
-                        <div class="col-lg-4 col-md-4 col-12">
+                        <div class="col-lg-4 col-md-4 col-12 mx-auto">
                             <div class="p-5 myContainerT rounded-5 text-center">
                               <a href="{% url 'treino' treino.id_treino %}">
                                <img src="{{treino.imagem.url}}" class="img-fluid mb-3">
@@ -270,7 +270,7 @@
         <button type="button" class="btn rounded-5 btnOk" data-bs-dismiss="modal">Cancelar</button>
         <form method="POST" action="{% url 'logout' %}">
         {% csrf_token %}
-        <button type="submit" class="btn rounded-5 btnOk" data-bs-dismiss="modal">Sim, sair</button>
+        <button type="submit" class="btn rounded-5 btnOk" data-bs-dismiss="modal">Sair</button>
         </form>
       </div>
     </div>

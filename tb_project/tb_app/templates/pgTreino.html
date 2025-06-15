@@ -141,8 +141,11 @@
                   <div class="centralized-container">
                             <div class="p-5 myContainerT rounded-5 text-center" style="width: 90%;">
                                 <img src="{% static 'images/ico.png' %}" class="img-fluid mb-3">
-                                <p class="fw-bold">Core</p>
-                                <button type="submit" class="btn rounded-pill btnSalvarT">Salvar</button>
+                                <p class="fw-bold">{{treino.nome_treino}}</p>
+                                <form method="post">
+                                  {% csrf_token %}
+                                  <button type="submit" class="btn rounded-pill btnSalvarT" name="salvar" value="{{treino.id_treino}}">Salvar</button>
+                                </form>
                             </div>
                       </div>
                    
@@ -218,7 +221,7 @@
         <button type="button" class="btn rounded-5 btnOk" data-bs-dismiss="modal">Cancelar</button>
         <form method="POST" action="{% url 'logout' %}">
         {% csrf_token %}
-        <button type="submit" class="btn rounded-5 btnOk" data-bs-dismiss="modal">Sim, sair</button>
+        <button type="submit" class="btn rounded-5 btnOk" data-bs-dismiss="modal">Sair</button>
         </form>
       </div>
     </div>
@@ -244,6 +247,56 @@
     </div>
   </div>
 </div>
+
+<!-- erro treino salvo -->
+<div class="modal fade" id="erro_treino_salvo_Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered"> 
+    <div class="modal-content rounded-5">
+      <div class="modal-header">
+        <h3 class="modal-title fw-bold" id="exampleModalLabel">Aviso do Buddy</h3>
+      </div>
+      <div class="modal-body">
+        Ops, você já salvou esse treino, tente salvar outro :( 
+      <div class="modal-footer">
+        <button type="button" class="btn rounded-5 btnOk" data-bs-dismiss="modal">Ok</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+{% if erro_treino_salvo %}
+<script>
+  window.onload = function() {
+    var modal = new bootstrap.Modal(document.getElementById('erro_treino_salvo_Modal'));
+    modal.show();
+  };
+</script>
+{% endif %}
+
+<!-- treino salvo -->
+<div class="modal fade" id="treino_salvo_Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered"> 
+    <div class="modal-content rounded-5">
+      <div class="modal-header">
+        <h3 class="modal-title fw-bold" id="exampleModalLabel">Aviso do Buddy</h3>
+      </div>
+      <div class="modal-body">
+        Yeah!! Treino salvo em "Meus Treinos" ᕙ(`▿´)ᕗ
+      <div class="modal-footer">
+        <button type="button" class="btn rounded-5 btnOk" data-bs-dismiss="modal">Ok</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+{% if treino_salvo %}
+<script>
+  window.onload = function() {
+    var modal = new bootstrap.Modal(document.getElementById('treino_salvo_Modal'));
+    modal.show();
+  };
+</script>
+{% endif %}
 
         <!-- Importando os scripts do Bootstrap -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

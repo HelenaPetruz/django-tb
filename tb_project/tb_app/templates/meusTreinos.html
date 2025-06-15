@@ -104,7 +104,7 @@
   </div>
 
   <div class="container-fluid ">
-    <div class="row " style="padding-bottom: 2%;">
+    <div class="row  text-center" style="padding-bottom: 2%;">
       <div class="row text-uppercase" style="padding-bottom: 2%;">
 
         {% if treinos %}
@@ -112,13 +112,20 @@
           <h3 class="fw-bold text-uppercase">Treinos criados:</h1>
         </div>
         {% for treino in treinos %}
-        <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+        <div class="col-lg-3 col-md-4 col-sm-6 col-12 mx-auto">
           <div class="p-5 myContainerT rounded-5 text-center">
             <a href="{% url 'treino' treino.id_treino %}">
               <img src="{{treino.imagem.url}}" class="img-fluid mb-3">
                 <p class="fw-bold">{{treino.nome_treino}}</p>
             </a>
-            <button type="submit" class="btn rounded-pill btnSalvarT"><i class="bi bi-trash-fill"></i></button>
+            <form method="post" action="{% url 'montagem_treinos' %}">
+              {% csrf_token %}
+              <button name="acao" value="{{treino.id_treino}}" type="submit" class="btn rounded-pill btnSalvarT"><i class="bi bi-pencil"></i></button>
+            </form>
+            <!-- <form method="post">
+              {% csrf_token %} -->
+              <button name="excluir" value="{{treino.id_treino}}" type="submit" class="btn rounded-pill btnSalvarT"><a href="#" data-bs-toggle="modal" data-bs-target="#excluir_treino"><i class="bi bi-trash-fill"></i></a></button>
+            <!-- </form> -->
           </div>
         </div>
         {% endfor %}   
@@ -133,7 +140,7 @@
           <h3 class="fw-bold text-uppercase">Treinos salvos:</h1>
         </div>
         {% for t_salvo in treinos_salvos %}
-        <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+        <div class="col-lg-3 col-md-4 col-sm-6 col-12 mx-auto">
           <div class="p-5 myContainerT rounded-5 text-center">
             <a href="{% url 'treino' t_salvo.id_treino %}">
               <img src="{{t_salvo.imagem.url}}" class="img-fluid mb-3">
@@ -167,7 +174,28 @@
         <button type="button" class="btn rounded-5 btnOk" data-bs-dismiss="modal">Cancelar</button>
         <form method="POST" action="{% url 'logout' %}">
         {% csrf_token %}
-        <button type="submit" class="btn rounded-5 btnOk" data-bs-dismiss="modal">Sim, sair</button>
+        <button type="submit" class="btn rounded-5 btnOk" data-bs-dismiss="modal">Sair</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+  <!-- Excluir treino -->
+<div class="modal fade" id="excluir_treino" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered"> 
+    <div class="modal-content rounded-5">
+      <div class="modal-header">
+        <h3 class="modal-title fw-bold" id="exampleModalLabel">Aviso do Buddy</h3>
+      </div>
+      <div class="modal-body">
+        Você tem certeza que deseja excluir este treino?
+      <div class="modal-footer">
+        <button type="button" class="btn rounded-5 btnOk" data-bs-dismiss="modal">Cancelar</button>
+        <form method="POST">
+        {% csrf_token %}
+        <button type="submit" value="{{treino.id_treino}}" class="btn rounded-5 btnOk" data-bs-dismiss="modal">Excluir</button>
         </form>
       </div>
     </div>

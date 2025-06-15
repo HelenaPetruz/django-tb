@@ -311,6 +311,17 @@ def meus_treinos(request):
                 'treinos': treinos,
                 'montagem_sucesso': montagem_sucesso
             }
+
+        if request.method == 'POST':
+            id_treino = request.POST.get('excluir')
+            treino = Treino.objects.get(id_treino= id_treino)
+            rel_treino_exercicio = RelTreinoExercicio.objects.filter(id_treino=id_treino)
+            rel_user_treino = RelUsuarioTreino.objects.filter(id_treino=id_treino)
+            treino.delete()
+            rel_treino_exercicio.delete()
+            rel_user_treino.delete()
+
+
     else:
         return redirect('erro')
 
@@ -336,14 +347,32 @@ def treino(request, pk):
         treino = Treino.objects.get(id_treino=pk)
         rel_treino_exercicio = RelTreinoExercicio.objects.filter(id_treino=pk)
         exercicios = Exercicios.objects.filter(id_exercicios__in=[rel.id_exercicio for rel in rel_treino_exercicio])
+
+        treino_salvo = False
+        erro_treino_salvo = False
+        if request.method == 'POST':
+            id_user = pessoa.idpessoa
+            id_treino = request.POST.get('salvar')
+
+            existe = TreinosSalvos.objects.filter(id_treino_do_buddy=id_treino, id_pessoa=id_user).exists()
+            if existe:
+                erro_treino_salvo = True
+            else:
+                TreinosSalvos.objects.create(
+                    id_pessoa = pessoa.idpessoa,
+                    id_treino_do_buddy = request.POST.get('salvar')
+                )
+                treino_salvo = True
+
         context={
             'treino': treino,
             'exercicios': exercicios,
             'rels': rel_treino_exercicio,
-            'pessoa': pessoa
+            'pessoa': pessoa,
+            'treino_salvo': treino_salvo,
+            'erro_treino_salvo': erro_treino_salvo
         }
-        print([rel.id_exercicio for rel in rel_treino_exercicio])
-        print([exercicio.id_exercicios for exercicio in exercicios])
+
     else:
         return redirect('erro')
 
