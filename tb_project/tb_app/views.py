@@ -312,14 +312,14 @@ def meus_treinos(request):
                 'montagem_sucesso': montagem_sucesso
             }
 
-        if request.method == 'POST':
-            id_treino = request.POST.get('excluir')
-            treino = Treino.objects.get(id_treino= id_treino)
-            rel_treino_exercicio = RelTreinoExercicio.objects.filter(id_treino=id_treino)
-            rel_user_treino = RelUsuarioTreino.objects.filter(id_treino=id_treino)
-            treino.delete()
-            rel_treino_exercicio.delete()
-            rel_user_treino.delete()
+        # if request.method == 'POST':
+        #     id_treino = request.POST.get('excluir')
+        #     treino = Treino.objects.get(id_treino= id_treino)
+        #     rel_treino_exercicio = RelTreinoExercicio.objects.filter(id_treino=id_treino)
+        #     rel_user_treino = RelUsuarioTreino.objects.filter(id_treino=id_treino)
+        #     treino.delete()
+        #     rel_treino_exercicio.delete()
+        #     rel_user_treino.delete()
 
 
     else:

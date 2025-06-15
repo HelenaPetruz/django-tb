@@ -118,10 +118,10 @@
               <img src="{{treino.imagem.url}}" class="img-fluid mb-3">
                 <p class="fw-bold">{{treino.nome_treino}}</p>
             </a>
-            <form method="post" action="{% url 'montagem_treinos' %}">
-              {% csrf_token %}
+            <!-- <form method="post" action="{% url 'montagem_treinos' %}">
+              {% csrf_token %} -->
               <button name="acao" value="{{treino.id_treino}}" type="submit" class="btn rounded-pill btnSalvarT"><i class="bi bi-pencil"></i></button>
-            </form>
+            <!-- </form> -->
             <!-- <form method="post">
               {% csrf_token %} -->
               <button name="excluir" value="{{treino.id_treino}}" type="submit" class="btn rounded-pill btnSalvarT"><a href="#" data-bs-toggle="modal" data-bs-target="#excluir_treino"><i class="bi bi-trash-fill"></i></a></button>
