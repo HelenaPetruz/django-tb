@@ -94,19 +94,23 @@ def treinos(request):
 
         treino_salvo = False
         erro_treino_salvo = False
+        assinatura_necessaria = False
         if request.method == 'POST':
-            id_user = pessoa.idpessoa
-            id_treino = request.POST.get('salvar')
-
-            existe = TreinosSalvos.objects.filter(id_treino_do_buddy=id_treino, id_pessoa=id_user).exists()
-            if existe:
-                erro_treino_salvo = True
+            if pessoa.id_plano==4:
+                assinatura_necessaria = True
             else:
-                TreinosSalvos.objects.create(
-                    id_pessoa = pessoa.idpessoa,
-                    id_treino_do_buddy = request.POST.get('salvar')
-                )
-                treino_salvo = True
+                id_user = pessoa.idpessoa
+                id_treino = request.POST.get('salvar')
+
+                existe = TreinosSalvos.objects.filter(id_treino_do_buddy=id_treino, id_pessoa=id_user).exists()
+                if existe:
+                    erro_treino_salvo = True
+                else:
+                    TreinosSalvos.objects.create(
+                        id_pessoa = pessoa.idpessoa,
+                        id_treino_do_buddy = request.POST.get('salvar')
+                    )
+                    treino_salvo = True
 
         context = {
             'treinos': treinos,
@@ -116,7 +120,8 @@ def treinos(request):
             'niveis_selecionados': list(map(int,niveis_selecionados)),
             'musculos_selecionados': list(map(int,musculos_selecionados)),
             'treino_salvo': treino_salvo,
-            'erro_treino_salvo': erro_treino_salvo
+            'erro_treino_salvo': erro_treino_salvo,
+            'assinatura_necessaria': assinatura_necessaria
         }
     else:
         return redirect('erro')
@@ -295,6 +300,7 @@ def meus_treinos(request):
         if pessoa.id_plano == 1 or pessoa.id_plano == 4:
             return redirect('erro')
 
+        treinos_salvos = ""
         rel_user_treino = RelUsuarioTreino.objects.filter(id_pessoa=pessoa.idpessoa)
         treinos = Treino.objects.filter(id_treino__in=[rel.id_treino for rel in rel_user_treino])
 
@@ -309,7 +315,8 @@ def meus_treinos(request):
             montagem_sucesso = request.session.pop('montagem_sucesso', False)
             context = {
                 'treinos': treinos,
-                'montagem_sucesso': montagem_sucesso
+                'montagem_sucesso': montagem_sucesso,
+                'treinos_salvos': treinos_salvos
             }
 
         # if request.method == 'POST':
@@ -350,19 +357,23 @@ def treino(request, pk):
 
         treino_salvo = False
         erro_treino_salvo = False
+        assinatura_necessaria = False
         if request.method == 'POST':
-            id_user = pessoa.idpessoa
-            id_treino = request.POST.get('salvar')
-
-            existe = TreinosSalvos.objects.filter(id_treino_do_buddy=id_treino, id_pessoa=id_user).exists()
-            if existe:
-                erro_treino_salvo = True
+            if pessoa.id_plano==4:
+                assinatura_necessaria = True
             else:
-                TreinosSalvos.objects.create(
-                    id_pessoa = pessoa.idpessoa,
-                    id_treino_do_buddy = request.POST.get('salvar')
-                )
-                treino_salvo = True
+                id_user = pessoa.idpessoa
+                id_treino = request.POST.get('salvar')
+
+                existe = TreinosSalvos.objects.filter(id_treino_do_buddy=id_treino, id_pessoa=id_user).exists()
+                if existe:
+                    erro_treino_salvo = True
+                else:
+                    TreinosSalvos.objects.create(
+                        id_pessoa = pessoa.idpessoa,
+                        id_treino_do_buddy = request.POST.get('salvar')
+                    )
+                    treino_salvo = True
 
         context={
             'treino': treino,
@@ -370,7 +381,8 @@ def treino(request, pk):
             'rels': rel_treino_exercicio,
             'pessoa': pessoa,
             'treino_salvo': treino_salvo,
-            'erro_treino_salvo': erro_treino_salvo
+            'erro_treino_salvo': erro_treino_salvo,
+            'assinatura_necessaria': assinatura_necessaria
         }
 
     else:

@@ -298,6 +298,33 @@
 </script>
 {% endif %}
 
+<!-- recurso premium -->
+<div class="modal fade" id="assinatura_necessaria" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered"> 
+    <div class="modal-content rounded-5">
+      <div class="modal-header">
+        <h3 class="modal-title fw-bold" id="exampleModalLabel">Aviso do Buddy</h3>
+       
+      </div>
+      <div class="modal-body">
+   Seja um dos nossos alunos Premium para salvar treinos!! ᕙ(`▿´)ᕗ
+      </div>
+      <div class="modal-footer">
+        <!-- ver se é melhor assinar ou planos -->
+        <button type="button" class="btn rounded-5 btnOk" data-bs-dismiss="modal"><a href="{% url 'home' %}#planos ">Ver planos</a></button>
+      </div>
+    </div>
+  </div>
+</div>
+{% if assinatura_necessaria %}
+<script>
+  window.onload = function() {
+    var modal = new bootstrap.Modal(document.getElementById('assinatura_necessaria'));
+    modal.show();
+  };
+</script>
+{% endif %}
+
         <!-- Importando os scripts do Bootstrap -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.4/dist/umd/popper.min.js"></script>
