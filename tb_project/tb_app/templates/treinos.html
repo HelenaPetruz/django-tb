@@ -155,63 +155,17 @@
   </div>
   </div> -->
        
-
-
         <div class="container-fluid ">
             <div class="row " style="padding-bottom: 2%;">
                
                 <div class="col-lg-3 col-md-12 rounded-5">
                     
-                    <div class="accordion contFiltrosT rounded-5 id="accordionFiltros ">
-                      <h3 class="text-center">Filtros</h3>
-                    <p class="lead text-center">Selecione uma categoria:</p>
-                        <div class="accordion-item ">
-                          <h2 class="accordion-header ">
-                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                             Foco
-                            </button>
-                          </h2>
-                          <div id="collapseOne" class="accordion-collapse collapse " data-bs-parent="#accordionExample">
-                            <div class="accordion-body contFiltrosT" >
-                              <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                <label class="form-check-label text-start" for="flexCheckDefault">
-                                  Superiores
-                                </label>
-                              </div>
-                              <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-                                <label class="form-check-label" for="flexCheckChecked">
-                                  Inferiores
-                                </label>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
+                    <div class="accordion contFiltrosT rounded-5 id="accordionFiltros">
+                      <form id="filter-form" action="{% url 'treinos' %}" method="get">
+                        <h3 class="text-center">Filtros</h3>
+                        <p class="lead text-center">Selecione uma categoria:</p>
                         <div class="accordion-item">
-                          <h2 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                              Tipo
-                            </button>
-                          </h2>
-                          <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                            <div class="accordion-body contFiltrosT">
-                              <div class="form-check">
-                                <input class="form-check-input " type="checkbox" value="" id="flexCheckDefault">
-                                <label class="form-check-label text-start" for="flexCheckDefault">
-                                 Força
-                                </label>
-                              </div>
-                              <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-                                <label class="form-check-label" for="flexCheckChecked">
-                                  Alongamento
-                                </label>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="accordion-item">
+
                           <h2 class="accordion-header">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                             Dificuldade
@@ -219,29 +173,44 @@
                           </h2>
                           <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                             <div class="accordion-body contFiltrosT">
+                              {% for nivel in niveis %}
                               <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                <input name="q_niveis" value="{{ nivel.idnivel_dificuldade }}" class="form-check-input" type="checkbox" id="flexCheckDefault" 
+                                  {% if nivel.idnivel_dificuldade in niveis_selecionados %} checked {% endif %} >
                                 <label class="form-check-label text-start" for="flexCheckDefault">
-                                  Fácil
+                                  {{nivel.nome_nivel_dificuldade}}
                                 </label>
                               </div>
-                              <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-                                <label class="form-check-label" for="flexCheckChecked">
-                                  Médio
-                                </label>
-                              </div>
-                              <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-                                <label class="form-check-label" for="flexCheckChecked">
-                                  Difícil
-                                </label>
-                              </div>
+                              {% endfor %}
                             </div>
                           </div>
                         </div>
+
+                        <div class="accordion-item">
+                          <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                              Músculos Envolvidos
+                            </button>
+                          </h2>
+                          <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                            <div class="accordion-body contFiltrosT">
+                              {% for musculo in musculos %}
+                              <div class="form-check">
+                                <input name="q_musculos" value="{{ musculo.id_musculos_envolvidos }}" class="form-check-input" type="checkbox" value="" id="flexCheckDefault"
+                                  {% if musculo.id_musculos_envolvidos in musculos_selecionados %} checked {% endif %}>
+                                <label class="form-check-label text-start" for="flexCheckDefault">
+                                  {{musculo.nome_musculo}}
+                                </label>
+                              </div>
+                              {% endfor %}
+                            </div>
+                          </div>
+                        </div>
+
+                        <button name="acao" value="selecionar" type="submit" class="btn rounded-pill btnSalvarT d-block mx-auto">Aplicar filtros</button>
+                      </form>
                       </div>
-                   
+
                 </div>
     
               
@@ -252,6 +221,7 @@
                     </div>
     
                     <div class="row text-uppercase">
+                      {% if treinos %}
                        {% for treino in treinos %}
                         <div class="col-lg-4 col-md-4 col-12">
                             <div class="p-5 myContainerT rounded-5 text-center">
@@ -263,6 +233,11 @@
                             </div>
                         </div>
                         {% endfor %}
+                        {% else %}
+                        <div id="titleT" class="text-center">
+                          <h6 class="lead">Nenhum treino encontrado :(</h6>
+                        </div>
+                        {% endif %}
     
                         <!-- <div class="col-lg-4 col-md-4 col-12">
                           <div class="p-5 myContainerT rounded-5 text-center">

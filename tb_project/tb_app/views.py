@@ -64,16 +64,41 @@ def exercicios(request):
     return render(request, 'exercicios.html', context)
 
 def treinos(request):
-    treinos = Treino.objects.filter(treino_do_buddy=1)
-    context = {
-        'treinos': treinos,
-    }
-
     if 'pessoa_id' in request.session:
         pessoa = Pessoa.objects.get(idpessoa=request.session['pessoa_id'])
+        niveis = NivelDificuldade.objects.all()
+        musculos = MusculosEnvolvidos.objects.all()
+        niveis_selecionados = request.GET.getlist('q_niveis')
+        musculos_selecionados = request.GET.getlist('q_musculos')
+
+        treinos_query = Treino.objects.filter(treino_do_buddy=1)
+        exercicios = Exercicios.objects.all()
+
+        if niveis_selecionados:
+            exercicios = exercicios.filter(id_nivel_dificuldade__in = niveis_selecionados)
+
+        if musculos_selecionados:
+            exercicios_ids_com_musculos = RelExerciciosMusculos.objects.filter(
+                id_musculo__in=musculos_selecionados
+            ).values_list('id_exercicio', flat=True) 
+            # a funcao .values_list cria uma lista apenas com o parametro passado, nesse caso o id dos exercicios
+            # e o flat=true é só quando a lista pega apenas 1 campo
+
+            exercicios = exercicios.filter(id_exercicios__in=exercicios_ids_com_musculos)
+
+        rel_treinos = RelTreinoExercicio.objects.filter(
+            id_exercicio__in=exercicios.values_list('id_exercicios', flat=True)
+        ).values_list('id_treino', flat=True)
+
+        treinos = treinos_query.filter(id_treino__in=rel_treinos).distinct()
+
         context = {
         'treinos': treinos,
         'pessoa': pessoa,
+        'niveis': niveis,
+        'musculos': musculos,
+        'niveis_selecionados': list(map(int,niveis_selecionados)),
+        'musculos_selecionados': list(map(int,musculos_selecionados)),
     }
     else:
         return redirect('erro')
