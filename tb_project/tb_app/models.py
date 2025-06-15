@@ -43,6 +43,15 @@ class RelUsuarioTreino(models.Model):
         db_table = 'rel_usuario_treino'
         unique_together = (('id_treino', 'id_pessoa'),)    
 
+class TreinosSalvos(models.Model):
+    id_pessoa = models.IntegerField(primary_key=True)  # The composite primary key (id_pessoa, id_treino_do_buddy) found, that is not supported. The first column is selected.
+    id_treino_do_buddy = models.IntegerField()
+
+    class Meta:
+        managed = False
+        db_table = 'treinos_salvos'
+        unique_together = (('id_pessoa', 'id_treino_do_buddy'),)
+
 class Plano(models.Model):
     id_plano = models.AutoField(primary_key=True)
     nome_plano = models.CharField(max_length=45)

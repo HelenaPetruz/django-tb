@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.hashers import make_password, check_password
 import random
 from django.contrib import messages
-from .models import Exercicios, Treino, NivelDificuldade, MusculosEnvolvidos, RelExerciciosMusculos, Plano, RelTreinoExercicio, ErrosPossiveis, CondPagamento, Pessoa, RelUsuarioTreino
+from .models import Exercicios, Treino, NivelDificuldade, MusculosEnvolvidos, RelExerciciosMusculos, Plano, RelTreinoExercicio, ErrosPossiveis, CondPagamento, Pessoa, RelUsuarioTreino, TreinosSalvos
 
 def home(request):
 
@@ -92,14 +92,32 @@ def treinos(request):
 
         treinos = treinos_query.filter(id_treino__in=rel_treinos).distinct()
 
+        treino_salvo = False
+        erro_treino_salvo = False
+        if request.method == 'POST':
+            id_user = pessoa.idpessoa
+            id_treino = request.POST.get('salvar')
+
+            existe = TreinosSalvos.objects.filter(id_treino_do_buddy=id_treino, id_pessoa=id_user).exists()
+            if existe:
+                erro_treino_salvo = True
+            else:
+                TreinosSalvos.objects.create(
+                    id_pessoa = pessoa.idpessoa,
+                    id_treino_do_buddy = request.POST.get('salvar')
+                )
+                treino_salvo = True
+
         context = {
-        'treinos': treinos,
-        'pessoa': pessoa,
-        'niveis': niveis,
-        'musculos': musculos,
-        'niveis_selecionados': list(map(int,niveis_selecionados)),
-        'musculos_selecionados': list(map(int,musculos_selecionados)),
-    }
+            'treinos': treinos,
+            'pessoa': pessoa,
+            'niveis': niveis,
+            'musculos': musculos,
+            'niveis_selecionados': list(map(int,niveis_selecionados)),
+            'musculos_selecionados': list(map(int,musculos_selecionados)),
+            'treino_salvo': treino_salvo,
+            'erro_treino_salvo': erro_treino_salvo
+        }
     else:
         return redirect('erro')
         
@@ -279,8 +297,12 @@ def meus_treinos(request):
 
         rel_user_treino = RelUsuarioTreino.objects.filter(id_pessoa=pessoa.idpessoa)
         treinos = Treino.objects.filter(id_treino__in=[rel.id_treino for rel in rel_user_treino])
+
+        rel_treinos_salvos = TreinosSalvos.objects.filter(id_pessoa=pessoa.idpessoa).values_list('id_treino_do_buddy', flat=True) 
+        treinos_salvos = Treino.objects.filter(id_treino__in = rel_treinos_salvos)
         context = {
-            'treinos': treinos
+            'treinos': treinos,
+            'treinos_salvos': treinos_salvos
         }
 
         if 'montagem_sucesso' in request.session:

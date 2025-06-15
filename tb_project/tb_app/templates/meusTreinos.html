@@ -108,6 +108,9 @@
       <div class="row text-uppercase" style="padding-bottom: 2%;">
 
         {% if treinos %}
+        <div id="titleT" class="text-center">
+          <h3 class="fw-bold text-uppercase">Treinos criados:</h1>
+        </div>
         {% for treino in treinos %}
         <div class="col-lg-3 col-md-4 col-sm-6 col-12">
           <div class="p-5 myContainerT rounded-5 text-center">
@@ -121,7 +124,28 @@
         {% endfor %}   
         {% else %}
         <div id="titleT" class="text-center">
-          <h6 >Você ainda não criou nenhum treino!</h6>    
+          <h6 >Você ainda não criou nenhum treino :(</h6>    
+        </div>
+        {% endif %}
+
+        {% if treinos_salvos %}
+        <div id="titleT" class="text-center">
+          <h3 class="fw-bold text-uppercase">Treinos salvos:</h1>
+        </div>
+        {% for t_salvo in treinos_salvos %}
+        <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+          <div class="p-5 myContainerT rounded-5 text-center">
+            <a href="{% url 'treino' t_salvo.id_treino %}">
+              <img src="{{t_salvo.imagem.url}}" class="img-fluid mb-3">
+                <p class="fw-bold">{{t_salvo.nome_treino}}</p>
+            </a>
+            <button type="submit" class="btn rounded-pill btnSalvarT"><i class="bi bi-trash-fill"></i></button>
+          </div>
+        </div>
+        {% endfor %}   
+        {% else %}
+        <div id="titleT" class="text-center">
+          <h6 >Você ainda não salvou nenhum treino :(</h6>    
         </div>
         {% endif %}
 
