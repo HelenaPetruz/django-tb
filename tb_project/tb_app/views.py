@@ -3,6 +3,11 @@ from django.contrib.auth.hashers import make_password, check_password
 import random
 from django.contrib import messages
 from .models import Exercicios, Treino, NivelDificuldade, MusculosEnvolvidos, RelExerciciosMusculos, Plano, RelTreinoExercicio, ErrosPossiveis, CondPagamento, Pessoa, RelUsuarioTreino, TreinosSalvos
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes
+from django.contrib.auth.tokens import default_token_generator
+from django.conf import settings
+from django.core.mail import send_mail
 
 def home(request):
 
@@ -210,6 +215,55 @@ def logout(request):
         return redirect('home')
     else:
         return redirect('home')
+    
+
+def recuperar_senha(request):
+    if request.method == "POST":
+        email = request.POST.get("email")
+        try:
+            pessoa = Pessoa.objects.get(email=email)
+            uid = urlsafe_base64_encode(force_bytes(pessoa.idpessoa))
+            token = default_token_generator.make_token(pessoa)
+            link = request.build_absolute_uri(f"/accounts/reset/{uid}/{token}/")
+            asssunto = "Trainer Buddy: Redefinição de senha"
+            mensagem = f"Olá {pessoa.nome_usuario},\n\nClique no link abaixo para redefinir sua senha:\n{link}"
+            send_mail(asssunto, mensagem, settings.DEFAULT_FROM_EMAIL, [pessoa.email])
+
+        except pessoa.DoesNotExist:
+            return render(request, "recuperar_senha.html", {"error": "E-mail não encontrado!"})
+
+    return render(request, "recuperar_senha.html")
+
+def trocar_senha(request, uidb64, token):
+    try:
+        uid = urlsafe_base64_decode(uidb64).decode()
+        pessoa = Pessoa.objects.get(idpessoa=uid)
+    except (TypeError, ValueError, OverflowError, pessoa.DoesNotExist):
+        pessoa = None
+
+    if pessoa is not None and default_token_generator.check_token(pessoa, token):
+        if request.method == "POST":
+            nova_senha1 = request.POST.get("senha1")
+            nova_senha2 = request.POST.get("senha1")
+            if nova_senha1 == nova_senha2:
+                pessoa = Pessoa(
+                    senha=make_password(nova_senha1),
+                )
+                pessoa.save()
+                return render(request, "senha_trocada.html")
+            else:
+                return render(request, "senha_trocada.html", {"error": "Insira a mesma senha nos campos"})
+        return render(request, "trocar_senha.html")
+            # form = SetPasswordForm(pessoa, request.POST)
+            # if form.is_valid():
+            #     form.save()
+            #     return render(request, "accounts/password_reset_complete.html")
+        # else:
+        #     form = SetPasswordForm(user)
+        # return render(request, "accounts/password_reset_confirm.html", {"form": form})
+    else:
+        return render(request, "trocar_senha.html", {"error": "Usuário não encontrado!"})
+
 
 def montagem_treinos(request):
     if 'pessoa_id' in request.session:
