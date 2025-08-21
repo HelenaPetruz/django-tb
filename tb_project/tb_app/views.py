@@ -8,6 +8,7 @@ from django.utils.encoding import force_bytes
 from django.contrib.auth.tokens import default_token_generator
 from django.conf import settings
 from django.core.mail import send_mail
+from django.core import signing
 
 def home(request):
 
@@ -216,6 +217,15 @@ def logout(request):
     else:
         return redirect('home')
     
+def gerar_token(pessoa_id):
+    return signing.dumps({"id": pessoa_id})
+
+def validar_token(token):
+    try:
+        data = signing.loads(token, max_age=3600)  # expira em 1h
+        return data["id"]
+    except signing.BadSignature:
+        return None
 
 def recuperar_senha(request):
     if request.method == "POST":
@@ -223,14 +233,16 @@ def recuperar_senha(request):
         try:
             pessoa = Pessoa.objects.get(email=email)
             uid = urlsafe_base64_encode(force_bytes(pessoa.idpessoa))
-            token = default_token_generator.make_token(pessoa)
-            link = request.build_absolute_uri(f"/accounts/reset/{uid}/{token}/")
+            token = gerar_token(pessoa.idpessoa)
+            link = request.build_absolute_uri(f"/redefinicao_de_senha/{uid}/{token}/")
             asssunto = "Trainer Buddy: Redefinição de senha"
             mensagem = f"Olá {pessoa.nome_usuario},\n\nClique no link abaixo para redefinir sua senha:\n{link}"
             send_mail(asssunto, mensagem, settings.DEFAULT_FROM_EMAIL, [pessoa.email])
+            messages.success(request, 'E-mail enviado com sucesso! :)')
 
-        except pessoa.DoesNotExist:
-            return render(request, "recuperar_senha.html", {"error": "E-mail não encontrado!"})
+        except Pessoa.DoesNotExist:
+            messages.error(request, 'Ops! Email não encontrado :(')
+            # return render(request, "recuperar_senha.html", {"error": "E-mail não encontrado!"})
 
     return render(request, "recuperar_senha.html")
 
@@ -241,7 +253,8 @@ def trocar_senha(request, uidb64, token):
     except (TypeError, ValueError, OverflowError, pessoa.DoesNotExist):
         pessoa = None
 
-    if pessoa is not None and default_token_generator.check_token(pessoa, token):
+    pessoa_id = validar_token(token)
+    if pessoa_id and pessoa is not None: # deixa redefinir a senha
         if request.method == "POST":
             nova_senha1 = request.POST.get("senha1")
             nova_senha2 = request.POST.get("senha1")
@@ -250,9 +263,12 @@ def trocar_senha(request, uidb64, token):
                     senha=make_password(nova_senha1),
                 )
                 pessoa.save()
-                return render(request, "senha_trocada.html")
+                messages.success(request, 'Senha redefinida com sucesso! :)')
+                return redirect('home')
+                # return render(request, "senha_trocada.html")
             else:
-                return render(request, "senha_trocada.html", {"error": "Insira a mesma senha nos campos"})
+                messages.error(request, 'Insira a mesma senha nos campos!')
+                # return render(request, "senha_trocada.html", {"error": "Insira a mesma senha nos campos"})
         return render(request, "trocar_senha.html")
             # form = SetPasswordForm(pessoa, request.POST)
             # if form.is_valid():
@@ -261,7 +277,7 @@ def trocar_senha(request, uidb64, token):
         # else:
         #     form = SetPasswordForm(user)
         # return render(request, "accounts/password_reset_confirm.html", {"form": form})
-    else:
+    else: # token inválido ou expirado
         return render(request, "trocar_senha.html", {"error": "Usuário não encontrado!"})
 
 

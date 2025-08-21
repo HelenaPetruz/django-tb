@@ -20,6 +20,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from tb_app import views
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('home/', views.home, name='home'),
@@ -36,6 +37,19 @@ urlpatterns = [
     path('treino_guiado/<int:pk>', views.treino_guiado, name='treino_guiado'),
     path('pagamento/<int:pk>', views.pagamento, name='pagamento'),
     path('erro/', views.erro, name='erro'),
+
+    ## Recuperação de senha
+    # digitar e-mail
+    path('recuperar_senha/', views.recuperar_senha, name='recuperar_senha'),
+
+    # # confirmação de envio do e-mail
+    # path('reset_password_sent/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
+
+    # formulário para nova senha (link enviado por e-mail)
+    path('trocar_senha/<uidb64>/<token>/', views.trocar_senha, name='trocar_senha'),
+
+    # 4️⃣ Página final de senha redefinida com sucesso
+    # path('reset_password_complete/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
 ]
 
 if settings.DEBUG:
