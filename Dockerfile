@@ -21,6 +21,7 @@ RUN pip install -r requirements.txt
 COPY ./ /app/
 
 WORKDIR /app/tb_project
+ENV PRODUCTION=true
 
 RUN python manage.py collectstatic --noinput
 
