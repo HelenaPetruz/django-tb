@@ -23,11 +23,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-0qn($(b(y%oosanyz%=s*fv@v@_kq8i7pkf7iu()$rrk#+hv1='
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+if "PRODUCTION" in os.environ:
+    DEBUG = False
+else:
+    DEBUG = True
 
-ALLOWED_HOSTS = []
-
+# TODO: em producao de verdade, colocariamos os hosts a serem usados aq
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -43,6 +45,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -50,6 +53,9 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+# para servir os arquivos estáticos com o gunicorn
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 ROOT_URLCONF = 'tb_project.urls'
 
@@ -121,15 +127,14 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_ROOT = BASE_DIR / 'productionfiles'
+STATIC_ROOT = BASE_DIR / 'static'
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
 #Add this in your settings.py file:
 STATICFILES_DIRS = [
     BASE_DIR / 'mystaticfiles'
 ]
-
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
