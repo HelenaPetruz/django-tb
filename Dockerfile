@@ -11,7 +11,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libpq-dev \
     default-libmysqlclient-dev \
     pkg-config \
-    tree \
     && rm -rf /var/lib/apt/lists/*
 
 
@@ -24,8 +23,6 @@ COPY ./ /app/
 WORKDIR /app/tb_project
 
 RUN python manage.py collectstatic --noinput
-
-RUN tree .. -I __pycache__ -I venv
 
 EXPOSE 8000
 
