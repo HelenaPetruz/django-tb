@@ -151,7 +151,12 @@
       <h6 class="lead">1. Selecione um exercício</h6>
     </div>
      
+      {% if pagina == "editar" %}
+    <form method="POST" id="formSerie" action="{% url 'editar_treino' treino_id %}">
+      {% else %}
     <form method="POST" id="formSerie" action="{% url 'montagem_treinos' %}">
+      {% endif %}
+
       {% csrf_token %}
 
       <div class="container text-center " style="padding-bottom: 2%;">

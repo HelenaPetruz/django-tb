@@ -405,10 +405,19 @@ def editar_treino(request, pk):
             exercicios_ids = [int(ex_id) for ex_id in request.POST.getlist("exercicios_selecionados") if ex_id.isdigit()]
             exe_serie_rep = Exercicios.objects.filter(id_exercicios__in=exercicios_ids)
 
-            context.update({
-                'exercicios_ids': exercicios_ids,
-                'exe_serie_rep': exe_serie_rep,
-            })
+            context = {
+                'pagina': "editar",
+                'nome': treino.nome_treino,
+                'exercicios': exercicios,
+                'exercicios_count': exercicios_count,
+                'exercicios_ids': exercicios_ids,   # marcar os checkboxes
+                'exe_serie_rep': exe_serie_rep,     # para séries/repeticoes
+                'treino_id': treino.id_treino,
+            }
+            # context.update({
+            #     'exercicios_ids': exercicios_ids,
+            #     'exe_serie_rep': exe_serie_rep,
+            # })
             return render(request, 'montagemTreinos.html', context)
 
         if acao == "salvar":
