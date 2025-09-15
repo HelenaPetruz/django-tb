@@ -294,6 +294,7 @@ def montagem_treinos(request):
         context = {
             'exercicios': exercicios,
             'exercicios_count': exercicios_count,
+            'pagina': "criar",
         }
 
         if request.method == "POST":
@@ -306,7 +307,8 @@ def montagem_treinos(request):
                     context={
                         'exercicios': exercicios,
                         'exercicios_count': exercicios_count,
-                        'falta_ex': falta_ex
+                        'falta_ex': falta_ex,
+                        'pagina': "criar",
                     }
                     return render(request, 'montagemTreinos.html', context) 
                 
@@ -318,7 +320,8 @@ def montagem_treinos(request):
                     'exercicios': exercicios,
                     'exercicios_count': exercicios_count,
                     'exercicios_ids': exercicios_ids,
-                    'exe_serie_rep': exe_serie_rep
+                    'exe_serie_rep': exe_serie_rep,
+                    'pagina': "criar",
                 }
                 return render(request, 'montagemTreinos.html', context) 
             
@@ -329,7 +332,8 @@ def montagem_treinos(request):
                     context={
                         'exercicios': exercicios,
                         'exercicios_count': exercicios_count,
-                        'falta_ex': falta_ex
+                        'falta_ex': falta_ex,
+                        'pagina': "criar",
                     }
                     return render(request, 'montagemTreinos.html', context) 
                 exercicios_ids = [int(ex_id) for ex_id in exercicios_ids if ex_id.isdigit()]
@@ -363,11 +367,79 @@ def montagem_treinos(request):
 
     return render(request, 'montagemTreinos.html', context) 
 
-def meus_treinos(request):
+def editar_treino(request, pk):
     if 'pessoa_id' in request.session:
         pessoa = Pessoa.objects.get(idpessoa=request.session['pessoa_id'])
 
         if pessoa.id_plano == 1 or pessoa.id_plano == 4:
+            return redirect('erro')
+        if not 'pessoa_id' in request.session:
+            return redirect('erro')
+        
+    treino = Treino.objects.get(id_treino = pk)
+    relacoes = RelTreinoExercicio.objects.filter(id_treino=treino.id_treino)
+    exercicios_ids = [rel.id_exercicio for rel in relacoes] #exercícios selecionados
+    exercicios = Exercicios.objects.all()
+    exercicios_count = exercicios.count()
+    exe_serie_rep = []
+    for rel in relacoes:
+        ex = Exercicios.objects.get(id_exercicios=rel.id_exercicio)
+        ex.series = rel.numero_series
+        ex.repeticoes = rel.numero_repeticoes
+        exe_serie_rep.append(ex)
+
+    context = {
+        'pagina': "editar",
+        'nome': treino.nome_treino,
+        'exercicios': exercicios,
+        'exercicios_count': exercicios_count,
+        'exercicios_ids': exercicios_ids,   # marcar os checkboxes
+        'exe_serie_rep': exe_serie_rep,     # para séries/repeticoes
+        'treino_id': treino.id_treino,
+    }
+
+    if request.method == "POST":
+        acao = request.POST.get('acao')
+
+        if acao == "selecionar":
+            exercicios_ids = [int(ex_id) for ex_id in request.POST.getlist("exercicios_selecionados") if ex_id.isdigit()]
+            exe_serie_rep = Exercicios.objects.filter(id_exercicios__in=exercicios_ids)
+
+            context.update({
+                'exercicios_ids': exercicios_ids,
+                'exe_serie_rep': exe_serie_rep,
+            })
+            return render(request, 'montagemTreinos.html', context)
+
+        if acao == "salvar":
+            exercicios_ids = [int(ex_id) for ex_id in request.POST.getlist("exercicios_selecionados") if ex_id.isdigit()]
+            if not exercicios_ids:
+                context['falta_ex'] = True
+                return render(request, 'montagemTreinos.html', context)
+
+            treino.nome_treino = request.POST.get('nome')
+            treino.save()
+
+            RelTreinoExercicio.objects.filter(id_treino=treino.id_treino).delete()
+            for ex_id in exercicios_ids:
+                valor_series = request.POST.get(f"series_{ex_id}")
+                valor_repeticoes = request.POST.get(f"repeticoes_{ex_id}")
+                RelTreinoExercicio.objects.create(
+                    id_treino=treino.id_treino,
+                    id_exercicio=ex_id,
+                    numero_series=int(valor_series),
+                    numero_repeticoes=int(valor_repeticoes),
+                )
+
+            request.session['edicao_sucesso'] = True
+            return redirect('meus_treinos')
+    return render(request, 'montagemTreinos.html', context) 
+
+def meus_treinos(request):
+    if 'pessoa_id' in request.session:
+        pessoa = Pessoa.objects.get(idpessoa=request.session['pessoa_id'])
+
+        if pessoa.id_plano == 4:
             return redirect('erro')
 
         treinos_salvos = ""
@@ -389,14 +461,27 @@ def meus_treinos(request):
                 'treinos_salvos': treinos_salvos
             }
 
-        # if request.method == 'POST':
-        #     id_treino = request.POST.get('excluir')
-        #     treino = Treino.objects.get(id_treino= id_treino)
-        #     rel_treino_exercicio = RelTreinoExercicio.objects.filter(id_treino=id_treino)
-        #     rel_user_treino = RelUsuarioTreino.objects.filter(id_treino=id_treino)
-        #     treino.delete()
-        #     rel_treino_exercicio.delete()
-        #     rel_user_treino.delete()
+        if 'edicao_sucesso' in request.session:
+            edicao_sucesso = request.session.pop('edicao_sucesso', False)
+            context = {
+                'treinos': treinos,
+                'edicao_sucesso': edicao_sucesso,
+                'treinos_salvos': treinos_salvos
+            }
+
+        if request.method == 'POST':
+            id_treino = request.POST.get('excluir_treino')
+            print("ID: ", id_treino)
+            treino = Treino.objects.get(id_treino= id_treino)
+            if treino.treino_do_buddy == False:
+                rel_treino_exercicio = RelTreinoExercicio.objects.filter(id_treino=id_treino)
+                rel_user_treino = RelUsuarioTreino.objects.filter(id_treino=id_treino)
+                treino.delete()
+                rel_treino_exercicio.delete()
+                rel_user_treino.delete()
+            else:
+                treino_salvo = TreinosSalvos.objects.filter(id_treino_do_buddy=id_treino, id_pessoa=pessoa.idpessoa)
+                treino_salvo.delete()
 
 
     else:

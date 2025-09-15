@@ -143,7 +143,11 @@
        
   <div class="text-center" id="myCE">
     <div id="titleE">
+      {% if pagina == "editar" %}
+      <h1 class="text-center fw-bold text-uppercase">Edição de Treino</h1>
+      {% else %}
       <h1 class="text-center fw-bold text-uppercase">Montagem de Treinos</h1>
+      {% endif %}
       <h6 class="lead">1. Selecione um exercício</h6>
     </div>
      
@@ -193,9 +197,9 @@
                       <img src="{{exe.imagem.url}}" class="img-fluid" >
                       <p class="fw-bold" > {{exe.nome_exercicio}}</p>
                       <div style="display: flex; justify-content: center; align-items: center; gap: 5px; ">
-                        <input name="series_{{exe.id_exercicios}}" type="number" id="inputSeries" class="form-control w-25 text-center"  min="1">
+                        <input name="series_{{exe.id_exercicios}}" value="{{exe.series|default_if_none:''}}" type="number" id="inputSeries" class="form-control w-25 text-center"  min="1">
                         <p class="fw-bold my-auto">X</p>
-                        <input name="repeticoes_{{exe.id_exercicios}}" type="number" id="inputReps" class="form-control w-25 text-center"  min="1">
+                        <input name="repeticoes_{{exe.id_exercicios}}" value="{{exe.repeticoes|default_if_none:''}}" type="number" id="inputReps" class="form-control w-25 text-center"  min="1">
                       </div>
                     </div>
                   </div>
@@ -219,7 +223,7 @@
               <div class="container overflow-hidden text-center rounded-5" style="padding:2%;  background-color: #44377d;  ">
                 <div class="row gy-2 gx-5  text-uppercase" style="justify-content: center; align-items: center;">
                   <div class="col-lg-9  col-12 mx-auto " >
-                    <input name="nome" type="text" class="form-control rounded-pill" id="nomeTreino" >
+                    <input name="nome" type="text" class="form-control rounded-pill" id="nomeTreino" value="{{nome}}">
                   </div>
                   <div class="col-lg-3  col-12" >
                     <button name="acao" value="salvar" type="submit" class="btn rounded-pill btnSalvarT">Salvar</button>

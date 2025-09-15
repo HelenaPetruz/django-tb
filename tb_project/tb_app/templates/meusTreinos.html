@@ -58,6 +58,11 @@
   background-color: #2e1b4f; /* tom mais escuro */
 }
 
+.modal .modal-body,
+.modal .modal-title {
+  text-transform: none !important;
+}
+
     </style>
 
     <title>Meus treinos</title>
@@ -120,12 +125,29 @@
             </a>
             <!-- <form method="post" action="{% url 'montagem_treinos' %}">
               {% csrf_token %} -->
-              <button name="acao" value="{{treino.id_treino}}" type="submit" class="btn rounded-pill btnSalvarT"><i class="bi bi-pencil"></i></button>
+              <button name="acao" value="{{treino.id_treino}}" type="submit" class="btn rounded-pill btnSalvarT"><a href="{% url 'editar_treino' treino.id_treino %}"><i class="bi bi-pencil"></i></a></button>
             <!-- </form> -->
-            <!-- <form method="post">
-              {% csrf_token %} -->
-              <button name="excluir" value="{{treino.id_treino}}" type="submit" class="btn rounded-pill btnSalvarT"><a href="#" data-bs-toggle="modal" data-bs-target="#excluir_treino"><i class="bi bi-trash-fill"></i></a></button>
-            <!-- </form> -->
+              <button name="excluir" value="{{treino.id_treino}}" type="submit" class="btn rounded-pill btnSalvarT"><a href="#" data-bs-toggle="modal" data-bs-target="#excluir_treino_{{treino.id_treino}}"><i class="bi bi-trash-fill"></i></a></button>
+               <!-- Excluir treino -->
+                <div class="modal fade" id="excluir_treino_{{treino.id_treino}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered"> 
+                    <div class="modal-content rounded-5">
+                      <div class="modal-header">
+                        <h3 class="modal-title fw-bold" id="exampleModalLabel">Aviso do Buddy</h3>
+                      </div>
+                      <div class="modal-body">
+                        Você tem certeza que deseja excluir este treino?
+                      <div class="modal-footer">
+                        <button type="button" class="btn rounded-5 btnOk" data-bs-dismiss="modal">Cancelar</button>
+                        <form method="POST">
+                        {% csrf_token %}
+                        <button name="excluir_treino" type="submit" value="{{treino.id_treino}}" class="btn rounded-5 btnOk" data-bs-dismiss="modal">Excluir</button>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                </div>
           </div>
         </div>
         {% endfor %}   
@@ -146,8 +168,27 @@
               <img src="{{t_salvo.imagem.url}}" class="img-fluid mb-3">
                 <p class="fw-bold">{{t_salvo.nome_treino}}</p>
             </a>
-            <button name="acao" value="{{treino.id_treino}}" type="submit" class="btn rounded-pill btnSalvarT"><i class="bi bi-pencil"></i></button>
-            <button name="excluir" value="{{treino.id_treino}}" type="submit" class="btn rounded-pill btnSalvarT"><a href="#" data-bs-toggle="modal" data-bs-target="#excluir_treino"><i class="bi bi-trash-fill"></i></a></button>
+            <button name="excluir" value="{{t_salvo.id_treino}}" type="submit" class="btn rounded-pill btnSalvarT"><a href="#" data-bs-toggle="modal" data-bs-target="#excluir_treino_{{t_salvo.id_treino}}"><i class="bi bi-trash-fill"></i></a></button>
+               <!-- Excluir treino -->
+                <div class="modal fade" id="excluir_treino_{{t_salvo.id_treino}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered"> 
+                    <div class="modal-content rounded-5">
+                      <div class="modal-header">
+                        <h3 class="modal-title fw-bold" id="exampleModalLabel">Aviso do Buddy</h3>
+                      </div>
+                      <div class="modal-body">
+                        Você tem certeza que deseja excluir este treino?
+                      <div class="modal-footer">
+                        <button type="button" class="btn rounded-5 btnOk" data-bs-dismiss="modal">Cancelar</button>
+                        <form method="POST">
+                        {% csrf_token %}
+                        <button name="excluir_treino" type="submit" value="{{t_salvo.id_treino}}" class="btn rounded-5 btnOk" data-bs-dismiss="modal">Excluir</button>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                </div>
           </div>
         </div>
         {% endfor %}   
@@ -183,26 +224,7 @@
 </div>
 </div>
 
-  <!-- Excluir treino -->
-<div class="modal fade" id="excluir_treino" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-<div class="modal-dialog modal-dialog-centered"> 
-    <div class="modal-content rounded-5">
-      <div class="modal-header">
-        <h3 class="modal-title fw-bold" id="exampleModalLabel">Aviso do Buddy</h3>
-      </div>
-      <div class="modal-body">
-        Você tem certeza que deseja excluir este treino?
-      <div class="modal-footer">
-        <button type="button" class="btn rounded-5 btnOk" data-bs-dismiss="modal">Cancelar</button>
-        <form method="POST">
-        {% csrf_token %}
-        <button type="submit" value="{{treino.id_treino}}" class="btn rounded-5 btnOk" data-bs-dismiss="modal">Excluir</button>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-</div>
+ 
 
 <!-- montagem de treino sucesso -->
 <div class="modal fade" id="modalMTfeita" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -222,6 +244,32 @@
   </div>
 </div>
 {% if montagem_sucesso %}
+<script>
+  window.onload = function() {
+    var modal = new bootstrap.Modal(document.getElementById('modalMTfeita'));
+    modal.show();
+  };
+</script>
+{% endif %}
+
+<!-- edicao de treino sucesso -->
+<div class="modal fade" id="modalMTfeita" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered"> 
+    <div class="modal-content rounded-5">
+      <div class="modal-header">
+        <h3 class="modal-title fw-bold" id="exampleModalLabel">Aviso do Buddy</h3>
+       
+      </div>
+      <div class="modal-body">
+    Yeah!! edição de treino realizada com sucesso ᕙ(`▿´)ᕗ
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn rounded-5 btnOk" data-bs-dismiss="modal">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% if edicao_sucesso %}
 <script>
   window.onload = function() {
     var modal = new bootstrap.Modal(document.getElementById('modalMTfeita'));
