@@ -29,7 +29,7 @@
             {% csrf_token %}
           <div class="col-12 position-relative">
             <label for="senhaNova" class="form-label">Digite sua nova senha:</label>
-            <input name="senha1" type="password" class="form-control rounded-pill" id="senhaNova" required />
+            <input name="senha1" type="password" required minlength="6" class="form-control rounded-pill" id="senhaNova" required />
             <div class="invalid-tooltip">
               Ops,  insira uma senha válida :( 
             </div>
@@ -37,7 +37,7 @@
 
           <div class="col-12 position-relative pt-2">
             <label for="senhaConfirm" class="form-label">Confirme sua senha:</label>
-            <input name="senha2" type="password" class="form-control rounded-pill" id="senhaConfirm" required />
+            <input name="senha2" type="password" required minlength="6" class="form-control rounded-pill" id="senhaConfirm" required />
             <div class="invalid-tooltip">
               Ops,  insira uma senha válida :( 
             </div>

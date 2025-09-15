@@ -492,6 +492,33 @@
   </div>
 </div>
 
+<div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered"> 
+    <div class="modal-content rounded-5">
+      <div class="modal-header">
+        <h3 class="modal-title fw-bold" id="exampleModalLabel">Aviso do Buddy</h3>
+       
+      </div>
+      <div class="modal-body">
+        Senha redefinida com sucesso! :)
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn rounded-5 btnOk" data-bs-dismiss="modal">OK</button>
+        <button type="button" class="btn rounded-5 btnOk" data-bs-dismiss="modal"><a href="{% url 'login' %}">Login</a></button>
+      </div>
+    </div>
+  </div>
+</div>
+{% if senha_redefinida_sucesso %}
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        var modal = new bootstrap.Modal(document.getElementById('messageModal'));
+        modal.show();
+      });
+
+    </script>
+{% endif %}
+
 <!-- assisnatura feita -->
 <div class="modal fade" id="modalAssFeita" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered"> 
@@ -562,6 +589,7 @@
     </div>
   </div>
 </div>
+
 {% if login_sucesso %}
 <script>
   window.onload = function() {
@@ -570,7 +598,6 @@
   };
 </script>
 {% endif %}
-
 
 <!-- fim de treino -->
 <div class="modal fade" id="modalTreinoTerm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -595,6 +622,8 @@
   };
 </script>
 {% endif %}
+
+
 
 
 

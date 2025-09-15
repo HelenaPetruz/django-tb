@@ -24,6 +24,7 @@ def home(request):
     login_sucesso = request.session.pop('login_sucesso', False)
     fim_de_treino = request.session.pop('fim_de_treino', False)
     assinatura_feita = request.session.pop('assinatura_feita', False)
+    senha_redefinida_sucesso = request.session.pop('senha_redefinida_sucesso', False)
 
     context ={
         'exercicio': exercicio,
@@ -31,7 +32,8 @@ def home(request):
         'cadastro_sucesso': cadastro_sucesso,
         'login_sucesso': login_sucesso,
         'fim_de_treino': fim_de_treino,
-        'assinatura_feita': assinatura_feita
+        'assinatura_feita': assinatura_feita,
+        'senha_redefinida_sucesso': senha_redefinida_sucesso,
     }
 
     if 'pessoa_id' in request.session:
@@ -168,22 +170,25 @@ def cadastro(request):
                 'email': email,
                 'senha1': senha1,
                 'senha2': senha2
-            }
+            } 
             return render(request, 'cadastro.html', context)
             
-    
-        pessoa = Pessoa(
-            nome_usuario = nome,
-            email=email,
-            senha=make_password(senha1),
-            id_plano = 4,
-            id_perfil = 1
-        )
-        pessoa.save()
-        request.session['pessoa_id'] = pessoa.idpessoa
+        if senha1 == senha2:
+            pessoa = Pessoa(
+                nome_usuario = nome,
+                email=email,
+                senha=make_password(senha1),
+                id_plano = 4,
+                id_perfil = 1
+            )
+            pessoa.save()
+            request.session['pessoa_id'] = pessoa.idpessoa
 
-        request.session['cadastro_sucesso'] = True
-        return redirect('home')
+            request.session['cadastro_sucesso'] = True
+            return redirect('home')
+        else:
+            messages.error(request, 'Insira a mesma senha nos campos!')
+            return render(request, 'cadastro.html')
     
     return render(request, 'cadastro.html')
 
@@ -249,6 +254,7 @@ def recuperar_senha(request):
 def trocar_senha(request, uidb64, token):
     try:
         uid = urlsafe_base64_decode(uidb64).decode()
+        print("ID DA PESSOA: ", uid)
         pessoa = Pessoa.objects.get(idpessoa=uid)
     except (TypeError, ValueError, OverflowError, pessoa.DoesNotExist):
         pessoa = None
@@ -257,26 +263,16 @@ def trocar_senha(request, uidb64, token):
     if pessoa_id and pessoa is not None: # deixa redefinir a senha
         if request.method == "POST":
             nova_senha1 = request.POST.get("senha1")
-            nova_senha2 = request.POST.get("senha1")
+            nova_senha2 = request.POST.get("senha2")
             if nova_senha1 == nova_senha2:
-                pessoa = Pessoa(
-                    senha=make_password(nova_senha1),
-                )
+                pessoa.senha = make_password(nova_senha1)
                 pessoa.save()
-                messages.success(request, 'Senha redefinida com sucesso! :)')
+                request.session['senha_redefinida_sucesso'] = True
                 return redirect('home')
-                # return render(request, "senha_trocada.html")
+            
             else:
                 messages.error(request, 'Insira a mesma senha nos campos!')
-                # return render(request, "senha_trocada.html", {"error": "Insira a mesma senha nos campos"})
         return render(request, "trocar_senha.html")
-            # form = SetPasswordForm(pessoa, request.POST)
-            # if form.is_valid():
-            #     form.save()
-            #     return render(request, "accounts/password_reset_complete.html")
-        # else:
-        #     form = SetPasswordForm(user)
-        # return render(request, "accounts/password_reset_confirm.html", {"form": form})
     else: # token inválido ou expirado
         return render(request, "trocar_senha.html", {"error": "Usuário não encontrado!"})
 
@@ -405,19 +401,10 @@ def editar_treino(request, pk):
             exercicios_ids = [int(ex_id) for ex_id in request.POST.getlist("exercicios_selecionados") if ex_id.isdigit()]
             exe_serie_rep = Exercicios.objects.filter(id_exercicios__in=exercicios_ids)
 
-            context = {
-                'pagina': "editar",
-                'nome': treino.nome_treino,
-                'exercicios': exercicios,
-                'exercicios_count': exercicios_count,
-                'exercicios_ids': exercicios_ids,   # marcar os checkboxes
-                'exe_serie_rep': exe_serie_rep,     # para séries/repeticoes
-                'treino_id': treino.id_treino,
-            }
-            # context.update({
-            #     'exercicios_ids': exercicios_ids,
-            #     'exe_serie_rep': exe_serie_rep,
-            # })
+            context.update({
+                'exercicios_ids': exercicios_ids,
+                'exe_serie_rep': exe_serie_rep,
+            })
             return render(request, 'montagemTreinos.html', context)
 
         if acao == "salvar":
