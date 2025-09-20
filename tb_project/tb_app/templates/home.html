@@ -95,6 +95,12 @@
         }
   }
 
+  .modal-footer .btnOk {
+  min-width: 130px; /* força os dois a ficarem do mesmo tamanho */
+  text-align: center;
+}
+
+
   .btnOk:hover{
         background-color:#44377d;
         border: 2px #f4bf3a solid ;
@@ -390,10 +396,10 @@
       <div class="modal-body">
         Já vai? :( Você tem certeza que deseja sair?
       <div class="modal-footer">
-        <button type="button" class="btn rounded-5 btnOk" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn rounded-5 btnOk px-4" data-bs-dismiss="modal">Cancelar</button>
         <form method="POST" action="{% url 'logout' %}">
         {% csrf_token %}
-        <button type="submit" class="btn rounded-5 btnOk" data-bs-dismiss="modal">Sair</button>
+        <button type="submit" class="btn rounded-5 btnOk">Sair</button>
         </form>
       </div>
     </div>

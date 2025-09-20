@@ -326,7 +326,7 @@
         //https://teachablemachine.withgoogle.com/models/I93YxZeUt/
         let model, webcam, ctx, labelContainer, maxPredictions;
         const nome_do_erro = "{{erro.nome}}";
-        const alertaPath = "{% static 'audio/alerta.mp3' %}";
+        const alertaPath = "{% static 'audio/sonoro.mp3' %}";
     </script> 
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>       
@@ -425,10 +425,16 @@
             const prediction = await model.predict(posenetOutput);
             labelContainer.innerHTML = "";
 
+            let erroDetectado = false;
 
             for (let i = 0; i < maxPredictions; i++) {
                 let className = prediction[i].className.trim().toLowerCase();
                 const probability = prediction[i].probability;
+
+                if (className.includes("errado") && probability > 0.9) {
+                    erroDetectado = true;
+                }
+
                 const percentage = Math.round(probability * 100);
 
                 //console.log("Classe detectada:", className); // Log para depuração
@@ -469,6 +475,15 @@
                 labelContainer.appendChild(progressWrapper);
              }
 
+            // Se erro detectado, toca o som
+            if (erroDetectado && !alertShown) {
+                alertShown = true; 
+                playSound();
+
+                // libera novamente depois de 3s
+                setTimeout(() => { alertShown = false; }, tempoTolerancia);
+            }
+
             drawPose(pose);
         }
 
@@ -492,10 +507,11 @@
 
         function playSound() {
             const audio = new Audio(alertaPath);
-            audio.play();
-            setTimeout(5000);
+            audio.play().catch(e => console.log("Erro ao tocar áudio:", e));
         }
+
      </script>
+
 
 </body>
 </html>

@@ -12,6 +12,55 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
 <link rel="icon" href="{% static 'images/ico.ico' %}">
 <link rel="stylesheet" href="{% static 'style.css' %}">
+
+<style>
+     
+  
+  .modal-footer {
+    border: none !important;
+  }
+  .modal-header{
+    border-bottom: 2px rgb(48,40,87) solid;
+  }
+
+  .modal-content{
+    padding: 2%;
+       background-color: #44377d;
+       color: #f4bf3a;
+          font-family: Poppins, sans-serif;
+  }
+
+  .btnOk{
+   background-color:#f4bf3a;  
+        padding: 2%;
+        /* margin-top: 5%; */
+        padding-left:7% ;
+        padding-right:7% ;
+        font-size: 18px;
+        color:rgb(48,40,87);
+        font-weight: bold;
+        border: 2px #f4bf3a solid ;
+        a{
+          color:rgb(48,40,87);
+          text-decoration: none;
+        }
+  }
+
+  .btnOk:hover{
+        background-color:#44377d;
+        border: 2px #f4bf3a solid ;
+        a{
+      color:#f4bf3a;
+        }
+    }
+
+    .btn-check:checked + label .myContainerPE {
+  border: 3px solid #FFD700;
+  background-color: #2e1b4f; /* tom mais escuro */
+}
+
+    </style>
+
   <title>Redefinir senha</title>
 </head>
 <body id="bodyL">
@@ -44,15 +93,16 @@
           </div>
        
           <div class="col-12 text-center mt-3 pt-4">
-            <button type="submit" class="btn btn-primary rounded-pill" id="btnSalvarSenha">Redefinir senha</button>
+            <button type="submit" class="btn btn-primary rounded-pill" id="btnEntrarL">Redefinir senha</button>
           </div>
+
         </form>
 
         
       </div>
 
       <div class="col-md-6 d-flex justify-content-center align-items-center" id="divBuddyL">
-        <img src="{% static 'buddy.png' %}" class="img-fluid" width="67%" />
+        <img src="{% static 'images/buddy.png' %}" class="img-fluid" width="67%" />
       </div>
     </div>
   </div>

@@ -14,7 +14,10 @@
 
 <style>
      
-  
+    .modal-footer .btnOk {
+  min-width: 130px; /* força os dois a ficarem do mesmo tamanho */
+  text-align: center;
+}
   .modal-footer {
     border: none !important;
   }
@@ -57,6 +60,8 @@
   border: 3px solid #FFD700;
   background-color: #2e1b4f; /* tom mais escuro */
 }
+
+
 
     </style>
 
@@ -172,14 +177,6 @@
                 </div>
               </label>
               {% endfor %}
-                  <!-- {% for exercicio in exercicios %}
-                  <div class="scroll-item">
-                    <div class="p-3  myContainerPE rounded-5">
-                      <img src="{{exercicio.imagem.url}}" class="img-fluid" >
-                      <p class="fw-bold">{{exercicio.nome_exercicio}}</p>     
-                    </div>
-                  </div>
-                  {% endfor %} -->
             </div>
             <button name="acao" value="selecionar" type="submit" class="btn rounded-pill btnSalvarT">Selecionar</button>
           </div>
@@ -254,7 +251,7 @@
         <button type="button" class="btn rounded-5 btnOk" data-bs-dismiss="modal">Cancelar</button>
         <form method="POST" action="{% url 'logout' %}">
         {% csrf_token %}
-        <button type="submit" class="btn rounded-5 btnOk" data-bs-dismiss="modal">Sim, sair</button>
+        <button type="submit" class="btn rounded-5 btnOk" data-bs-dismiss="modal">Sair</button>
         </form>
       </div>
     </div>

@@ -24,10 +24,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-0qn($(b(y%oosanyz%=s*fv@v@_kq8i7pkf7iu()$rrk#+hv1='
 
 # SECURITY WARNING: don't run with debug turned on in production!
+# DEBUG = False
+
+# ALLOWED_HOSTS = ['TrainerBuddy.pythonanywhere.com', '127.0.0.1', 'localhost']
+
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 

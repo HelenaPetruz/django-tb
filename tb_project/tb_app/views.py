@@ -591,7 +591,9 @@ def treinoia(request,pk):
                 request.session['mostrar_descanso'] = True
                 return redirect('treinoia', pk=pk)
             else:
-                request.session.flush() # apaga tudo da session
+                request.session.pop('indice', None)
+                request.session.pop('serie_atual', None)
+                request.session.pop('mostrar_descanso', None)
                 request.session['fim_de_treino'] = True
                 return redirect('home')
 
@@ -608,7 +610,9 @@ def treinoia(request,pk):
                     indice+=1
                     serie_atual=0
                 else: # se acabou tudo
-                    request.session.flush() # apaga tudo da session
+                    request.session.pop('indice', None)
+                    request.session.pop('serie_atual', None)
+                    request.session.pop('mostrar_descanso', None)
                     request.session['fim_de_treino'] = True
                     return redirect('home')
         
