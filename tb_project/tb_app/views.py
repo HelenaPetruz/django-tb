@@ -9,6 +9,7 @@ from django.contrib.auth.tokens import default_token_generator
 from django.conf import settings
 from django.core.mail import send_mail
 from django.core import signing
+from validate_docbr import CPF
 
 def home(request):
 
@@ -676,8 +677,10 @@ def treino_guiado(request,pk):
                 mostrar_descanso = True
                 request.session['mostrar_descanso'] = True
                 return redirect('treino_guiado', pk=pk)
-            else:
-                request.session.flush() # apaga tudo da session
+            else: # apaga tudo da session
+                request.session.pop('indice', None)
+                request.session.pop('serie_atual', None)
+                request.session.pop('mostrar_descanso', None) 
                 request.session['fim_de_treino'] = True
                 return redirect('home')
         else:
@@ -692,7 +695,9 @@ def treino_guiado(request,pk):
                     indice+=1
                     serie_atual=0
                 else: # se acabou tudo
-                    request.session.flush() # apaga tudo da session
+                    request.session.pop('indice', None)# apaga tudo da session
+                    request.session.pop('serie_atual', None)
+                    request.session.pop('mostrar_descanso', None)    
                     request.session['fim_de_treino'] = True
                     return redirect('home')
         
@@ -734,12 +739,31 @@ def pagamento(request, pk):
             mes = request.POST.get('data_mes')
             ano = request.POST.get('data_ano')
             data_validade = f"{mes.zfill(2)}/{ano}"
+            numero_do_cartao = request.POST.get('numero_cartao')
+            nome = request.POST.get('nome')
+            cvv = request.POST.get('cvv')
+            validador = CPF()
+            if not validador.validate(cpf):
+                print('CPF INVALIDO')
+                context={
+                    'plano': plano,
+                    'pessoa': pessoa,
+                    'cpf': cpf,
+                    'mes': mes,
+                    'ano':ano,
+                    'numero': numero_do_cartao,
+                    'nome': nome,
+                    'cvv': cvv,
+                    'cpf_invalido': True
+                }
+                return render(request, "pagamento.html", context)
+                # return redirect('pagamento', pk)
             CondPagamento.objects.create(
-                numero_do_cartao = request.POST.get('numero_cartao'),
-                nome = request.POST.get('nome'),
+                numero_do_cartao = numero_do_cartao,
+                nome = nome,
                 id_plano = plano.id_plano,
                 data_validade = data_validade,
-                cvv = request.POST.get('cvv'),
+                cvv = cvv
             )
             pessoa.cpf = cpf
             pessoa.id_plano=plano.id_plano
