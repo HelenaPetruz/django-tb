@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.hashers import make_password, check_password
 import random
 from django.contrib import messages
-from .models import Exercicios, Treino, NivelDificuldade, MusculosEnvolvidos, RelExerciciosMusculos, Plano, RelTreinoExercicio, ErrosPossiveis, CondPagamento, Pessoa, RelUsuarioTreino, TreinosSalvos
+from .models import Exercicios, Treino, NivelDificuldade, MusculosEnvolvidos, RelExerciciosMusculos, Plano, RelTreinoExercicio, CondPagamento, Pessoa, RelUsuarioTreino, TreinosSalvos, Faturamento
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes
 from django.contrib.auth.tokens import default_token_generator
@@ -10,6 +10,7 @@ from django.conf import settings
 from django.core.mail import send_mail
 from django.core import signing
 from validate_docbr import CPF
+from datetime import date
 
 def home(request):
 
@@ -750,6 +751,12 @@ def pagamento(request, pk):
             pessoa.cpf = cpf
             pessoa.id_plano=plano.id_plano
             pessoa.save()
+            Faturamento.objects.create(
+                id_usuario = pessoa.idpessoa,
+                id_plano = plano.id_plano,
+                vencimento = data_validade,
+                data_compra = date.today().strftime("%d/%m/%Y")    
+            )
             request.session['assinatura_feita'] = True
             return redirect('home')
         

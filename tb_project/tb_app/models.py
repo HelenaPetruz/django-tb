@@ -159,11 +159,14 @@ class MusculosEnvolvidos(models.Model):
         managed = False
         db_table = 'musculos_envolvidos'
 
-class ErrosPossiveis(models.Model):
-    id_erro = models.IntegerField(primary_key=True)
-    nome = models.CharField(max_length=1000, blank=True, null=True)
-    id_exercicio = models.IntegerField(blank=True, null=True)
+class Faturamento(models.Model):
+    id_faturamento = models.AutoField(primary_key=True)  # The composite primary key (id_faturamento, id_Usuario, id_Plano) found, that is not supported. The first column is selected.    
+    id_usuario = models.IntegerField(db_column='id_Usuario')
+    id_plano = models.IntegerField(db_column='id_Plano')
+    vencimento = models.CharField(max_length=45)
+    data_compra = models.CharField(max_length=45)
 
     class Meta:
         managed = False
-        db_table = 'erros_possiveis'
+        db_table = 'Faturamento'
+        unique_together = (('id_faturamento', 'id_usuario', 'id_plano'),)
