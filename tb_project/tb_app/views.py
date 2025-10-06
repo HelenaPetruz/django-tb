@@ -144,26 +144,6 @@ def cadastro(request):
         senha1 = request.POST.get('senha1')
         senha2 = request.POST.get('senha2')
 
-        # if senha1!=senha2:
-        #     messages.error(request, 'Os campos de senha devem ser preenchidos com a mesma senha!')
-        #     context={
-        #         'nome': nome,
-        #         'email': email,
-        #         'senha1': senha1,
-        #         'senha2': senha2
-        #     }
-        #     return render(request, 'cadastro.html', context)
-        
-        # if senha1=="" or senha2=="":
-        #     messages.error(request, 'Insira uma senha!')
-        #     context={
-        #         'nome': nome,
-        #         'email': email,
-        #         'senha1': senha1,
-        #         'senha2': senha2
-        #     }
-        #     return render(request, 'cadastro.html', context)
-        
         if Pessoa.objects.filter(email=email).exists():
             messages.error(request, 'Esse email já existe!')
             context={
@@ -261,16 +241,18 @@ def trocar_senha(request, uidb64, token):
         pessoa = None
 
     pessoa_id = validar_token(token)
-    if pessoa_id and pessoa is not None: # deixa redefinir a senha
+    if pessoa_id and pessoa is not None:
         if request.method == "POST":
             nova_senha1 = request.POST.get("senha1")
             nova_senha2 = request.POST.get("senha2")
             if nova_senha1 == nova_senha2:
-                pessoa.senha = make_password(nova_senha1)
-                pessoa.save()
-                request.session['senha_redefinida_sucesso'] = True
-                return redirect('home')
-            
+                if not check_password(nova_senha1, pessoa.senha):
+                    pessoa.senha = make_password(nova_senha1)
+                    pessoa.save()
+                    request.session['senha_redefinida_sucesso'] = True
+                    return redirect('home')
+                else:
+                    messages.error(request, 'A nova senha não pode ser igual a anterior :(')
             else:
                 messages.error(request, 'Insira a mesma senha nos campos!')
         return render(request, "trocar_senha.html")
