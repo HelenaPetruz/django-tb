@@ -16,16 +16,17 @@
 ## Demonstração da plataforma
 
 ### Tela inicial
-![home](./img/home.png)
+<img width="567" height="282" alt="tb_home_site" src="https://github.com/user-attachments/assets/4554add2-2bdd-4d43-9734-efe15e6905b6" />
 
 ### Tela de login
-![login](./img/login.png)
+<img width="567" height="278" alt="login" src="https://github.com/user-attachments/assets/b40c4a4f-9cf1-4f4b-bf4f-5e03fed51e20" />
 
 ### Tela de montagem de treinos
-![montagem](./img/montagem.png)
+<img width="567" height="281" alt="montagem" src="https://github.com/user-attachments/assets/e07dc2c6-cbdf-4080-88d9-64ba31560954" />
 
 ### Tela de treinar com a IA
-![ia](./img/ia.png)
+<img width="567" height="279" alt="ia" src="https://github.com/user-attachments/assets/bbe49557-6196-424d-aa10-e4918d9237b1" />
+
 
 ### Tecnologias utilizadas:
 - **Para desenvolvimento do modelo de IA:** Teachable Machine
